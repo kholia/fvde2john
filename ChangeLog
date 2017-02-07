@@ -1,0 +1,343 @@
+TODO
+* libfvde
+  - optimize XML plist parser to directly generate keys
+* fvdeinfo
+  - print logical volume identifier
+* format support
+  - 2x 0x001a block with same serial, where second one contains size of 2x extents
+  - and first 1x extent, another image only the size of 1x extent.
+* volume offset detection
+  - fallback check if volume data is before encrypted metadata?
+* pyfvde
+  - pyfvde_volume_get_size replace by pyfvde_volume_get_logical_volume_size ?
+  - add functionality to set encrypted context plist
+* complete libfvde_xml_plist
+  - rename XML plist key to element
+  - improve error reporting regardin not being able to read the plist
+    versus not being able to read specific elements.
+* read 0x0012 and 0x001d/0x0505 pairs and compare sequence numbers
+* add support for block chains 0x0019, 0x0024
+* add support from compressed XML plist 0x0019
+* print metadata block offset for debugging
+* check for partial encrypted volumes
+* debug print block type description for 0x0405 metadata
+
+....
+libfvde_encrypted_metadata_read_type_0x0305: number of entries : 1
+libfvde_encrypted_metadata_read_type_0x0305: unknown1:
+00000000: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00   ........ ........
+00000010: 00 00 00 00                                        ....
+
+libfvde_encrypted_metadata_read_type_0x0305: logical volume number of blocks : 29323264
+libfvde_encrypted_metadata_read_type_0x0305: unknown2 : 4194304
+libfvde_encrypted_metadata_read_type_0x0305: unknown3:
+00000000: 00 00 00 00 00 00 00 00                            ........ 
+
+libfvde_encrypted_metadata_read_type_0x0305: logical volume block number : 65536
+....
+
+* Make sure to detect PassphraseWrappedKEKStruct in different locations within
+  the XML
+* add password keep
+* remove deprecated functions
+  - libfvde_volume_read_random
+* double check 0x0505 findings with debug logs
+* git version
+  - make sure dependent local libs are in git
+  - fix synclibs.sh for libfvalue Makefile.am
+* merge reading metadata and encrypted metadata ?
+
+* API add volume identifier functions
+
+* add handling of FVDE volumes with corrupt metadata, e.g. file header
+
+* read and compare second physical volume header
+
+* move initialize of volume specific runtime data to open and clean up to close
+* store passwords as hashes?
+* libxml
+  integrate into packaging system
+  print status info in configure
+* split off AES KEK functions
+* fvdemount add osxmount support
+* code clean up
+  - check for leading spaces
+  - check for () without spaces
+  - check for = alignment
+  - check for if ( instead of if(
+  - check error codes
+* check README files
+  - make sure pkg-config is mentioned as a dependency
+* add debug output
+  - encryption method
+  - checksum algorithm
+
+Future considerations:
+* how does tie into CS volume management
+  - rename library to libvcs ?
+  - rename FileVault to CoreStorage ?
+
+20160729
+* worked on format support
+
+20160728
+* worked on format support
+
+20160727
+* worked on format support
+
+20160720
+* worked on format support
+
+20160719
+* worked on format support
+
+20160718
+* worked on Python bindings
+
+20151018
+* worked on format support
+
+20151017
+* worked on Python bindings
+
+20151013
+* worked on format support
+
+20151013
+* worked on XML plist
+
+20151012
+* worked on XML plist
+
+20151011
+* worked on format support
+
+20150926
+* added ps1 scripts
+
+20150720
+* worked on signature check
+
+20150222
+* Code clean up
+* Worked on documenation
+* Changes for handling 0x001a metadata with different plist key sequence
+
+20150106
+* 2015 update
+
+20141226
+* changes for updated dependencies
+
+20141130
+* code clean up
+
+20141120
+* code clean up
+
+20141018
+* removed README.macosx
+
+20141017
+* changes for deployment
+
+20140907
+* updated dependencies
+* updated msvscpp files, not operational yet
+
+20140531
+* updated dependencies
+
+20140112
+* 2014 update
+* updated dependencies
+* exposed some encryption context plist functions in API
+
+20130909
+* updated dependencies
+* worked on libcthreads build support
+
+20131205
+* updated dependencies
+
+20130716
+* updated dependencies
+* replaced AES-XTS code by libcaes XTS implementation
+* worked on git support
+* code clean up
+
+20130703
+* code clean up
+
+20130412
+* updated README files
+* updated dependencies
+* added tests directory
+
+20130331
+* updated dependencies
+* code clean up
+
+20130305
+* added safe-guards for XML plist data
+* added check for block serial number
+* added support for 0x0505 block that is defined before 0x001a block
+
+20130228
+* worked on improving logical volume offset detection
+
+20130227
+* worked on improving logical volume size detection
+* code clean up
+
+20130226
+* worked on improving logical volume size detection
+* code clean up
+
+20130221
+* fix for value overwrite of logical volume size by successive block
+
+20130220
+* small change to include/types.h
+
+20130113
+* 2013 update
+* updated dependencies
+* updated msvscpp files
+
+20121217
+* bug fixes
+
+20121212
+* updates to debug output
+
+20121114
+* updated libfvde.3 man page
+* added volume get offset function
+* worked on set keys
+* code clean up
+* worked on msvscpp files
+
+20121113
+* updated man pages
+* added change to support number of iterations in password
+  wrapped kek
+
+20121112
+* updated dependencies
+* replaced libfvde_parse_uuid_string by libfguid function
+* fixes in pc and spec file
+
+20120916
+* worked on fvdemount
+
+20120915
+* applied updates
+* worked on fvdemount
+  - added -X option
+  - replaced EBADFD by EIO
+
+20120813
+* worked on encrypted removable media
+* worked on man pages
+* fixed issue for debug output for libfvde_io_handle_read_unencrypted_volume_header
+* worked on function to pass VMK directly
+
+20120808
+* applied updates
+
+20120724
+* code clean up
+
+20120723
+* code clean up
+* removed key and volume master key files they served no purpose in contrast
+  to original libbde code
+
+20120722
+* code clean up
+* fixed potential memory and data leak in set password functions
+
+20120721
+* fix for acinclude.m4 and libxml2.m4
+* added libcsplit
+* applied updates
+* switched library order in tools
+* updated .pc and .spec file
+* preparations for msvscpp build
+
+20120521
+* configure.ac fixes for dpkg files
+
+20120520
+* code clean up
+
+20120519
+* removed libfvalue
+* code clean up
+  - renamed plist
+  - change naming of volume offset and size
+* add support for secondary encrypted metadata block
+* added XML parsing to encrypted metadata block
+
+20120518
+* code clean up of fvdemount
+* code clean up
+  - removed more unused code
+  - fix for relative volume offset
+
+20120516
+* bug fixes for plist
+* code clean up
+* added more debug output
+
+20120514
+* fixes for wide character build
+
+20120510
+* updated dependencies
+* code clean up
+
+20120405
+* fix for libxml2 detection on MacOS-X
+
+20120208
+* code clean up
+
+20120207
+* code clean up
+* fixed wrong context for decryption
+
+20120206
+* code clean up
+
+20120202
+* code clean up
+
+20120124
+* added debug output
+* rewrite of dealing with metadata
+* removed AES CCM code
+* removed BDE metadata definitions
+
+20120117
+* added debug output
+
+20120116
+* 2012 update
+* updated pc file
+* updated dependencies
+* removed libbde
+* renamed to libfvde
+* added libfcache
+* updates for array type changes
+* updates for libcaes changes
+* updates for libbfio changes
+* updated for libfcache/libfdata changes
+* fixed a several potential memory leaks
+* fixed a several integer overflow/truncation issues
+
+20111007
+* initial version based on libbde
+
