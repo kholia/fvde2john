@@ -4523,6 +4523,21 @@ on_error:
 	return( -1 );
 }
 
+/* fvde2john hack start */
+const char itoa16[16] = "0123456789abcdef";
+
+// borrowed from JtR jumbo
+static inline void hex_encode(unsigned char *str, int len, unsigned char *out)
+{
+	int i;
+	for (i = 0; i < len; ++i) {
+		out[0] = itoa16[str[i]>>4];
+		out[1] = itoa16[str[i]&0xF];
+		out += 2;
+	}
+}
+/* fvde2john hack ends */
+
 /* Retrieves the volume master key
  * Returns 1 if successful, 0 in not or -1 on error
  */
@@ -4548,6 +4563,12 @@ int libfvde_encrypted_metadata_get_volume_master_key(
 	int found_key                      = 0;
 	int passphrase_wrapped_kek_index   = 0;
 	int result                         = 0;
+
+	/* fvde2john hack */
+	unsigned char salt_hex[32+1] = {0};
+	unsigned int salt_len = 0;
+	unsigned int iterations;
+	unsigned char wrapped_kek_hex[48+1] = {0};
 
 	if( metadata == NULL )
 	{
@@ -4716,6 +4737,12 @@ int libfvde_encrypted_metadata_get_volume_master_key(
 #endif
 			if( io_handle->user_password_is_set != 0 )
 			{
+				// fvde2john hack
+				if (value_size == 16) {
+					salt_len = 16;
+					hex_encode(&passphrase_wrapped_kek[8], 16, salt_hex);
+					iterations = number_of_iterations;
+				}
 				if( libfvde_password_pbkdf2(
 				     io_handle->user_password,
 				     io_handle->user_password_size - 1,
@@ -4826,6 +4853,12 @@ int libfvde_encrypted_metadata_get_volume_master_key(
 				 0 );
 			}
 #endif
+			// fvde2john hack
+			if (value_size == 24) {
+				int version = 1; // for future purposes
+				hex_encode(&passphrase_wrapped_kek[32], 24, wrapped_kek_hex);
+				fprintf(stderr, "$fvde$%d$%d$%s$%d$%s\n", version, salt_len, salt_hex, iterations, wrapped_kek_hex);
+			}
 			if( libfvde_encryption_aes_key_unwrap(
 			     passphrase_key,
 			     16 * 8,
