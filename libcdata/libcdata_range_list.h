@@ -1,7 +1,7 @@
 /*
  * Range list
  *
- * Copyright (C) 2006-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -19,8 +19,8 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LIBCDATA_INTERNAL_RANGE_LIST_H )
-#define _LIBCDATA_INTERNAL_RANGE_LIST_H
+#if !defined( _LIBCDATA_RANGE_LIST_H )
+#define _LIBCDATA_RANGE_LIST_H
 
 #include <common.h>
 #include <types.h>
@@ -156,7 +156,7 @@ int libcdata_range_list_insert_element(
 int libcdata_range_list_insert_value(
      libcdata_range_list_t *range_list,
      libcdata_list_element_t *range_list_element,
-     libcdata_range_list_value_t *range_list_value,
+     libcdata_range_list_value_t *value,
      libcerror_error_t **error );
 
 int libcdata_range_list_remove_element(
@@ -239,5 +239,5 @@ int libcdata_range_list_get_spanning_range(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBCDATA_RANGE_LIST_H ) */
 

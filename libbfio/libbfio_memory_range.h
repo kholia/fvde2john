@@ -1,7 +1,7 @@
 /*
  * Memory range functions
  *
- * Copyright (C) 2009-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2009-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -134,5 +134,5 @@ int libbfio_memory_range_get_size(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBBFIO_MEMORY_RANGE_H ) */
 

@@ -1,7 +1,7 @@
 /*
  * Tree functions
  *
- * Copyright (C) 2006-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -1614,14 +1614,12 @@ int libcdata_tree_node_replace_node(
      libcerror_error_t **error )
 {
 	libcdata_internal_tree_node_t *internal_node             = NULL;
+	libcdata_internal_tree_node_t *internal_parent_node      = NULL;
 	libcdata_internal_tree_node_t *internal_replacement_node = NULL;
-	libcdata_tree_node_t *first_sub_node                     = NULL;
-	libcdata_tree_node_t *last_sub_node                      = NULL;
-	libcdata_tree_node_t *sub_node                           = NULL;
-	intptr_t *value                                          = NULL;
+	libcdata_tree_node_t *next_node                          = NULL;
+	libcdata_tree_node_t *parent_node                        = NULL;
+	libcdata_tree_node_t *previous_node                      = NULL;
 	static char *function                                    = "libcdata_tree_node_replace_node";
-	int number_of_sub_nodes                                  = 0;
-	int sub_node_index                                       = 0;
 
 	if( node == NULL )
 	{
@@ -1673,57 +1671,27 @@ int libcdata_tree_node_replace_node(
 
 		return( -1 );
 	}
-	value               = internal_node->value;
-	first_sub_node      = internal_node->first_sub_node;
-	last_sub_node       = internal_node->last_sub_node;
-	number_of_sub_nodes = internal_node->number_of_sub_nodes;
+	parent_node                            = internal_node->parent_node;
+	internal_node->parent_node             = internal_replacement_node->parent_node;
+	internal_replacement_node->parent_node = parent_node;
 
-	internal_node->value               = internal_replacement_node->value;
-	internal_node->first_sub_node      = internal_replacement_node->first_sub_node;
-	internal_node->last_sub_node       = internal_replacement_node->last_sub_node;
-	internal_node->number_of_sub_nodes = internal_replacement_node->number_of_sub_nodes;
+	previous_node                            = internal_node->previous_node;
+	internal_node->previous_node             = internal_replacement_node->previous_node;
+	internal_replacement_node->previous_node = previous_node;
 
-	internal_replacement_node->value               = value;
-	internal_replacement_node->first_sub_node      = first_sub_node;
-	internal_replacement_node->last_sub_node       = last_sub_node;
-	internal_replacement_node->number_of_sub_nodes = number_of_sub_nodes;
+	next_node                            = internal_node->next_node;
+	internal_node->next_node             = internal_replacement_node->next_node;
+	internal_replacement_node->next_node = next_node;
 
-	sub_node = internal_node->first_sub_node;
+	internal_parent_node = (libcdata_internal_tree_node_t *) parent_node;
 
-	for( sub_node_index = 0;
-	     sub_node_index < internal_node->number_of_sub_nodes;
-	     sub_node_index++ )
+	if( internal_parent_node->first_sub_node == node )
 	{
-		if( libcdata_tree_node_set_parent_node(
-		     sub_node,
-		     node,
-		     error ) != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
-			 "%s: unable to set parent node value of sub node: %d.",
-			 function,
-			 sub_node_index );
-
-			return( -1 );
-		}
-		if( libcdata_tree_node_get_next_node(
-		     sub_node,
-		     &sub_node,
-		     error ) != 1 )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-			 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-			 "%s: unable to retrieve next node of sub node: %d.",
-			 function,
-			 sub_node_index );
-
-			return( -1 );
-		}
+		internal_parent_node->first_sub_node = replacement_node;
+	}
+	if( internal_parent_node->last_sub_node == node )
+	{
+		internal_parent_node->last_sub_node = replacement_node;
 	}
 	return( 1 );
 }
@@ -2126,30 +2094,33 @@ int libcdata_tree_node_get_leaf_node_list(
 			}
 		}
 	}
-	else if( internal_node->value == NULL )
+	else
 	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: invalid node - missing value.",
-		 function );
+		if( internal_node->value == NULL )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
+			 "%s: invalid node - missing value.",
+			 function );
 
-		return( -1 );
-	}
-	else if( libcdata_list_append_value(
-	          *leaf_node_list,
-	          internal_node->value,
-	          error ) != 1 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_APPEND_FAILED,
-		 "%s: unable to append tree node to leaf node list.",
-		 function );
+			return( -1 );
+		}
+		if( libcdata_list_append_value(
+		     *leaf_node_list,
+		     internal_node->value,
+		     error ) != 1 )
+		{
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_APPEND_FAILED,
+			 "%s: unable to append tree node to leaf node list.",
+			 function );
 
-		return( -1 );
+			return( -1 );
+		}
 	}
 	return( 1 );
 }

@@ -1,7 +1,7 @@
 /*
  * The internal extern definition
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -37,13 +37,10 @@
 
 #include <libuna/extern.h>
 
-#elif defined( _MSC_VER )
-#define LIBUNA_EXTERN	extern
-
 #else
 #define LIBUNA_EXTERN	/* extern */
 
-#endif
+#endif /* !defined( HAVE_LOCAL_LIBUNA ) */
 
-#endif
+#endif /* !defined( _LIBUNA_INTERNAL_EXTERN_H ) */
 

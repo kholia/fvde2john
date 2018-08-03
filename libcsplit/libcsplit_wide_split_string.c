@@ -1,7 +1,7 @@
 /*
  * Split wide string functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -21,10 +21,10 @@
 
 #include <common.h>
 #include <memory.h>
+#include <wide_string.h>
 #include <types.h>
 
 #include "libcsplit_libcerror.h"
-#include "libcsplit_libcstring.h"
 #include "libcsplit_wide_split_string.h"
 #include "libcsplit_types.h"
 
@@ -111,7 +111,7 @@ int libcsplit_wide_split_string_initialize(
 	if( ( string != NULL )
 	 && ( string_size > 0 ) )
 	{
-		internal_split_string->string = libcstring_wide_string_allocate(
+		internal_split_string->string = wide_string_allocate(
 		                                 string_size );
 
 		if( internal_split_string->string == NULL )
@@ -516,7 +516,7 @@ int libcsplit_wide_split_string_set_segment_by_index(
 		}
 		string_segment_offset = (size_t) ( string_segment - internal_split_string->string );
 
-		if( string_segment_offset > internal_split_string->string_size )
+		if( string_segment_offset >= internal_split_string->string_size )
 		{
 			libcerror_error_set(
 			 error,

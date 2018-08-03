@@ -1,7 +1,7 @@
 /*
  * Range list
  *
- * Copyright (C) 2006-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -1859,12 +1859,13 @@ int libcdata_range_list_insert_element(
 }
 
 /* Inserts the range list value in the range list after the range list element
+ * If range_list_element is NULL the value is inserted before the first element in the list
  * Returns 1 if successful, or -1 on error
  */
 int libcdata_range_list_insert_value(
      libcdata_range_list_t *range_list,
      libcdata_list_element_t *range_list_element,
-     libcdata_range_list_value_t *range_list_value,
+     libcdata_range_list_value_t *value,
      libcerror_error_t **error )
 {
 	libcdata_list_element_t *list_element = NULL;
@@ -1896,7 +1897,7 @@ int libcdata_range_list_insert_value(
 	}
 	if( libcdata_list_element_set_value(
 	     list_element,
-	     (intptr_t *) range_list_value,
+	     (intptr_t *) value,
 	     error ) != 1 )
 	{
 		libcerror_error_set(

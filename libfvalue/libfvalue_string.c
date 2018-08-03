@@ -1,7 +1,7 @@
 /*
  * String value functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -27,7 +27,6 @@
 #include "libfvalue_definitions.h"
 #include "libfvalue_libcerror.h"
 #include "libfvalue_libcnotify.h"
-#include "libfvalue_libcstring.h"
 #include "libfvalue_libuna.h"
 #include "libfvalue_split_string.h"
 #include "libfvalue_string.h"

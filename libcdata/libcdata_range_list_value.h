@@ -1,7 +1,7 @@
 /*
  * Range list value
  *
- * Copyright (C) 2006-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -90,5 +90,5 @@ int libcdata_range_list_value_merge(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBCDATA_RANGE_LIST_VALUE_H ) */
 

@@ -1,7 +1,7 @@
 /*
  * Floating point value (IEEE 754) functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -22,12 +22,12 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
+#include <narrow_string.h>
 #include <types.h>
 
 #include "libfvalue_definitions.h"
 #include "libfvalue_floating_point.h"
 #include "libfvalue_libcerror.h"
-#include "libfvalue_libcstring.h"
 
 /* Creates a floating point
  * Make sure the value floating_point is referencing, is set to NULL
@@ -954,7 +954,7 @@ int libfvalue_string_size_from_floating_point(
 				{
 					value_float32.integer = (uint32_t) floating_point_value;
 
-					print_count = libcstring_narrow_string_snprintf(
+					print_count = narrow_string_snprintf(
 					               value_string,
 					               16,
 					               "%06e",
@@ -1026,7 +1026,7 @@ int libfvalue_string_size_from_floating_point(
 				{
 					value_float64.integer = floating_point_value;
 
-					print_count = libcstring_narrow_string_snprintf(
+					print_count = narrow_string_snprintf(
 					               value_string,
 					               16,
 					               "%06e",
@@ -1374,7 +1374,7 @@ int libfvalue_utf8_string_with_index_copy_from_floating_point(
 				{
 					value_float32.integer = (uint32_t) floating_point_value;
 
-					print_count = libcstring_narrow_string_snprintf(
+					print_count = narrow_string_snprintf(
 					               value_string,
 					               16,
 					               "%06e",
@@ -1446,7 +1446,7 @@ int libfvalue_utf8_string_with_index_copy_from_floating_point(
 				{
 					value_float64.integer = floating_point_value;
 
-					print_count = libcstring_narrow_string_snprintf(
+					print_count = narrow_string_snprintf(
 					               value_string,
 					               16,
 					               "%06e",
@@ -2237,7 +2237,7 @@ int libfvalue_utf16_string_with_index_copy_from_floating_point(
 				{
 					value_float32.integer = (uint32_t) floating_point_value;
 
-					print_count = libcstring_narrow_string_snprintf(
+					print_count = narrow_string_snprintf(
 					               value_string,
 					               16,
 					               "%06e",
@@ -2309,7 +2309,7 @@ int libfvalue_utf16_string_with_index_copy_from_floating_point(
 				{
 					value_float64.integer = floating_point_value;
 
-					print_count = libcstring_narrow_string_snprintf(
+					print_count = narrow_string_snprintf(
 					               value_string,
 					               16,
 					               "%06e",
@@ -3100,7 +3100,7 @@ int libfvalue_utf32_string_with_index_copy_from_floating_point(
 				{
 					value_float32.integer = (uint32_t) floating_point_value;
 
-					print_count = libcstring_narrow_string_snprintf(
+					print_count = narrow_string_snprintf(
 					               value_string,
 					               16,
 					               "%06e",
@@ -3172,7 +3172,7 @@ int libfvalue_utf32_string_with_index_copy_from_floating_point(
 				{
 					value_float64.integer = floating_point_value;
 
-					print_count = libcstring_narrow_string_snprintf(
+					print_count = narrow_string_snprintf(
 					               value_string,
 					               16,
 					               "%06e",

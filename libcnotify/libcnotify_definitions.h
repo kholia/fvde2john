@@ -1,7 +1,7 @@
 /*
  * The internal definitions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -35,11 +35,11 @@
  */
 #else
 
-#define LIBCNOTIFY_VERSION				20160822
+#define LIBCNOTIFY_VERSION				20180102
 
-/* The libcstring version string
+/* The libcnotify version string
  */
-#define LIBCNOTIFY_VERSION_STRING			"20160822"
+#define LIBCNOTIFY_VERSION_STRING			"20180102"
 
 /* The print data flags
  */

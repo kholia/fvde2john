@@ -1,7 +1,7 @@
 /*
  * The internal definitions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -33,11 +33,11 @@
  * for local use of libfdata
  */
 #else
-#define LIBFDATA_VERSION						20160915
+#define LIBFDATA_VERSION						20170112
 
 /* The libfdata version string
  */
-#define LIBFDATA_VERSION_STRING						"20160915"
+#define LIBFDATA_VERSION_STRING						"20170112"
 
 /* The library flag definitions
  */

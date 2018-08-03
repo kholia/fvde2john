@@ -1,7 +1,7 @@
 /*
  * The (data) mapped range functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -73,5 +73,5 @@ int libfdata_mapped_range_set(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFDATA_MAPPED_RANGE_H ) */
 

@@ -1,7 +1,7 @@
 /*
  * Volume functions
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -22,7 +22,9 @@
 
 #include <common.h>
 #include <memory.h>
+#include <narrow_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #include "libfvde_codepage.h"
 #include "libfvde_debug.h"
@@ -34,7 +36,6 @@
 #include "libfvde_libbfio.h"
 #include "libfvde_libcerror.h"
 #include "libfvde_libcnotify.h"
-#include "libfvde_libcstring.h"
 #include "libfvde_libcthreads.h"
 #include "libfvde_libfcache.h"
 #include "libfvde_libfdata.h"
@@ -105,7 +106,10 @@ int libfvde_volume_initialize(
 		 "%s: unable to clear volume.",
 		 function );
 
-		goto on_error;
+		memory_free(
+		 internal_volume );
+
+		return( -1 );
 	}
 	if( libfvde_metadata_initialize(
 	     &( internal_volume->primary_metadata ),
@@ -563,7 +567,7 @@ int libfvde_volume_open(
 
 		return( -1 );
 	}
-	filename_length = libcstring_narrow_string_length(
+	filename_length = narrow_string_length(
 	                   filename );
 
 	if( filename_length == 0 )
@@ -766,7 +770,7 @@ int libfvde_volume_open_wide(
 
 		return( -1 );
 	}
-	filename_length = libcstring_wide_string_length(
+	filename_length = wide_string_length(
 	                   filename );
 
 	if( filename_length == 0 )
@@ -918,9 +922,9 @@ int libfvde_volume_open_file_io_handle(
 {
 	libfvde_internal_volume_t *internal_volume = NULL;
 	static char *function                      = "libfvde_volume_open_file_io_handle";
+	uint8_t file_io_handle_opened_in_library   = 0;
 	int bfio_access_flags                      = 0;
 	int file_io_handle_is_open                 = 0;
-	int file_io_handle_opened_in_library       = 0;
 	int result                                 = 0;
 
 	if( volume == NULL )
@@ -1127,13 +1131,13 @@ int libfvde_volume_close(
 	}
 	internal_volume = (libfvde_internal_volume_t *) volume;
 
-	if( internal_volume->io_handle == NULL )
+	if( internal_volume->file_io_handle == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: invalid volume - missing IO handle.",
+		 "%s: invalid volume - missing file IO handle.",
 		 function );
 
 		return( -1 );
@@ -1276,8 +1280,8 @@ int libfvde_volume_open_read(
      libcerror_error_t **error )
 {
 	static char *function = "libfvde_volume_open_read";
-	int segment_index     = 0;
 	int result            = 0;
+	int segment_index     = 0;
 
 	if( internal_volume == NULL )
 	{
@@ -1717,7 +1721,7 @@ int libfvde_volume_open_read(
 			     0,
 			     internal_volume->io_handle->logical_volume_offset,
 			     internal_volume->io_handle->logical_volume_size,
-			     0,
+			     LIBFVDE_RANGE_FLAG_ENCRYPTED,
 			     error ) != 1 )
 			{
 				libcerror_error_set(
@@ -1870,44 +1874,51 @@ int libfvde_volume_open_read_keys_from_encrypted_metadata(
 		}
 		else if( internal_volume->encrypted_root_plist_file_is_set != 0 )
 		{
-			result = libfvde_encryption_context_plist_decrypt(
-			          internal_volume->encrypted_root_plist,
-			          internal_volume->io_handle->key_data,
-			          128,
-			          error );
-
-			if( result == -1 )
+			if( internal_volume->encrypted_root_plist_file_is_decrypted == 0 )
 			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_ENCRYPTION,
-				 LIBCERROR_ENCRYPTION_ERROR_DECRYPT_FAILED,
-				 "%s: unable to decrypt encrypted root plist.",
-				 function );
+				result = libfvde_encryption_context_plist_decrypt(
+				          internal_volume->encrypted_root_plist,
+				          internal_volume->io_handle->key_data,
+				          128,
+				          error );
 
-				goto on_error;
+				if( result == -1 )
+				{
+					libcerror_error_set(
+					 error,
+					 LIBCERROR_ERROR_DOMAIN_ENCRYPTION,
+					 LIBCERROR_ENCRYPTION_ERROR_DECRYPT_FAILED,
+					 "%s: unable to decrypt encrypted root plist.",
+					 function );
+
+					goto on_error;
+				}
+				internal_volume->encrypted_root_plist_file_is_decrypted = result;
 			}
-			result = libfvde_encrypted_metadata_get_volume_master_key(
-				  encrypted_metadata,
-				  internal_volume->io_handle,
-				  internal_volume->encrypted_root_plist,
-				  internal_volume->keyring,
-				  error );
-
-			if( result == -1 )
+			if( internal_volume->encrypted_root_plist_file_is_decrypted != 0 )
 			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-				 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-				 "%s: unable to retrieve volume master key from encrypted metadata.",
-				 function );
+				result = libfvde_encrypted_metadata_get_volume_master_key(
+					  encrypted_metadata,
+					  internal_volume->io_handle,
+					  internal_volume->encrypted_root_plist,
+					  internal_volume->keyring,
+					  error );
 
-				goto on_error;
-			}
-			else if( result != 0 )
-			{
-				internal_volume->volume_master_key_is_set = 1;
+				if( result == -1 )
+				{
+					libcerror_error_set(
+					 error,
+					 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+					 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+					 "%s: unable to retrieve volume master key from encrypted metadata.",
+					 function );
+
+					goto on_error;
+				}
+				else if( result != 0 )
+				{
+					internal_volume->volume_master_key_is_set = 1;
+				}
 			}
 		}
 /* TODO test */
@@ -4090,7 +4101,7 @@ int libfvde_volume_read_encrypted_root_plist(
 		return( -1 );
 	}
 /* TODO HAVE_LIBFVDE_MULTI_THREAD_SUPPORT */
-	filename_length = libcstring_narrow_string_length(
+	filename_length = narrow_string_length(
 	                   filename );
 
 	if( filename_length == 0 )
@@ -4199,7 +4210,7 @@ int libfvde_volume_read_encrypted_root_plist_wide(
 		return( -1 );
 	}
 /* TODO HAVE_LIBFVDE_MULTI_THREAD_SUPPORT */
-	filename_length = libcstring_wide_string_length(
+	filename_length = wide_string_length(
 	                   filename );
 
 	if( filename_length == 0 )

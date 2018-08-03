@@ -1,7 +1,7 @@
 /*
  * The handle functions
  *
- * Copyright (C) 2009-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2009-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -219,35 +219,41 @@ int libbfio_handle_free(
 		internal_handle = (libbfio_internal_handle_t *) *handle;
 		*handle         = NULL;
 
-		is_open = internal_handle->is_open(
-			   internal_handle->io_handle,
-		           error );
-
-		if( is_open == -1 )
+		if( internal_handle->is_open != NULL )
 		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_IO,
-			 LIBCERROR_IO_ERROR_OPEN_FAILED,
-			 "%s: unable to determine if handle is open.",
-			 function );
+			is_open = internal_handle->is_open(
+				   internal_handle->io_handle,
+			           error );
 
-			result = -1;
-		}
-		else if( is_open != 0 )
-		{
-			if( internal_handle->close(
-			     internal_handle->io_handle,
-			     error ) != 0 )
+			if( is_open == -1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_IO,
-				 LIBCERROR_IO_ERROR_CLOSE_FAILED,
-				 "%s: unable to close handle.",
+				 LIBCERROR_IO_ERROR_OPEN_FAILED,
+				 "%s: unable to determine if handle is open.",
 				 function );
 
 				result = -1;
+			}
+		}
+		if( is_open != 0 )
+		{
+			if( internal_handle->close != NULL )
+			{
+				if( internal_handle->close(
+				     internal_handle->io_handle,
+				     error ) != 0 )
+				{
+					libcerror_error_set(
+					 error,
+					 LIBCERROR_ERROR_DOMAIN_IO,
+					 LIBCERROR_IO_ERROR_CLOSE_FAILED,
+					 "%s: unable to close handle.",
+					 function );
+
+					result = -1;
+				}
 			}
 		}
 #if defined( HAVE_MULTI_THREAD_SUPPORT ) && !defined( HAVE_LOCAL_LIBBFIO )

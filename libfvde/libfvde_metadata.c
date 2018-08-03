@@ -1,7 +1,7 @@
 /*
  * Metadata functions
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -23,6 +23,7 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
+#include <narrow_string.h>
 #include <types.h>
 
 #include "libfvde_checksum.h"
@@ -30,10 +31,9 @@
 #include "libfvde_libbfio.h"
 #include "libfvde_libcerror.h"
 #include "libfvde_libcnotify.h"
+#include "libfvde_libfplist.h"
 #include "libfvde_metadata.h"
 #include "libfvde_metadata_block.h"
-#include "libfvde_xml_plist.h"
-#include "libfvde_xml_plist_key.h"
 
 #include "fvde_metadata.h"
 
@@ -161,6 +161,7 @@ int libfvde_metadata_read_type_0x0011(
 #if defined( HAVE_DEBUG_OUTPUT )
 	uint64_t value_64bit                     = 0;
 	uint32_t value_32bit                     = 0;
+	uint16_t value_16bit                     = 0;
 #endif
 
 	if( metadata == NULL )
@@ -351,13 +352,21 @@ int libfvde_metadata_read_type_0x0011(
 		 function,
 		 value_32bit );
 
-		byte_stream_copy_to_uint32_little_endian(
+		byte_stream_copy_to_uint16_little_endian(
 		 &( block_data[ 116 ] ),
-		 value_32bit );
+		 value_16bit );
 		libcnotify_printf(
-		 "%s: unknown13\t\t\t\t\t: 0x%08" PRIx32 "\n",
+		 "%s: unknown13a\t\t\t\t\t: 0x%04" PRIx16 "\n",
 		 function,
-		 value_32bit );
+		 value_16bit );
+
+		byte_stream_copy_to_uint16_little_endian(
+		 &( block_data[ 118 ] ),
+		 value_16bit );
+		libcnotify_printf(
+		 "%s: unknown13b\t\t\t\t\t: 0x%04" PRIx16 "\n",
+		 function,
+		 value_16bit );
 
 		byte_stream_copy_to_uint32_little_endian(
 		 &( block_data[ 120 ] ),
@@ -367,13 +376,21 @@ int libfvde_metadata_read_type_0x0011(
 		 function,
 		 value_32bit );
 
-		byte_stream_copy_to_uint32_little_endian(
+		byte_stream_copy_to_uint16_little_endian(
 		 &( block_data[ 124 ] ),
-		 value_32bit );
+		 value_16bit );
 		libcnotify_printf(
-		 "%s: unknown15\t\t\t\t\t: 0x%08" PRIx32 "\n",
+		 "%s: unknown15a\t\t\t\t\t: 0x%04" PRIx16 "\n",
 		 function,
-		 value_32bit );
+		 value_16bit );
+
+		byte_stream_copy_to_uint16_little_endian(
+		 &( block_data[ 126 ] ),
+		 value_16bit );
+		libcnotify_printf(
+		 "%s: unknown15b\t\t\t\t\t: 0x%04" PRIx16 "\n",
+		 function,
+		 value_16bit );
 
 		byte_stream_copy_to_uint32_little_endian(
 		 &( block_data[ 128 ] ),
@@ -429,7 +446,7 @@ int libfvde_metadata_read_type_0x0011(
 		 &( block_data[ 176 ] ),
 		 value_64bit );
 		libcnotify_printf(
-		 "%s: physical volume number of blocks\t\t: %" PRIu64 "\n",
+		 "%s: volume group number of blocks\t\t: %" PRIu64 "\n",
 		 function,
 		 value_64bit );
 
@@ -475,7 +492,7 @@ int libfvde_metadata_read_type_0x0011(
 			 &( block_data[ block_data_offset ] ),
 			 value_64bit );
 			libcnotify_printf(
-			 "%s: entry: %03d unknown1\t\t\t\t: 0x%08" PRIx64 "\n",
+			 "%s: entry: %03d block group\t\t\t: %" PRIu64 "\n",
 			 function,
 			 entry_index,
 			 value_64bit );
@@ -644,15 +661,15 @@ int libfvde_metadata_read_core_storage_plist(
      const uint8_t *xml_plist_data,
      libcerror_error_t **error )
 {
-	libfvde_xml_plist_t *xml_plist              = NULL;
-	libfvde_xml_plist_key_t *xml_plist_root_key = NULL;
-	libfvde_xml_plist_key_t *xml_plist_key      = NULL;
-	static char *function                       = "libfvde_metadata_read_core_storage_plist";
-	size_t xml_length                           = 0;
+	libfplist_property_list_t *property_list = NULL;
+	libfplist_property_t *root_property      = NULL;
+	libfplist_property_t *sub_property       = NULL;
+	static char *function                    = "libfvde_metadata_read_core_storage_plist";
+	size_t xml_length                        = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	uint8_t *string                             = NULL;
-	size_t string_size                          = 0;
+	uint8_t *string                          = NULL;
+	size_t string_size                       = 0;
 #endif
 
 	if( metadata == NULL )
@@ -695,7 +712,7 @@ int libfvde_metadata_read_core_storage_plist(
 #endif
 /* TODO for now determine the XML string length */
 /* TODO refactor this to a separate function */
-		xml_length = libcstring_narrow_string_length(
+		xml_length = narrow_string_length(
 			      (char *) xml_plist_data );
 
 		if( xml_length > (size_t) ( INT_MAX - 1 ) )
@@ -709,21 +726,21 @@ int libfvde_metadata_read_core_storage_plist(
 
 			goto on_error;
 		}
-		if( libfvde_xml_plist_initialize(
-		     &xml_plist,
+		if( libfplist_property_list_initialize(
+		     &property_list,
 		     error ) != 1 )
 		{
 			libcerror_error_set(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-			 "%s: unable to create XML plist.",
+			 "%s: unable to create property list.",
 			 function );
 
 			goto on_error;
 		}
-		if( libfvde_xml_plist_copy_from_byte_stream(
-		     xml_plist,
+		if( libfplist_property_list_copy_from_byte_stream(
+		     property_list,
 		     xml_plist_data,
 		     xml_length + 1,
 		     error ) != 1 )
@@ -732,37 +749,37 @@ int libfvde_metadata_read_core_storage_plist(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-			 "%s: unable to copy XML plist from byte stream.",
+			 "%s: unable to copy property list from byte stream.",
 			 function );
 
 			goto on_error;
 		}
-		if( libfvde_xml_plist_get_root_key(
-		     xml_plist,
-		     &xml_plist_root_key,
+		if( libfplist_property_list_get_root_property(
+		     property_list,
+		     &root_property,
 		     error ) != 1 )
 		{
 			libcerror_error_set(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-			 "%s: unable to retrieve root key.",
+			 "%s: unable to retrieve root property.",
 			 function );
 
 			goto on_error;
 		}
-		if( libfvde_xml_plist_key_get_sub_key_by_utf8_name(
-		     xml_plist_root_key,
+		if( libfplist_property_get_sub_property_by_utf8_name(
+		     root_property,
 		     (uint8_t *) "com.apple.corestorage.lvg.uuid",
 		     30,
-		     &xml_plist_key,
+		     &sub_property,
 		     error ) != 1 )
 		{
 			libcerror_error_set(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-			 "%s: unable to retrieve com.apple.corestorage.lvg.uuid key.",
+			 "%s: unable to retrieve com.apple.corestorage.lvg.uuid sub property.",
 			 function );
 
 			goto on_error;
@@ -770,8 +787,8 @@ int libfvde_metadata_read_core_storage_plist(
 #if defined( HAVE_DEBUG_OUTPUT )
 		if( libcnotify_verbose != 0 )
 		{
-			if( libfvde_xml_plist_key_get_value_string(
-			     xml_plist_key,
+			if( libfplist_property_get_value_string(
+			     sub_property,
 			     &string,
 			     &string_size,
 			     error ) != 1 )
@@ -796,41 +813,41 @@ int libfvde_metadata_read_core_storage_plist(
 			string = NULL;
 		}
 #endif
-		if( libfvde_xml_plist_key_free(
-		     &xml_plist_key,
+		if( libfplist_property_free(
+		     &sub_property,
 		     error ) != 1 )
 		{
 			libcerror_error_set(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-			 "%s: unable to free XML plist com.apple.corestorage.lvg.uuid key.",
+			 "%s: unable to free com.apple.corestorage.lvg.uuid property.",
 			 function );
 
 			goto on_error;
 		}
-		if( libfvde_xml_plist_key_free(
-		     &xml_plist_root_key,
+		if( libfplist_property_free(
+		     &root_property,
 		     error ) != 1 )
 		{
 			libcerror_error_set(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-			 "%s: unable to free XML root key.",
+			 "%s: unable to free root property.",
 			 function );
 
 			goto on_error;
 		}
-		if( libfvde_xml_plist_free(
-		     &xml_plist,
+		if( libfplist_property_list_free(
+		     &property_list,
 		     error ) != 1 )
 		{
 			libcerror_error_set(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-			 "%s: unable to free XML plist.",
+			 "%s: unable to free property list.",
 			 function );
 
 			goto on_error;
@@ -853,22 +870,22 @@ on_error:
 		 string );
 	}
 #endif
-	if( xml_plist_key != NULL )
+	if( sub_property != NULL )
 	{
-		libfvde_xml_plist_key_free(
-		 &xml_plist_key,
+		libfplist_property_free(
+		 &sub_property,
 		 NULL );
 	}
-	if( xml_plist_root_key != NULL )
+	if( root_property != NULL )
 	{
-		libfvde_xml_plist_key_free(
-		 &xml_plist_root_key,
+		libfplist_property_free(
+		 &root_property,
 		 NULL );
 	}
-	if( xml_plist != NULL )
+	if( property_list != NULL )
 	{
-		libfvde_xml_plist_free(
-		 &xml_plist,
+		libfplist_property_list_free(
+		 &property_list,
 		 NULL );
 	}
 	return( -1 );
@@ -1008,7 +1025,7 @@ int libfvde_metadata_read(
 
 		goto on_error;
 	}
-	if( libfvde_metadata_block_read(
+	if( libfvde_metadata_block_read_data(
 	     metadata_block,
 	     metadata_block_data,
 	     8192,

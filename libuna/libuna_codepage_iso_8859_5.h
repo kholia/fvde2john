@@ -1,7 +1,7 @@
 /*
  * ISO 8859-5 codepage (Cyrillic) functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -37,5 +37,5 @@ extern const uint8_t libuna_codepage_iso_8859_5_unicode_to_byte_stream_base_0x04
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBUNA_CODEPAGE_ISO_8859_5_H ) */
 

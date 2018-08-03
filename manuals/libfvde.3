@@ -1,4 +1,4 @@
-.Dd May 15, 2016
+.Dd August 27, 2017
 .Dt libfvde 3
 .Os libfvde
 .Sh NAME
@@ -109,6 +109,10 @@ Available when compiled with libbfio support:
 .Ft int
 .Fn libfvde_volume_read_encrypted_root_plist_file_io_handle "libfvde_volume_t *volume, libbfio_handle_t *file_io_handle, libfvde_error_t **error"
 .Pp
+Volume group functions
+.Ft int
+.Fn libfvde_volume_group_free "libfvde_volume_group_t **volume_group, libfvde_error_t **error"
+.Pp
 LVF encryption context and EncryptedRoot.plist file functions
 .Ft int
 .Fn libfvde_encryption_context_plist_initialize "libfvde_encryption_context_plist_t **plist, libfvde_error_t **error"
@@ -153,7 +157,7 @@ Please report bugs of any kind on the project issue tracker: https://github.com/
 .Sh AUTHOR
 These man pages are generated from "libfvde.h".
 .Sh COPYRIGHT
-Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>, Joachim Metz <joachim.metz@gmail.com>.
+Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>, Joachim Metz <joachim.metz@gmail.com>.
 
 This is free software; see the source for copying conditions.
 There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.

@@ -1,7 +1,7 @@
 /*
  * Byte stream functions
  *
- * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2011-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -157,5 +157,5 @@ extern "C" {
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBHMAC_BYTE_STREAM_H ) */
 

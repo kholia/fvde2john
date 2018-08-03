@@ -126,9 +126,6 @@
 /* Define if the GNU gettext() function is already present or preinstalled. */
 #undef HAVE_GETTEXT
 
-/* Define to 1 if you have the <glob.h> header file. */
-#undef HAVE_GLOB_H
-
 /* Define to 1 if dlsym funtion is available in GNU dl. */
 #undef HAVE_GNU_DL_DLSYM
 
@@ -140,9 +137,6 @@
 
 /* Define to 1 if you have the `ioctl' function. */
 #undef HAVE_IOCTL
-
-/* Define to 1 if you have the <io.h> header file. */
-#undef HAVE_IO_H
 
 /* Define if nl_langinfo has CODESET support. */
 #undef HAVE_LANGINFO_CODESET
@@ -207,18 +201,6 @@
 /* Define to 1 if you have the <libcsplit.h> header file. */
 #undef HAVE_LIBCSPLIT_H
 
-/* Define to 1 if you have the `cstring' library (-lcstring). */
-#undef HAVE_LIBCSTRING
-
-/* Define to 1 if you have the <libcstring.h> header file. */
-#undef HAVE_LIBCSTRING_H
-
-/* Define to 1 if you have the `csystem' library (-lcsystem). */
-#undef HAVE_LIBCSYSTEM
-
-/* Define to 1 if you have the <libcsystem.h> header file. */
-#undef HAVE_LIBCSYSTEM_H
-
 /* Define to 1 if you have the `cthreads' library (-lcthreads). */
 #undef HAVE_LIBCTHREADS
 
@@ -245,6 +227,12 @@
 
 /* Define to 1 if you have the <libfguid.h> header file. */
 #undef HAVE_LIBFGUID_H
+
+/* Define to 1 if you have the `fplist' library (-lfplist). */
+#undef HAVE_LIBFPLIST
+
+/* Define to 1 if you have the <libfplist.h> header file. */
+#undef HAVE_LIBFPLIST_H
 
 /* Define to 1 if you have the 'fuse' library (-lfuse). */
 #undef HAVE_LIBFUSE
@@ -315,12 +303,6 @@
 /* Define to 1 if the local version of libcsplit is used. */
 #undef HAVE_LOCAL_LIBCSPLIT
 
-/* Define to 1 if the local version of libcstring is used. */
-#undef HAVE_LOCAL_LIBCSTRING
-
-/* Define to 1 if the local version of libcsystem is used. */
-#undef HAVE_LOCAL_LIBCSYSTEM
-
 /* Define to 1 if the local version of libcthreads is used. */
 #undef HAVE_LOCAL_LIBCTHREADS
 
@@ -332,6 +314,9 @@
 
 /* Define to 1 if the local version of libfguid is used. */
 #undef HAVE_LOCAL_LIBFGUID
+
+/* Define to 1 if the local version of libfplist is used. */
+#undef HAVE_LOCAL_LIBFPLIST
 
 /* Define to 1 if the local version of libfvalue is used. */
 #undef HAVE_LOCAL_LIBFVALUE
@@ -525,9 +510,6 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
-/* Define to 1 if you have the `textdomain' function. */
-#undef HAVE_TEXTDOMAIN
-
 /* Define to 1 if you have the `time' function. */
 #undef HAVE_TIME
 
@@ -621,8 +603,7 @@
 /* Define to 1 if you have the `uncompress' function. */
 #undef HAVE_ZLIB_UNCOMPRESS
 
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
 #undef LT_OBJDIR
 
 /* Name of package */

@@ -1,7 +1,7 @@
 /*
  * The internal definitions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -35,11 +35,11 @@
  */
 #else
 
-#define LIBCSPLIT_VERSION			20160829
+#define LIBCSPLIT_VERSION			20180103
 
 /* The libcsplit version string
  */
-#define LIBCSPLIT_VERSION_STRING		"20160829"
+#define LIBCSPLIT_VERSION_STRING		"20180103"
 
 #endif /* !defined( HAVE_LOCAL_LIBCSPLIT ) */
 

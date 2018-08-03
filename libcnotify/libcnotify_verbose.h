@@ -1,7 +1,7 @@
 /*
  * Verbose functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -31,8 +31,11 @@
 extern "C" {
 #endif
 
-LIBCNOTIFY_EXTERN \
+#if !defined( __CYGWIN__ )
+extern int libcnotify_verbose;
+#else
 int libcnotify_verbose;
+#endif
 
 LIBCNOTIFY_EXTERN \
 void libcnotify_verbose_set(
@@ -42,5 +45,5 @@ void libcnotify_verbose_set(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBCNOTIFY_VERBOSE_H ) */
 

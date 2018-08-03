@@ -1,7 +1,7 @@
 /*
  * List element functions
  *
- * Copyright (C) 2006-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -19,8 +19,8 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LIBCDATA_INTERNAL_LIST_ELEMENT_H )
-#define _LIBCDATA_INTERNAL_LIST_ELEMENT_H
+#if !defined( _LIBCDATA_LIST_ELEMENT_H )
+#define _LIBCDATA_LIST_ELEMENT_H
 
 #include <common.h>
 #include <types.h>
@@ -124,5 +124,5 @@ int libcdata_list_element_set_elements(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBCDATA_LIST_ELEMENT_H ) */
 

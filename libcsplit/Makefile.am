@@ -2,19 +2,17 @@ if HAVE_LOCAL_LIBCSPLIT
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/common \
-	@LIBCSTRING_CPPFLAGS@ \
 	@LIBCERROR_CPPFLAGS@
 
 noinst_LTLIBRARIES = libcsplit.la
 
 libcsplit_la_SOURCES = \
 	libcsplit_definitions.h \
-	libcsplit_extern.h \
 	libcsplit_error.c libcsplit_error.h \
+	libcsplit_extern.h \
 	libcsplit_narrow_split_string.c libcsplit_narrow_split_string.h \
 	libcsplit_narrow_string.c libcsplit_narrow_string.h \
 	libcsplit_libcerror.h \
-	libcsplit_libcstring.h \
 	libcsplit_support.c libcsplit_support.h \
 	libcsplit_types.h \
 	libcsplit_unused.h \

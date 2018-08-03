@@ -1,7 +1,7 @@
 /*
  * The internal definitions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -36,11 +36,11 @@
 #else
 #include <byte_stream.h>
 
-#define LIBFGUID_VERSION					20160828
+#define LIBFGUID_VERSION					20170112
 
 /* The version string
  */
-#define LIBFGUID_VERSION_STRING					"20160828"
+#define LIBFGUID_VERSION_STRING					"20170112"
 
 /* The byte order definitions
  */

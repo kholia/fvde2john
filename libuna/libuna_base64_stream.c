@@ -1,7 +1,7 @@
 /*
  * Base64 stream functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -25,7 +25,6 @@
 
 #include "libuna_base64_stream.h"
 #include "libuna_definitions.h"
-#include "libuna_inline.h"
 #include "libuna_libcerror.h"
 #include "libuna_types.h"
 
@@ -38,7 +37,6 @@ static uint8_t *libuna_base64url_sixtet_to_character_table = \
 /* Copies a base64 character to a base64 sixtet
  * Returns 1 if successful or -1 on error
  */
-LIBUNA_INLINE \
 int libuna_base64_character_copy_to_sixtet(
      uint8_t base64_character,
      uint8_t *base64_sixtet,
@@ -153,7 +151,6 @@ int libuna_base64_character_copy_to_sixtet(
  *
  * Returns 1 if successful or -1 on error
  */
-LIBUNA_INLINE \
 int libuna_base64_triplet_copy_from_base64_stream(
      uint32_t *base64_triplet,
      const uint8_t *base64_stream,
@@ -633,7 +630,6 @@ int libuna_base64_triplet_copy_from_base64_stream(
 /* Copies a base64 triplet to a base64 stream
  * Returns 1 if successful or -1 on error
  */
-LIBUNA_INLINE \
 int libuna_base64_triplet_copy_to_base64_stream(
      uint32_t base64_triplet,
      uint8_t *base64_stream,
@@ -992,7 +988,6 @@ int libuna_base64_triplet_copy_to_base64_stream(
 /* Copies a base64 triplet from a byte stream
  * Returns 1 if successful or -1 on error
  */
-LIBUNA_INLINE \
 int libuna_base64_triplet_copy_from_byte_stream(
      uint32_t *base64_triplet,
      const uint8_t *byte_stream,
@@ -1082,7 +1077,6 @@ int libuna_base64_triplet_copy_from_byte_stream(
 /* Copies a base64 triplet to a byte stream
  * Returns 1 if successful or -1 on error
  */
-LIBUNA_INLINE \
 int libuna_base64_triplet_copy_to_byte_stream(
      uint32_t base64_triplet,
      uint8_t *byte_stream,

@@ -2,15 +2,15 @@ if HAVE_LOCAL_LIBBFIO
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/common \
-	@LIBCSTRING_CPPFLAGS@ \
 	@LIBCERROR_CPPFLAGS@ \
 	@LIBCTHREADS_CPPFLAGS@ \
-	@LIBCDATA_CPPFLAGS@ \
 	@LIBCLOCALE_CPPFLAGS@ \
+	@LIBCNOTIFY_CPPFLAGS@ \
+	@LIBCDATA_CPPFLAGS@ \
 	@LIBCSPLIT_CPPFLAGS@ \
-	@LIBUNA_CPPFLAGS@ \
 	@LIBCFILE_CPPFLAGS@ \
 	@LIBCPATH_CPPFLAGS@ \
+	@LIBUNA_CPPFLAGS@ \
 	@PTHREAD_CPPFLAGS@
 
 noinst_LTLIBRARIES = libbfio.la
@@ -29,12 +29,12 @@ libbfio_la_SOURCES = \
 	libbfio_libcfile.h \
 	libbfio_libclocale.h \
 	libbfio_libcpath.h \
-	libbfio_libcstring.h \
 	libbfio_libcthreads.h \
 	libbfio_libuna.h \
 	libbfio_memory_range.c libbfio_memory_range.h \
 	libbfio_pool.c libbfio_pool.h \
 	libbfio_support.c libbfio_support.h \
+	libbfio_system_string.c libbfio_system_string.h \
 	libbfio_types.h \
 	libbfio_unused.h
 endif

@@ -1,7 +1,7 @@
 /*
  * The internal definitions
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -38,11 +38,11 @@
  * for local use of libfvde
  */
 #else
-#define LIBFVDE_VERSION					20160918
+#define LIBFVDE_VERSION					20180108
 
 /* The version string
  */
-#define LIBFVDE_VERSION_STRING				"20160918"
+#define LIBFVDE_VERSION_STRING				"20180108"
 
 /* The file access
  * bit 1        set to 1 for read access
@@ -80,6 +80,8 @@ enum LIBFVDE_COMPRESSION_METHODS
 	LIBFVDE_COMPRESSION_METHOD_NONE			= 0,
 	LIBFVDE_COMPRESSION_METHOD_DEFLATE		= 1
 };
+
+#define LIBFVDE_RANGE_FLAG_ENCRYPTED			LIBFDATA_RANGE_FLAG_USER_DEFINED_1
 
 #define LIBFVDE_MAXIMUM_CACHE_ENTRIES_SECTORS		16
 

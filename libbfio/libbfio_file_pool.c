@@ -1,7 +1,7 @@
 /*
  * File pool functions
  *
- * Copyright (C) 2009-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2009-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -20,14 +20,15 @@
  */
 
 #include <common.h>
+#include <narrow_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #include "libbfio_definitions.h"
 #include "libbfio_file.h"
 #include "libbfio_file_pool.h"
 #include "libbfio_handle.h"
 #include "libbfio_libcerror.h"
-#include "libbfio_libcstring.h"
 #include "libbfio_pool.h"
 #include "libbfio_types.h"
 
@@ -84,7 +85,7 @@ int libbfio_file_pool_append_handles_for_names(
 	     name_iterator < number_of_names;
 	     name_iterator++ )
 	{
-		name_length = libcstring_narrow_string_length(
+		name_length = narrow_string_length(
 		               names[ name_iterator ] );
 
 		if( libbfio_file_initialize(
@@ -202,7 +203,7 @@ int libbfio_file_pool_append_handles_for_names_wide(
 	     name_iterator < number_of_names;
 	     name_iterator++ )
 	{
-		name_length = libcstring_wide_string_length(
+		name_length = wide_string_length(
 		               names[ name_iterator ] );
 
 		if( libbfio_file_initialize(

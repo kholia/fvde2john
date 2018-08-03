@@ -1,7 +1,7 @@
 /*
  * GUID functions
  *
- * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2011-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -39,5 +39,5 @@ PyObject *pyfvde_string_new_from_guid(
 }
 #endif
 
-#endif
+#endif /* !defined( _PYFVDE_GUID_H ) */
 

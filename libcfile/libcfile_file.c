@@ -1,7 +1,7 @@
 /*
  * File functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -21,7 +21,10 @@
 
 #include <common.h>
 #include <memory.h>
+#include <narrow_string.h>
+#include <system_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #if defined( HAVE_SYS_STAT_H )
 #include <sys/stat.h>
@@ -87,10 +90,8 @@ typedef size_t u64;
 #include "libcfile_definitions.h"
 #include "libcfile_file.h"
 #include "libcfile_libcerror.h"
-#include "libcfile_libclocale.h"
 #include "libcfile_libcnotify.h"
-#include "libcfile_libcstring.h"
-#include "libcfile_libuna.h"
+#include "libcfile_system_string.h"
 #include "libcfile_types.h"
 
 #if defined( WINAPI ) && ( WINVER <= 0x0500 )
@@ -110,7 +111,7 @@ BOOL libcfile_CloseHandle(
 		return( FALSE );
 	}
 	library_handle = LoadLibrary(
-	                  _LIBCSTRING_SYSTEM_STRING( "kernel32.dll" ) );
+	                  _SYSTEM_STRING( "kernel32.dll" ) );
 
 	if( library_handle == NULL )
 	{
@@ -299,7 +300,7 @@ HANDLE libcfile_CreateFileA(
 		return( INVALID_HANDLE_VALUE );
 	}
 	library_handle = LoadLibrary(
-	                  _LIBCSTRING_SYSTEM_STRING( "kernel32.dll" ) );
+	                  _SYSTEM_STRING( "kernel32.dll" ) );
 
 	if( library_handle == NULL )
 	{
@@ -475,7 +476,7 @@ int libcfile_file_open_with_error_code(
 
 		return( -1 );
 	}
-	filename_length = libcstring_narrow_string_length(
+	filename_length = narrow_string_length(
 	                   filename );
 
 	if( filename_length > 4 )
@@ -532,7 +533,7 @@ int libcfile_file_open_with_error_code(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_ACCESS_DENIED,
-				 "%s: access denied to file: %" PRIs_LIBCSTRING_SYSTEM ".",
+				 "%s: access denied to file: %" PRIs_SYSTEM ".",
 				 function,
 				 filename );
 
@@ -544,7 +545,7 @@ int libcfile_file_open_with_error_code(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_INVALID_RESOURCE,
-				 "%s: no such file: %" PRIs_LIBCSTRING_SYSTEM ".",
+				 "%s: no such file: %" PRIs_SYSTEM ".",
 				 function,
 				 filename );
 
@@ -556,7 +557,7 @@ int libcfile_file_open_with_error_code(
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_OPEN_FAILED,
 				 *error_code,
-				 "%s: unable to open file: %" PRIs_LIBCSTRING_SYSTEM ".",
+				 "%s: unable to open file: %" PRIs_SYSTEM ".",
 				 function,
 				 filename );
 
@@ -685,7 +686,7 @@ int libcfile_file_open_with_error_code(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_ACCESS_DENIED,
-				 "%s: access denied to file: %" PRIs_LIBCSTRING_SYSTEM ".",
+				 "%s: access denied to file: %" PRIs_SYSTEM ".",
 				 function,
 				 filename );
 
@@ -696,7 +697,7 @@ int libcfile_file_open_with_error_code(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_INVALID_RESOURCE,
-				 "%s: no such file: %" PRIs_LIBCSTRING_SYSTEM ".",
+				 "%s: no such file: %" PRIs_SYSTEM ".",
 				 function,
 				 filename );
 
@@ -708,7 +709,7 @@ int libcfile_file_open_with_error_code(
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_OPEN_FAILED,
 				 *error_code,
-				 "%s: unable to open file: %" PRIs_LIBCSTRING_SYSTEM ".",
+				 "%s: unable to open file: %" PRIs_SYSTEM ".",
 				 function,
 				 filename );
 
@@ -751,7 +752,7 @@ HANDLE libcfile_CreateFileW(
 		return( INVALID_HANDLE_VALUE );
 	}
 	library_handle = LoadLibrary(
-	                  _LIBCSTRING_SYSTEM_STRING( "kernel32.dll" ) );
+	                  _SYSTEM_STRING( "kernel32.dll" ) );
 
 	if( library_handle == NULL )
 	{
@@ -927,7 +928,7 @@ int libcfile_file_open_wide_with_error_code(
 
 		return( -1 );
 	}
-	filename_length = libcstring_wide_string_length(
+	filename_length = wide_string_length(
 	                   filename );
 
 	if( filename_length > 4 )
@@ -984,7 +985,7 @@ int libcfile_file_open_wide_with_error_code(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_ACCESS_DENIED,
-				 "%s: access denied to file: %" PRIs_LIBCSTRING_SYSTEM ".",
+				 "%s: access denied to file: %" PRIs_SYSTEM ".",
 				 function,
 				 filename );
 
@@ -996,7 +997,7 @@ int libcfile_file_open_wide_with_error_code(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_INVALID_RESOURCE,
-				 "%s: no such file: %" PRIs_LIBCSTRING_SYSTEM ".",
+				 "%s: no such file: %" PRIs_SYSTEM ".",
 				 function,
 				 filename );
 
@@ -1008,7 +1009,7 @@ int libcfile_file_open_wide_with_error_code(
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_OPEN_FAILED,
 				 *error_code,
-				 "%s: unable to open file: %" PRIs_LIBCSTRING_SYSTEM ".",
+				 "%s: unable to open file: %" PRIs_SYSTEM ".",
 				 function,
 				 filename );
 
@@ -1038,7 +1039,6 @@ int libcfile_file_open_wide_with_error_code(
 	size_t filename_size                    = 0;
 	size_t narrow_filename_size             = 0;
 	int file_io_flags                       = 0;
-	int result                              = 0;
 
 	if( file == NULL )
 	{
@@ -1116,48 +1116,14 @@ int libcfile_file_open_wide_with_error_code(
 
 		return( -1 );
 	}
-	filename_size = 1 + libcstring_wide_string_length(
+	filename_size = 1 + wide_string_length(
 	                     filename );
 
-	if( libclocale_codepage == 0 )
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf8_string_size_from_utf32(
-		          (libuna_utf32_character_t *) filename,
-		          filename_size,
-		          &narrow_filename_size,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf8_string_size_from_utf16(
-		          (libuna_utf16_character_t *) filename,
-		          filename_size,
-		          &narrow_filename_size,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	else
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_byte_stream_size_from_utf32(
-		          (libuna_utf32_character_t *) filename,
-		          filename_size,
-		          libclocale_codepage,
-		          &narrow_filename_size,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_byte_stream_size_from_utf16(
-		          (libuna_utf16_character_t *) filename,
-		          filename_size,
-		          libclocale_codepage,
-		          &narrow_filename_size,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	if( result != 1 )
+	if( libcfile_system_string_size_from_wide_string(
+	     filename,
+	     filename_size,
+	     &narrow_filename_size,
+	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
@@ -1168,7 +1134,7 @@ int libcfile_file_open_wide_with_error_code(
 
 		goto on_error;
 	}
-	narrow_filename = libcstring_narrow_string_allocate(
+	narrow_filename = narrow_string_allocate(
 	                   narrow_filename_size );
 
 	if( narrow_filename == NULL )
@@ -1182,49 +1148,12 @@ int libcfile_file_open_wide_with_error_code(
 
 		goto on_error;
 	}
-	if( libclocale_codepage == 0 )
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf8_string_copy_from_utf32(
-		          (libuna_utf8_character_t *) narrow_filename,
-		          narrow_filename_size,
-		          (libuna_utf32_character_t *) filename,
-		          filename_size,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf8_string_copy_from_utf16(
-		          (libuna_utf8_character_t *) narrow_filename,
-		          narrow_filename_size,
-		          (libuna_utf16_character_t *) filename,
-		          filename_size,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	else
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_byte_stream_copy_from_utf32(
-		          (uint8_t *) narrow_filename,
-		          narrow_filename_size,
-		          libclocale_codepage,
-		          (libuna_utf32_character_t *) filename,
-		          filename_size,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_byte_stream_copy_from_utf16(
-		          (uint8_t *) narrow_filename,
-		          narrow_filename_size,
-		          libclocale_codepage,
-		          (libuna_utf16_character_t *) filename,
-		          filename_size,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	if( result != 1 )
+	if( libcfile_system_string_copy_from_wide_string(
+	     narrow_filename,
+	     narrow_filename_size,
+	     filename,
+	     filename_size,
+	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
@@ -1263,7 +1192,7 @@ int libcfile_file_open_wide_with_error_code(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_ACCESS_DENIED,
-				 "%s: access denied to file: %" PRIs_LIBCSTRING_SYSTEM ".",
+				 "%s: access denied to file: %" PRIs_SYSTEM ".",
 				 function,
 				 filename );
 
@@ -1274,7 +1203,7 @@ int libcfile_file_open_wide_with_error_code(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_INVALID_RESOURCE,
-				 "%s: no such file: %" PRIs_LIBCSTRING_SYSTEM ".",
+				 "%s: no such file: %" PRIs_SYSTEM ".",
 				 function,
 				 filename );
 
@@ -1286,7 +1215,7 @@ int libcfile_file_open_wide_with_error_code(
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_OPEN_FAILED,
 				 *error_code,
-				 "%s: unable to open file: %" PRIs_LIBCSTRING_SYSTEM ".",
+				 "%s: unable to open file: %" PRIs_SYSTEM ".",
 				 function,
 				 filename );
 
@@ -1522,7 +1451,7 @@ BOOL libcfile_GetOverlappedResult(
 		return( FALSE );
 	}
 	library_handle = LoadLibrary(
-	                  _LIBCSTRING_SYSTEM_STRING( "kernel32.dll" ) );
+	                  _SYSTEM_STRING( "kernel32.dll" ) );
 
 	if( library_handle == NULL )
 	{
@@ -1582,7 +1511,7 @@ BOOL libcfile_ReadFile(
 		return( FALSE );
 	}
 	library_handle = LoadLibrary(
-	                  _LIBCSTRING_SYSTEM_STRING( "kernel32.dll" ) );
+	                  _SYSTEM_STRING( "kernel32.dll" ) );
 
 	if( library_handle == NULL )
 	{
@@ -2502,7 +2431,7 @@ BOOL libcfile_WriteFile(
 		return( FALSE );
 	}
 	library_handle = LoadLibrary(
-	                  _LIBCSTRING_SYSTEM_STRING( "kernel32.dll" ) );
+	                  _SYSTEM_STRING( "kernel32.dll" ) );
 
 	if( library_handle == NULL )
 	{
@@ -2793,7 +2722,7 @@ BOOL libcfile_SetFilePointerEx(
 		return( FALSE );
 	}
 	library_handle = LoadLibrary(
-	                  _LIBCSTRING_SYSTEM_STRING( "kernel32.dll" ) );
+	                  _SYSTEM_STRING( "kernel32.dll" ) );
 
 	if( library_handle == NULL )
 	{
@@ -3152,7 +3081,7 @@ BOOL libcfile_SetEndOfFile(
 		return( FALSE );
 	}
 	library_handle = LoadLibrary(
-	                  _LIBCSTRING_SYSTEM_STRING( "kernel32.dll" ) );
+	                  _SYSTEM_STRING( "kernel32.dll" ) );
 
 	if( library_handle == NULL )
 	{
@@ -3462,7 +3391,7 @@ BOOL libcfile_GetFileSizeEx(
 		return( FALSE );
 	}
 	library_handle = LoadLibrary(
-	                  _LIBCSTRING_SYSTEM_STRING( "kernel32.dll" ) );
+	                  _SYSTEM_STRING( "kernel32.dll" ) );
 
 	if( library_handle == NULL )
 	{
@@ -4161,7 +4090,7 @@ DWORD libcfile_GetFileType(
 		return( FILE_TYPE_UNKNOWN );
 	}
 	library_handle = LoadLibrary(
-	                  _LIBCSTRING_SYSTEM_STRING( "kernel32.dll" ) );
+	                  _SYSTEM_STRING( "kernel32.dll" ) );
 
 	if( library_handle == NULL )
 	{
@@ -4598,7 +4527,7 @@ ssize_t libcfile_file_io_control_read_with_error_code(
 
 /* On some versions of Linux the FADVISE definions seem to be missing from fcntl.h
  */
-#if defined( HAVE_POSIX_FADVISE )
+#if defined( HAVE_POSIX_FADVISE ) && !defined( WINAPI )
 
 #if !defined( POSIX_FADV_NORMAL )
 #define POSIX_FADV_NORMAL		0
@@ -4612,7 +4541,7 @@ ssize_t libcfile_file_io_control_read_with_error_code(
 #define POSIX_FADV_SEQUENTIAL		2
 #endif
 
-#endif /* #if defined( HAVE_POSIX_FADVISE ) */
+#endif /* #if defined( HAVE_POSIX_FADVISE ) && !defined( WINAPI ) */
 
 /* Sets the expected access behavior so the system can optimize the access
  * Returns 1 if successful or -1 on error
@@ -4625,7 +4554,7 @@ int libcfile_file_set_access_behavior(
 	libcfile_internal_file_t *internal_file = NULL;
 	static char *function                   = "libcfile_file_set_access_behavior";
 
-#if defined( HAVE_POSIX_FADVISE )
+#if defined( HAVE_POSIX_FADVISE ) && !defined( WINAPI )
 	int advice                              = POSIX_FADV_NORMAL;
 	int result                              = 0;
 #endif
@@ -4682,7 +4611,7 @@ int libcfile_file_set_access_behavior(
 
 		return( -1 );
 	}
-#if defined( HAVE_POSIX_FADVISE )
+#if defined( HAVE_POSIX_FADVISE ) && !defined( WINAPI )
 	if( access_behavior == LIBCFILE_ACCESS_BEHAVIOR_NORMAL )
 	{
 		advice = POSIX_FADV_NORMAL;
@@ -4718,7 +4647,7 @@ int libcfile_file_set_access_behavior(
 
 		return( -1 );
 	}
-#endif
+#endif /* defined( HAVE_POSIX_FADVISE ) && !defined( WINAPI ) */
 	return( 1 );
 }
 

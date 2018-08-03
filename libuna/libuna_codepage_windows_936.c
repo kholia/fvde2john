@@ -1,7 +1,7 @@
 /*
  * Windows 936 codepage (Chinese Simplified) functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -23,7 +23,6 @@
 #include <types.h>
 
 #include "libuna_codepage_windows_936.h"
-#include "libuna_inline.h"
 #include "libuna_libcerror.h"
 #include "libuna_types.h"
 
@@ -6356,7 +6355,6 @@ const uint16_t libuna_codepage_windows_936_unicode_to_byte_stream_base_0xfe00[ 5
  * Adds the size to the byte stream character size value
  * Returns 1 if successful or -1 on error
  */
-LIBUNA_INLINE \
 int libuna_codepage_windows_936_unicode_character_size_to_byte_stream(
      libuna_unicode_character_t unicode_character,
      size_t *byte_stream_character_size,
@@ -6438,7 +6436,6 @@ int libuna_codepage_windows_936_unicode_character_size_to_byte_stream(
 /* Copies a Unicode character from a byte stream
  * Returns 1 if successful or -1 on error
  */
-LIBUNA_INLINE \
 int libuna_codepage_windows_936_copy_from_byte_stream(
      libuna_unicode_character_t *unicode_character,
      const uint8_t *byte_stream,
@@ -7340,7 +7337,6 @@ int libuna_codepage_windows_936_copy_from_byte_stream(
 /* Copies a Unicode character to a byte stream
  * Returns 1 if successful or -1 on error
  */
-LIBUNA_INLINE \
 int libuna_codepage_windows_936_copy_to_byte_stream(
      libuna_unicode_character_t unicode_character,
      uint8_t *byte_stream,

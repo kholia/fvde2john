@@ -1,7 +1,7 @@
 /*
  * Balanced tree type functions
  *
- * Copyright (C) 2006-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -19,8 +19,8 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LIBCDATA_INTERNAL_BTREE_H )
-#define _LIBCDATA_INTERNAL_BTREE_H
+#if !defined( _LIBCDATA_BTREE_H )
+#define _LIBCDATA_BTREE_H
 
 #include <common.h>
 #include <types.h>
@@ -186,5 +186,5 @@ int libcdata_btree_remove_value(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBCDATA_BTREE_H ) */
 

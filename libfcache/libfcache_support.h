@@ -1,7 +1,7 @@
 /*
  * Support functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -43,5 +43,5 @@ const char *libfcache_get_version(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFCACHE_SUPPORT_H ) */
 

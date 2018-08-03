@@ -1,7 +1,7 @@
 /*
  * Codepage functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -20,12 +20,14 @@
  */
 
 #include <common.h>
+#include <narrow_string.h>
+#include <wide_string.h>
 #include <types.h>
 
 #include "libclocale_codepage.h"
 #include "libclocale_definitions.h"
 #include "libclocale_libcerror.h"
-#include "libclocale_libcstring.h"
+#include "libclocale_wide_string.h"
 
 /* If the codepage is not set strings are formatted using UTF-8
  */
@@ -186,7 +188,7 @@ int libclocale_codepage_copy_from_string(
 
 	if( string_length == 5 )
 	{
-		if( libcstring_narrow_string_compare_no_case(
+		if( narrow_string_compare_no_case(
 		     string,
 		     "ascii",
 		     5 ) == 0 )
@@ -203,7 +205,7 @@ int libclocale_codepage_copy_from_string(
 		 */
 		if( string_length >= 8 )
 		{
-			if( libcstring_narrow_string_compare_no_case(
+			if( narrow_string_compare_no_case(
 			     string,
 			     "iso",
 			     3 ) == 0 )
@@ -243,7 +245,7 @@ int libclocale_codepage_copy_from_string(
 		 */
 		if( string_length >= 4 )
 		{
-			if( libcstring_narrow_string_compare_no_case(
+			if( narrow_string_compare_no_case(
 			     string,
 			     "koi8",
 			     4 ) == 0 )
@@ -270,7 +272,7 @@ int libclocale_codepage_copy_from_string(
 		 */
 		if( string_length >= 7 )
 		{
-			if( libcstring_narrow_string_compare_no_case(
+			if( narrow_string_compare_no_case(
 			     string,
 			     "windows",
 			     7 ) == 0 )
@@ -291,7 +293,7 @@ int libclocale_codepage_copy_from_string(
 		}
 		else if( string_length >= 2 )
 		{
-			if( libcstring_narrow_string_compare_no_case(
+			if( narrow_string_compare_no_case(
 			     string,
 			     "cp",
 			     2 ) == 0 )
@@ -300,7 +302,7 @@ int libclocale_codepage_copy_from_string(
 
 				codepage_set = LIBCLOCALE_CODEPAGE_SET_GENERIC;
 			}
-			else if( libcstring_narrow_string_compare_no_case(
+			else if( narrow_string_compare_no_case(
 			          string,
 			          "ms",
 			          2 ) == 0 )
@@ -585,7 +587,7 @@ int libclocale_codepage_copy_from_string_wide(
 
 	if( string_length == 5 )
 	{
-		if( libcstring_wide_string_compare_no_case(
+		if( wide_string_compare_no_case(
 		     string,
 		     L"ascii",
 		     5 ) == 0 )
@@ -602,7 +604,7 @@ int libclocale_codepage_copy_from_string_wide(
 		 */
 		if( string_length >= 8 )
 		{
-			if( libcstring_wide_string_compare_no_case(
+			if( wide_string_compare_no_case(
 			     string,
 			     L"iso",
 			     3 ) == 0 )
@@ -642,7 +644,7 @@ int libclocale_codepage_copy_from_string_wide(
 		 */
 		if( string_length >= 4 )
 		{
-			if( libcstring_wide_string_compare_no_case(
+			if( wide_string_compare_no_case(
 			     string,
 			     L"koi8",
 			     4 ) == 0 )
@@ -669,7 +671,7 @@ int libclocale_codepage_copy_from_string_wide(
 		 */
 		if( string_length >= 7 )
 		{
-			if( libcstring_wide_string_compare_no_case(
+			if( wide_string_compare_no_case(
 			     string,
 			     L"windows",
 			     7 ) == 0 )
@@ -690,7 +692,7 @@ int libclocale_codepage_copy_from_string_wide(
 		}
 		else if( string_length >= 2 )
 		{
-			if( libcstring_wide_string_compare_no_case(
+			if( wide_string_compare_no_case(
 			     string,
 			     L"cp",
 			     2 ) == 0 )
@@ -699,7 +701,7 @@ int libclocale_codepage_copy_from_string_wide(
 
 				codepage_set = LIBCLOCALE_CODEPAGE_SET_GENERIC;
 			}
-			else if( libcstring_wide_string_compare_no_case(
+			else if( wide_string_compare_no_case(
 			          string,
 			          L"ms",
 			          2 ) == 0 )

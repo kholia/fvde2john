@@ -1,7 +1,7 @@
 /*
  * Values table functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -21,13 +21,13 @@
 
 #include <common.h>
 #include <memory.h>
+#include <narrow_string.h>
 #include <types.h>
 
 #include "libfvalue_codepage.h"
 #include "libfvalue_definitions.h"
 #include "libfvalue_libcdata.h"
 #include "libfvalue_libcerror.h"
-#include "libfvalue_libcstring.h"
 #include "libfvalue_table.h"
 #include "libfvalue_types.h"
 #include "libfvalue_value.h"
@@ -1076,7 +1076,7 @@ int libfvalue_table_copy_from_utf8_xml_string(
 		{
 			if( ( xml_tag_type == LIBFVALUE_XML_TAG_TYPE_OPEN )
 			 && ( xml_tag_name_length == table_name_length )
-			 && ( libcstring_narrow_string_compare(
+			 && ( narrow_string_compare(
 			       table_name,
 			       xml_tag_name,
 			       xml_tag_name_length ) == 0 ) )
@@ -1089,7 +1089,7 @@ int libfvalue_table_copy_from_utf8_xml_string(
 		{
 			if( ( xml_tag_type == LIBFVALUE_XML_TAG_TYPE_CLOSE )
 			 && ( xml_tag_name_length == xml_table_name_length )
-			 && ( libcstring_narrow_string_compare(
+			 && ( narrow_string_compare(
 			       xml_table_name,
 			       xml_tag_name,
 			       xml_tag_name_length ) == 0 ) )
@@ -1140,7 +1140,7 @@ int libfvalue_table_copy_from_utf8_xml_string(
 		{
 			if( ( xml_tag_type == LIBFVALUE_XML_TAG_TYPE_CLOSE )
 			 && ( xml_tag_name_length == value_identifier_length )
-			 && ( libcstring_narrow_string_compare(
+			 && ( narrow_string_compare(
 			       value_identifier,
 			       xml_tag_name,
 			       xml_tag_name_length ) == 0 ) )

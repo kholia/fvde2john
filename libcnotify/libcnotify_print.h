@@ -1,7 +1,7 @@
 /*
  * Notification print functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -37,6 +37,19 @@ int libcnotify_printf(
      const char *format,
      ... );
 
+int libcnotify_print_data_as_character(
+     uint8_t data );
+
+int libcnotify_print_data_as_characters(
+     const uint8_t *data,
+     size_t data_size,
+     size_t data_offset );
+
+int libcnotify_print_data_as_hexadecimal(
+     const uint8_t *data,
+     size_t data_size,
+     size_t data_offset );
+
 LIBCNOTIFY_EXTERN \
 int libcnotify_print_data(
      const uint8_t *data,
@@ -51,5 +64,5 @@ int libcnotify_print_error_backtrace(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBCNOTIFY_PRINT_H ) */
 

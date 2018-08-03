@@ -1,7 +1,7 @@
 /*
  * The internal definitions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -35,11 +35,11 @@
  */
 #else
 
-#define LIBCFILE_VERSION				20160913
+#define LIBCFILE_VERSION				20170105
 
-/* The libcstring version string
+/* The libcfile version string
  */
-#define LIBCFILE_VERSION_STRING				"20160913"
+#define LIBCFILE_VERSION_STRING				"20170105"
 
 /* The file access flags
  * bit 1	set to 1 for read access

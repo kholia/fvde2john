@@ -1,7 +1,7 @@
 /*
  * The internal extern definition
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>,
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -25,6 +25,10 @@
 
 #include <common.h>
 
+/* Define HAVE_LOCAL_LIBFVDE for local use of libfvde
+ */
+#if !defined( HAVE_LOCAL_LIBFVDE )
+
 /* If libtool DLL support is enabled set LIBFVDE_DLL_EXPORT
  * before including libfvde/extern.h
  */
@@ -34,5 +38,10 @@
 
 #include <libfvde/extern.h>
 
-#endif
+#else
+#define LIBFVDE_EXTERN	/* extern */
+
+#endif /* !defined( HAVE_LOCAL_LIBFVDE ) */
+
+#endif /* !defined( _LIBFVDE_INTERNAL_EXTERN_H ) */
 

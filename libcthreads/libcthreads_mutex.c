@@ -1,7 +1,7 @@
 /*
  * Mutex functions
  *
- * Copyright (C) 2012-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2012-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -105,7 +105,10 @@ int libcthreads_mutex_initialize(
 		 "%s: unable to clear mutex.",
 		 function );
 
-		goto on_error;
+		memory_free(
+		 internal_mutex );
+
+		return( -1 );
 	}
 #if defined( WINAPI ) && ( WINVER >= 0x0600 )
 	InitializeCriticalSection(

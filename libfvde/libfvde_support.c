@@ -1,7 +1,7 @@
 /*
  * Support functions
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -21,14 +21,15 @@
  */
 
 #include <common.h>
+#include <narrow_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #include "libfvde_definitions.h"
 #include "libfvde_io_handle.h"
 #include "libfvde_libbfio.h"
 #include "libfvde_libcerror.h"
 #include "libfvde_libclocale.h"
-#include "libfvde_libcstring.h"
 #include "libfvde_support.h"
 
 #if !defined( HAVE_LOCAL_LIBFVDE )
@@ -126,7 +127,7 @@ int libfvde_check_volume_signature(
 
 		return( -1 );
 	}
-	filename_length = libcstring_narrow_string_length(
+	filename_length = narrow_string_length(
 	                   filename );
 
 	if( filename_length == 0 )
@@ -233,7 +234,7 @@ int libfvde_check_volume_signature_wide(
 
 		return( -1 );
 	}
-	filename_length = libcstring_wide_string_length(
+	filename_length = wide_string_length(
 	                   filename );
 
 	if( filename_length == 0 )
@@ -324,11 +325,12 @@ int libfvde_check_volume_signature_file_io_handle(
      libbfio_handle_t *file_io_handle,
      libcerror_error_t **error )
 {
-	uint8_t signature[ 12 ];
+	uint8_t signature[ 2 ];
 
 	static char *function      = "libfvde_check_volume_signature_file_io_handle";
 	ssize_t read_count         = 0;
 	int file_io_handle_is_open = 0;
+	int result                 = 0;
 
 	if( file_io_handle == NULL )
 	{
@@ -375,7 +377,7 @@ int libfvde_check_volume_signature_file_io_handle(
 	}
 	if( libbfio_handle_seek_offset(
 	     file_io_handle,
-	     0,
+	     88,
 	     SEEK_SET,
 	     error ) == -1 )
 	{
@@ -383,7 +385,7 @@ int libfvde_check_volume_signature_file_io_handle(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_IO,
 		 LIBCERROR_IO_ERROR_SEEK_FAILED,
-		 "%s: unable to seek file header offset: 0.",
+		 "%s: unable to seek file header offset: 88.",
 		 function );
 
 		goto on_error;
@@ -391,10 +393,10 @@ int libfvde_check_volume_signature_file_io_handle(
 	read_count = libbfio_handle_read_buffer(
 	              file_io_handle,
 	              signature,
-	              12,
+	              2,
 	              error );
 
-	if( read_count != 12 )
+	if( read_count != 2 )
 	{
 		libcerror_error_set(
 		 error,
@@ -421,7 +423,14 @@ int libfvde_check_volume_signature_file_io_handle(
 			goto on_error;
 		}
 	}
-        return( 1 );
+	else if( memory_compare(
+	          signature,
+	          libfvde_core_storage_signature,
+	          2 ) == 0 )
+	{
+        	result = 1;
+	}
+        return( result );
 
 on_error:
 	if( file_io_handle_is_open == 0 )

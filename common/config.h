@@ -50,19 +50,19 @@
 #define HAVE_ERRNO_H 1
 
 /* Define to 1 if you have the `EVP_md5' function". */
-#define HAVE_EVP_MD5 1
+/* #undef HAVE_EVP_MD5 */
 
 /* Define to 1 if you have the `EVP_sha1' function". */
-#define HAVE_EVP_SHA1 1
+/* #undef HAVE_EVP_SHA1 */
 
 /* Define to 1 if you have the `EVP_sha224' function". */
-#define HAVE_EVP_SHA224 1
+/* #undef HAVE_EVP_SHA224 */
 
 /* Define to 1 if you have the `EVP_sha256' function". */
-#define HAVE_EVP_SHA256 1
+/* #undef HAVE_EVP_SHA256 */
 
 /* Define to 1 if you have the `EVP_sha512' function". */
-#define HAVE_EVP_SHA512 1
+/* #undef HAVE_EVP_SHA512 */
 
 /* Define to 1 if you have the `fclose' function. */
 #define HAVE_FCLOSE 1
@@ -127,9 +127,6 @@
 /* Define if the GNU gettext() function is already present or preinstalled. */
 #define HAVE_GETTEXT 1
 
-/* Define to 1 if you have the <glob.h> header file. */
-#define HAVE_GLOB_H 1
-
 /* Define to 1 if dlsym funtion is available in GNU dl. */
 #define HAVE_GNU_DL_DLSYM 1
 
@@ -141,9 +138,6 @@
 
 /* Define to 1 if you have the `ioctl' function. */
 #define HAVE_IOCTL 1
-
-/* Define to 1 if you have the <io.h> header file. */
-/* #undef HAVE_IO_H */
 
 /* Define if nl_langinfo has CODESET support. */
 #define HAVE_LANGINFO_CODESET 1
@@ -208,18 +202,6 @@
 /* Define to 1 if you have the <libcsplit.h> header file. */
 /* #undef HAVE_LIBCSPLIT_H */
 
-/* Define to 1 if you have the `cstring' library (-lcstring). */
-/* #undef HAVE_LIBCSTRING */
-
-/* Define to 1 if you have the <libcstring.h> header file. */
-/* #undef HAVE_LIBCSTRING_H */
-
-/* Define to 1 if you have the `csystem' library (-lcsystem). */
-/* #undef HAVE_LIBCSYSTEM */
-
-/* Define to 1 if you have the <libcsystem.h> header file. */
-/* #undef HAVE_LIBCSYSTEM_H */
-
 /* Define to 1 if you have the `cthreads' library (-lcthreads). */
 /* #undef HAVE_LIBCTHREADS */
 
@@ -246,6 +228,12 @@
 
 /* Define to 1 if you have the <libfguid.h> header file. */
 /* #undef HAVE_LIBFGUID_H */
+
+/* Define to 1 if you have the `fplist' library (-lfplist). */
+/* #undef HAVE_LIBFPLIST */
+
+/* Define to 1 if you have the <libfplist.h> header file. */
+/* #undef HAVE_LIBFPLIST_H */
 
 /* Define to 1 if you have the 'fuse' library (-lfuse). */
 #define HAVE_LIBFUSE 1
@@ -316,12 +304,6 @@
 /* Define to 1 if the local version of libcsplit is used. */
 #define HAVE_LOCAL_LIBCSPLIT 1
 
-/* Define to 1 if the local version of libcstring is used. */
-#define HAVE_LOCAL_LIBCSTRING 1
-
-/* Define to 1 if the local version of libcsystem is used. */
-#define HAVE_LOCAL_LIBCSYSTEM 1
-
 /* Define to 1 if the local version of libcthreads is used. */
 #define HAVE_LOCAL_LIBCTHREADS 1
 
@@ -333,6 +315,9 @@
 
 /* Define to 1 if the local version of libfguid is used. */
 #define HAVE_LOCAL_LIBFGUID 1
+
+/* Define to 1 if the local version of libfplist is used. */
+#define HAVE_LOCAL_LIBFPLIST 1
 
 /* Define to 1 if the local version of libfvalue is used. */
 #define HAVE_LOCAL_LIBFVALUE 1
@@ -383,19 +368,19 @@
 #define HAVE_OPEN 1
 
 /* Define to 1 if you have the <openssl/aes.h> header file. */
-/* #undef HAVE_OPENSSL_AES_H */
+#define HAVE_OPENSSL_AES_H 1
 
 /* Define to 1 if you have the <openssl/evp.h> header file. */
 #define HAVE_OPENSSL_EVP_H 1
 
 /* Define to 1 if you have the <openssl/md5.h> header file. */
-/* #undef HAVE_OPENSSL_MD5_H */
+#define HAVE_OPENSSL_MD5_H 1
 
 /* Define to 1 if you have the <openssl/opensslv.h> header file. */
 /* #undef HAVE_OPENSSL_OPENSSLV_H */
 
 /* Define to 1 if you have the <openssl/sha.h> header file. */
-/* #undef HAVE_OPENSSL_SHA_H */
+#define HAVE_OPENSSL_SHA_H 1
 
 /* Define to 1 if you have the <osxfuse/fuse.h> header file. */
 /* #undef HAVE_OSXFUSE_FUSE_H */
@@ -526,9 +511,6 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
 
-/* Define to 1 if you have the `textdomain' function. */
-#define HAVE_TEXTDOMAIN 1
-
 /* Define to 1 if you have the `time' function. */
 #define HAVE_TIME 1
 
@@ -622,8 +604,7 @@
 /* Define to 1 if you have the `uncompress' function. */
 #define HAVE_ZLIB_UNCOMPRESS 1
 
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
 #define LT_OBJDIR ".libs/"
 
 /* Name of package */
@@ -636,7 +617,7 @@
 #define PACKAGE_NAME "libfvde"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "libfvde 20160918"
+#define PACKAGE_STRING "libfvde 20180108"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "libfvde"
@@ -645,7 +626,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "20160918"
+#define PACKAGE_VERSION "20180108"
 
 /* The size of `int', as computed by sizeof. */
 #define SIZEOF_INT 4
@@ -657,7 +638,7 @@
 #define SIZEOF_SIZE_T 8
 
 /* The size of `wchar_t', as computed by sizeof. */
-/* #undef SIZEOF_WCHAR_T */
+#define SIZEOF_WCHAR_T 4
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -672,7 +653,7 @@
 /* #undef TM_IN_SYS_TIME */
 
 /* Version number of package */
-#define VERSION "20160918"
+#define VERSION "20180108"
 
 /* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a
    `char[]'. */

@@ -1,7 +1,7 @@
 /*
  * Base64 stream functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -26,7 +26,6 @@
 #include <types.h>
 
 #include "libuna_extern.h"
-#include "libuna_inline.h"
 #include "libuna_libcerror.h"
 #include "libuna_types.h"
 
@@ -34,7 +33,6 @@
 extern "C" {
 #endif
 
-LIBUNA_INLINE \
 int libuna_base64_character_copy_to_sixtet(
      uint8_t base64_character,
      uint8_t *base64_sixtet,
@@ -42,7 +40,6 @@ int libuna_base64_character_copy_to_sixtet(
      libcerror_error_t **error );
 
 LIBUNA_EXTERN \
-LIBUNA_INLINE \
 int libuna_base64_triplet_copy_from_base64_stream(
      uint32_t *base64_triplet,
      const uint8_t *base64_stream,
@@ -53,7 +50,6 @@ int libuna_base64_triplet_copy_from_base64_stream(
      libcerror_error_t **error );
 
 LIBUNA_EXTERN \
-LIBUNA_INLINE \
 int libuna_base64_triplet_copy_to_base64_stream(
      uint32_t base64_triplet,
      uint8_t *base64_stream,
@@ -64,7 +60,6 @@ int libuna_base64_triplet_copy_to_base64_stream(
      libcerror_error_t **error );
 
 LIBUNA_EXTERN \
-LIBUNA_INLINE \
 int libuna_base64_triplet_copy_from_byte_stream(
      uint32_t *base64_triplet,
      const uint8_t *byte_stream,
@@ -74,7 +69,6 @@ int libuna_base64_triplet_copy_from_byte_stream(
      libcerror_error_t **error );
 
 LIBUNA_EXTERN \
-LIBUNA_INLINE \
 int libuna_base64_triplet_copy_to_byte_stream(
      uint32_t base64_triplet,
      uint8_t *byte_stream,
@@ -133,5 +127,5 @@ int libuna_base64_stream_with_index_copy_from_byte_stream(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBUNA_BASE64_STREAM_H ) */
 

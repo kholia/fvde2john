@@ -1,7 +1,7 @@
 /*
  * The internal extern definition
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -38,10 +38,9 @@
 #include <libcsplit/extern.h>
 
 #else
+#define LIBCSPLIT_EXTERN	/* extern */
 
-#define LIBCSPLIT_EXTERN	extern
+#endif /* !defined( HAVE_LOCAL_LIBCSPLIT ) */
 
-#endif
-
-#endif
+#endif /* !defined( _LIBCSPLIT_INTERNAL_EXTERN_H ) */
 

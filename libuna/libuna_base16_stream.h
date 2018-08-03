@@ -1,7 +1,7 @@
 /*
  * Base16 stream functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -83,5 +83,5 @@ int libuna_base16_stream_with_index_copy_from_byte_stream(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBUNA_BASE16_STREAM_H ) */
 

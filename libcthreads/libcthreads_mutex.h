@@ -1,7 +1,7 @@
 /*
  * Mutex functions
  *
- * Copyright (C) 2012-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2012-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -94,5 +94,5 @@ int libcthreads_mutex_release(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBCTHREADS_INTERNAL_MUTEX_H ) */
 

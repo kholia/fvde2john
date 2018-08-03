@@ -1,7 +1,7 @@
 /*
  * UTF-16 string functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -297,5 +297,5 @@ int libuna_utf16_string_compare_with_utf32_stream(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBUNA_UTF16_STRING_H ) */
 

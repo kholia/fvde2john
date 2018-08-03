@@ -1,7 +1,7 @@
 /*
  * Support functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -38,11 +38,21 @@ LIBCPATH_EXTERN \
 const char *libcpath_get_version(
              void );
 
+LIBCPATH_EXTERN \
+int libcpath_get_codepage(
+     int *codepage,
+     libcerror_error_t **error );
+
+LIBCPATH_EXTERN \
+int libcpath_set_codepage(
+     int codepage,
+     libcerror_error_t **error );
+
 #endif /* !defined( HAVE_LOCAL_LIBCPATH ) */
 
 #if defined( __cplusplus )
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBCPATH_SUPPORT_H ) */
 

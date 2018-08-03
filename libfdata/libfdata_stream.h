@@ -1,7 +1,7 @@
 /*
  * The stream functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -351,5 +351,5 @@ int libfdata_stream_get_size(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFDATA_INTERNAL_STREAM_H ) */
 

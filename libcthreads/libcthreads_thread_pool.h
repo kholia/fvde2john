@@ -1,7 +1,7 @@
 /*
  * Thread pool functions
  *
- * Copyright (C) 2012-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2012-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -48,6 +48,14 @@ struct libcthreads_internal_thread_pool
 	 */
 	TP_POOL *thread_pool;
 
+	/* The cleanup group.
+	 */
+	TP_CLEANUP_GROUP *cleanup_group;
+
+	/* The callback environment
+	 */
+	TP_CALLBACK_ENVIRON callback_environment;
+
 #else
 	/* The number of threads in the pool
 	 */
@@ -70,6 +78,8 @@ struct libcthreads_internal_thread_pool
 #else
 #error Missing thread type
 #endif
+
+#endif /* defined( WINAPI ) && ( WINVER >= 0x0602 ) */
 
 	/* The callback function
 	 */
@@ -116,8 +126,6 @@ struct libcthreads_internal_thread_pool
 	/* The status
 	 */
 	uint8_t status;
-
-#endif /* !( defined( WINAPI ) && ( WINVER >= 0x0602 ) ) */
 };
 
 LIBCTHREADS_EXTERN \
@@ -132,14 +140,10 @@ int libcthreads_thread_pool_create(
      void *callback_function_arguments,
      libcerror_error_t **error );
 
-#if !( defined( WINAPI ) && ( WINVER >= 0x0602 ) )
-
 int libcthreads_internal_thread_pool_pop(
      libcthreads_internal_thread_pool_t *internal_thread_pool,
      intptr_t **value,
      libcerror_error_t **error );
-
-#endif /* !( defined( WINAPI ) && ( WINVER >= 0x0602 ) ) */
 
 LIBCTHREADS_EXTERN \
 int libcthreads_thread_pool_push(

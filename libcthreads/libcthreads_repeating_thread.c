@@ -1,7 +1,7 @@
 /*
  * Repeating thread functions
  *
- * Copyright (C) 2012-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2012-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -250,7 +250,10 @@ int libcthreads_repeating_thread_create(
 		 "%s: unable to clear repeating thread.",
 		 function );
 
-		goto on_error;
+		memory_free(
+		 internal_repeating_thread );
+
+		return( -1 );
 	}
 	if( libcthreads_mutex_initialize(
 	     &( internal_repeating_thread->condition_mutex ),

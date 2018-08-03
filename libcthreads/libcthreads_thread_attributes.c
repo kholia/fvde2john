@@ -1,7 +1,7 @@
 /*
  * Thread attributes functions
  *
- * Copyright (C) 2012-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2012-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -92,7 +92,10 @@ int libcthreads_thread_attributes_initialize(
 		 "%s: unable to clear thread attributes.",
 		 function );
 
-		goto on_error;
+		memory_free(
+		 internal_thread_attributes );
+
+		return( -1 );
 	}
 /* TODO */
 	*thread_attributes = (libcthreads_thread_attributes_t *) internal_thread_attributes;

@@ -1,7 +1,19 @@
 MSVSCPP_FILES = \
 	dokan/dokan.vcproj \
+	fvde_test_data_area_descriptor/fvde_test_data_area_descriptor.vcproj \
+	fvde_test_encrypted_metadata/fvde_test_encrypted_metadata.vcproj \
+	fvde_test_encryption_context_plist/fvde_test_encryption_context_plist.vcproj \
 	fvde_test_error/fvde_test_error.vcproj \
-	fvde_test_get_version/fvde_test_get_version.vcproj \
+	fvde_test_io_handle/fvde_test_io_handle.vcproj \
+	fvde_test_keyring/fvde_test_keyring.vcproj \
+	fvde_test_metadata/fvde_test_metadata.vcproj \
+	fvde_test_metadata_block/fvde_test_metadata_block.vcproj \
+	fvde_test_notify/fvde_test_notify.vcproj \
+	fvde_test_sector_data/fvde_test_sector_data.vcproj \
+	fvde_test_segment_descriptor/fvde_test_segment_descriptor.vcproj \
+	fvde_test_support/fvde_test_support.vcproj \
+	fvde_test_volume/fvde_test_volume.vcproj \
+	fvde_test_volume_group/fvde_test_volume_group.vcproj \
 	fvdeinfo/fvdeinfo.vcproj \
 	fvdemount/fvdemount.vcproj \
 	fvdewipekey/fvdewipekey.vcproj \
@@ -14,12 +26,11 @@ MSVSCPP_FILES = \
 	libcnotify/libcnotify.vcproj \
 	libcpath/libcpath.vcproj \
 	libcsplit/libcsplit.vcproj \
-	libcstring/libcstring.vcproj \
-	libcsystem/libcsystem.vcproj \
 	libcthreads/libcthreads.vcproj \
 	libfcache/libfcache.vcproj \
 	libfdata/libfdata.vcproj \
 	libfguid/libfguid.vcproj \
+	libfplist/libfplist.vcproj \
 	libfvalue/libfvalue.vcproj \
 	libfvde/libfvde.vcproj \
 	libhmac/libhmac.vcproj \

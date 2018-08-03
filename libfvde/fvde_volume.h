@@ -2,7 +2,7 @@
  * The MacOS-X File Vault disk encryption (FVDE) volume definition
  * (also known as CoreStorage)
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -197,4 +197,4 @@ struct fvde_volume_header
 }
 #endif
 
-#endif
+#endif /* !defined( _FVDE_VOLUME_H ) */

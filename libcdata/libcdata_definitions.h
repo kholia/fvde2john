@@ -1,7 +1,7 @@
 /*
  * The internal definitions
  *
- * Copyright (C) 2006-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -35,11 +35,11 @@
  */
 #else
 
-#define LIBCDATA_VERSION				20160827
+#define LIBCDATA_VERSION				20180102
 
-/* The libcstring version string
+/* The libcdata version string
  */
-#define LIBCDATA_VERSION_STRING				"20160827"
+#define LIBCDATA_VERSION_STRING				"20180102"
 
 /* The comparison function definitions
  */
@@ -73,5 +73,5 @@ enum LIBCDATA_INSERT_FLAGS
 
 #endif /* !defined( HAVE_LOCAL_LIBCDATA ) */
 
-#endif
+#endif /* !defined( LIBCDATA_INTERNAL_DEFINITIONS_H ) */
 

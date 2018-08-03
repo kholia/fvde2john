@@ -1,7 +1,7 @@
 /*
  * The balanced tree functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -364,5 +364,5 @@ int libfdata_btree_get_leaf_value_by_key(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFDATA_INTERNAL_BTREE_H ) */
 

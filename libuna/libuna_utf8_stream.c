@@ -1,7 +1,7 @@
 /*
  * UTF-8 stream functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -24,7 +24,6 @@
 #include <types.h>
 
 #include "libuna_definitions.h"
-#include "libuna_inline.h"
 #include "libuna_libcerror.h"
 #include "libuna_types.h"
 #include "libuna_unicode_character.h"
@@ -33,7 +32,6 @@
 /* Copies an UTF-8 stream byte order mark (BOM)
  * Returns 1 if successful or -1 on error
  */
-LIBUNA_INLINE \
 int libuna_utf8_stream_copy_byte_order_mark(
      uint8_t *utf8_stream,
      size_t utf8_stream_size,

@@ -1,7 +1,7 @@
 /*
  * File functions
  *
- * Copyright (C) 2009-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2009-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -21,17 +21,18 @@
 
 #include <common.h>
 #include <memory.h>
+#include <narrow_string.h>
+#include <system_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #include "libbfio_definitions.h"
 #include "libbfio_file.h"
 #include "libbfio_handle.h"
 #include "libbfio_libcerror.h"
 #include "libbfio_libcfile.h"
-#include "libbfio_libclocale.h"
 #include "libbfio_libcpath.h"
-#include "libbfio_libcstring.h"
-#include "libbfio_libuna.h"
+#include "libbfio_system_string.h"
 #include "libbfio_types.h"
 
 /* Creates a file IO handle
@@ -317,7 +318,7 @@ int libbfio_file_io_handle_clone(
 	if( source_file_io_handle->name_size > 0 )
 	{
 		if( ( source_file_io_handle->name_size > (size_t) SSIZE_MAX )
-		 || ( ( sizeof( libcstring_system_character_t ) * source_file_io_handle->name_size ) > (size_t) SSIZE_MAX ) )
+		 || ( ( sizeof( system_character_t ) * source_file_io_handle->name_size ) > (size_t) SSIZE_MAX ) )
 		{
 			libcerror_error_set(
 			 error,
@@ -328,7 +329,7 @@ int libbfio_file_io_handle_clone(
 
 			goto on_error;
 		}
-		( *destination_file_io_handle )->name = libcstring_system_string_allocate(
+		( *destination_file_io_handle )->name = system_string_allocate(
 		                                         source_file_io_handle->name_size );
 
 		if( ( *destination_file_io_handle )->name == NULL )
@@ -344,7 +345,7 @@ int libbfio_file_io_handle_clone(
 		}
 		if( source_file_io_handle->name_size > 1 )
 		{
-			if( libcstring_system_string_copy(
+			if( system_string_copy(
 			     ( *destination_file_io_handle )->name,
 			     source_file_io_handle->name,
 			     source_file_io_handle->name_size ) == NULL )
@@ -548,10 +549,6 @@ int libbfio_file_io_handle_get_name_size(
 {
 	static char *function = "libbfio_file_io_handle_get_name_size";
 
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	int result            = 0;
-#endif
-
 	if( file_io_handle == NULL )
 	{
 		libcerror_error_set(
@@ -563,68 +560,11 @@ int libbfio_file_io_handle_get_name_size(
 
 		return( -1 );
 	}
-	if( file_io_handle->name == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: invalid file IO handle - missing name.",
-		 function );
-
-		return( -1 );
-	}
-	if( name_size == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid name size.",
-		 function );
-
-		return( -1 );
-	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	if( libclocale_codepage == 0 )
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf8_string_size_from_utf32(
-		          (libuna_utf32_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          name_size,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf8_string_size_from_utf16(
-		          (libuna_utf16_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          name_size,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	else
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_byte_stream_size_from_utf32(
-		          (libuna_utf32_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          libclocale_codepage,
-		          name_size,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_byte_stream_size_from_utf16(
-		          (libuna_utf16_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          libclocale_codepage,
-		          name_size,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	if( result != 1 )
+	if( libbfio_system_string_size_to_narrow_string(
+	     file_io_handle->name,
+	     file_io_handle->name_size,
+	     name_size,
+	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
@@ -635,10 +575,6 @@ int libbfio_file_io_handle_get_name_size(
 
 		return( -1 );
 	}
-#else
-	*name_size = file_io_handle->name_size;
-#endif /* defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER ) */
-
 	return( 1 );
 }
 
@@ -652,12 +588,7 @@ int libbfio_file_io_handle_get_name(
      size_t name_size,
      libcerror_error_t **error )
 {
-	static char *function   = "libbfio_file_io_handle_get_name";
-	size_t narrow_name_size = 0;
-
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	int result              = 0;
-#endif
+	static char *function = "libbfio_file_io_handle_get_name";
 
 	if( file_io_handle == NULL )
 	{
@@ -670,137 +601,12 @@ int libbfio_file_io_handle_get_name(
 
 		return( -1 );
 	}
-	if( file_io_handle->name == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: invalid file IO handle - missing name.",
-		 function );
-
-		return( -1 );
-	}
-	if( name == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid name.",
-		 function );
-
-		return( -1 );
-	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	if( libclocale_codepage == 0 )
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf8_string_size_from_utf32(
-		          (libuna_utf32_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          &narrow_name_size,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf8_string_size_from_utf16(
-		          (libuna_utf16_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          &narrow_name_size,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	else
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_byte_stream_size_from_utf32(
-		          (libuna_utf32_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          libclocale_codepage,
-		          &narrow_name_size,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_byte_stream_size_from_utf16(
-		          (libuna_utf16_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          libclocale_codepage,
-		          &narrow_name_size,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	if( result != 1 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_CONVERSION,
-		 LIBCERROR_CONVERSION_ERROR_GENERIC,
-		 "%s: unable to determine name size.",
-		 function );
-
-		return( -1 );
-	}
-#else
-	narrow_name_size = file_io_handle->name_size;
-#endif /* defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER ) */
-
-	if( name_size < narrow_name_size )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
-		 "%s: name too small.",
-		 function );
-
-		return( -1 );
-	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	if( libclocale_codepage == 0 )
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf8_string_copy_from_utf32(
-		          (libuna_utf8_character_t *) name,
-		          name_size,
-		          (libuna_utf32_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf8_string_copy_from_utf16(
-		          (libuna_utf8_character_t *) name,
-		          name_size,
-		          (libuna_utf16_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	else
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_byte_stream_copy_from_utf32(
-		          (uint8_t *) name,
-		          name_size,
-		          libclocale_codepage,
-		          (libuna_utf32_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_byte_stream_copy_from_utf16(
-		          (uint8_t *) name,
-		          name_size,
-		          libclocale_codepage,
-		          (libuna_utf16_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	if( result != 1 )
+	if( libbfio_system_string_copy_to_narrow_string(
+	     file_io_handle->name,
+	     file_io_handle->name_size,
+	     name,
+	     name_size,
+	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
@@ -811,30 +617,6 @@ int libbfio_file_io_handle_get_name(
 
 		return( -1 );
 	}
-#else
-	if( file_io_handle->name_size > 0 )
-	{
-		if( file_io_handle->name_size > 1 )
-		{
-			if( libcstring_system_string_copy(
-			     name,
-			     file_io_handle->name,
-			     file_io_handle->name_size ) == NULL )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_MEMORY,
-				 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
-				 "%s: unable to set name.",
-				 function );
-
-				return( -1 );
-			}
-		}
-		name[ file_io_handle->name_size - 1 ] = 0;
-	}
-#endif /* defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER ) */
-
 	return( 1 );
 }
 
@@ -861,17 +643,6 @@ int libbfio_file_io_handle_set_name(
 
 		return( -1 );
 	}
-	if( name == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid name.",
-		 function );
-
-		return( -1 );
-	}
 	if( name_length == 0 )
 	{
 		libcerror_error_set(
@@ -879,17 +650,6 @@ int libbfio_file_io_handle_set_name(
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_ZERO_OR_LESS,
 		 "%s: invalid name length is zero.",
-		 function );
-
-		return( -1 );
-	}
-	if( name_length >= (size_t) SSIZE_MAX )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: invalid name length value exceeds maximum.",
 		 function );
 
 		return( -1 );
@@ -928,46 +688,11 @@ int libbfio_file_io_handle_set_name(
 		 file_io_handle->name      = NULL;
 		 file_io_handle->name_size = 0;
 	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	if( libclocale_codepage == 0 )
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf32_string_size_from_utf8(
-		          (libuna_utf8_character_t *) name,
-		          name_length + 1,
-		          &( file_io_handle->name_size ),
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf16_string_size_from_utf8(
-		          (libuna_utf8_character_t *) name,
-		          name_length + 1,
-		          &( file_io_handle->name_size ),
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	else
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf32_string_size_from_byte_stream(
-		          (uint8_t *) name,
-		          name_length + 1,
-		          libclocale_codepage,
-		          &( file_io_handle->name_size ),
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf16_string_size_from_byte_stream(
-		          (uint8_t *) name,
-		          name_length + 1,
-		          libclocale_codepage,
-		          &( file_io_handle->name_size ),
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	if( result != 1 )
+	if( libbfio_system_string_size_from_narrow_string(
+	     name,
+	     name_length + 1,
+	     &( file_io_handle->name_size ),
+	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
@@ -978,12 +703,8 @@ int libbfio_file_io_handle_set_name(
 
 		goto on_error;
 	}
-#else
-	file_io_handle->name_size = name_length + 1;
-#endif /* defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER ) */
-
 	if( ( file_io_handle->name_size > (size_t) SSIZE_MAX )
-	 || ( ( sizeof( libcstring_system_character_t ) * file_io_handle->name_size ) > (size_t) SSIZE_MAX ) )
+	 || ( ( sizeof( system_character_t ) * file_io_handle->name_size ) > (size_t) SSIZE_MAX ) )
 	{
 		libcerror_error_set(
 		 error,
@@ -994,7 +715,7 @@ int libbfio_file_io_handle_set_name(
 
 		goto on_error;
 	}
-	file_io_handle->name = libcstring_system_string_allocate(
+	file_io_handle->name = system_string_allocate(
 	                        file_io_handle->name_size );
 
 	if( file_io_handle->name == NULL )
@@ -1008,50 +729,12 @@ int libbfio_file_io_handle_set_name(
 
 		goto on_error;
 	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	if( libclocale_codepage == 0 )
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf32_string_copy_from_utf8(
-		          (libuna_utf32_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          (libuna_utf8_character_t *) name,
-		          name_length + 1,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf16_string_copy_from_utf8(
-		          (libuna_utf16_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          (libuna_utf8_character_t *) name,
-		          name_length + 1,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	else
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf32_string_copy_from_byte_stream(
-		          (libuna_utf32_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          (uint8_t *) name,
-		          name_length + 1,
-		          libclocale_codepage,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf16_string_copy_from_byte_stream(
-		          (libuna_utf16_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          (uint8_t *) name,
-		          name_length + 1,
-		          libclocale_codepage,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	if( result != 1 )
+	if( libbfio_system_string_copy_from_narrow_string(
+	     file_io_handle->name,
+	     file_io_handle->name_size,
+	     name,
+	     name_length + 1,
+	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
@@ -1062,27 +745,6 @@ int libbfio_file_io_handle_set_name(
 
 		goto on_error;
 	}
-#else
-	if( name_length > 1 )
-	{
-		if( libcstring_system_string_copy(
-		     file_io_handle->name,
-		     name,
-		     name_length ) == NULL )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_MEMORY,
-			 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
-			 "%s: unable to set name.",
-			 function );
-
-			goto on_error;
-		}
-	}
-	file_io_handle->name[ name_length ] = 0;
-
-#endif /* defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER ) */
 	return( 1 );
 
 on_error:
@@ -1091,9 +753,10 @@ on_error:
 		memory_free(
 		 file_io_handle->name );
 
-		file_io_handle->name      = NULL;
-		file_io_handle->name_size = 0;
+		file_io_handle->name = NULL;
 	}
+	file_io_handle->name_size = 0;
+
 	return( -1 );
 }
 
@@ -1272,10 +935,6 @@ int libbfio_file_io_handle_get_name_size_wide(
 {
 	static char *function = "libbfio_file_io_handle_get_name_size_wide";
 
-#if !defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	int result            = 0;
-#endif
-
 	if( file_io_handle == NULL )
 	{
 		libcerror_error_set(
@@ -1287,70 +946,11 @@ int libbfio_file_io_handle_get_name_size_wide(
 
 		return( -1 );
 	}
-	if( file_io_handle->name == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: invalid handle - invalid IO handle - missing name.",
-		 function );
-
-		return( -1 );
-	}
-	if( name_size == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid name size.",
-		 function );
-
-		return( -1 );
-	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	*name_size = file_io_handle->name_size;
-#else
-	if( libclocale_codepage == 0 )
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf32_string_size_from_utf8(
-		          (libuna_utf8_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          name_size,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf16_string_size_from_utf8(
-		          (libuna_utf8_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          name_size,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	else
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf32_string_size_from_byte_stream(
-		          (uint8_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          libclocale_codepage,
-		          name_size,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf16_string_size_from_byte_stream(
-		          (uint8_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          libclocale_codepage,
-		          name_size,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	if( result != 1 )
+	if( libbfio_system_string_size_to_wide_string(
+	     file_io_handle->name,
+	     file_io_handle->name_size,
+	     name_size,
+	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
@@ -1361,8 +961,6 @@ int libbfio_file_io_handle_get_name_size_wide(
 
 		return( -1 );
 	}
-#endif /* defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER ) */
-
 	return( 1 );
 }
 
@@ -1377,11 +975,6 @@ int libbfio_file_io_handle_get_name_wide(
      libcerror_error_t **error )
 {
 	static char *function = "libbfio_file_io_handle_get_name_wide";
-	size_t wide_name_size = 0;
-
-#if !defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	int result            = 0;
-#endif
 
 	if( file_io_handle == NULL )
 	{
@@ -1394,159 +987,12 @@ int libbfio_file_io_handle_get_name_wide(
 
 		return( -1 );
 	}
-	if( file_io_handle->name == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: invalid handle - invalid IO handle - missing name.",
-		 function );
-
-		return( -1 );
-	}
-	if( name == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid name.",
-		 function );
-
-		return( -1 );
-	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	wide_name_size = file_io_handle->name_size;
-#else
-	if( libclocale_codepage == 0 )
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf32_string_size_from_utf8(
-		          (libuna_utf8_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          &wide_name_size,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf16_string_size_from_utf8(
-		          (libuna_utf8_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          &wide_name_size,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	else
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf32_string_size_from_byte_stream(
-		          (uint8_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          libclocale_codepage,
-		          &wide_name_size,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf16_string_size_from_byte_stream(
-		          (uint8_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          libclocale_codepage,
-		          &wide_name_size,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	if( result != 1 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_CONVERSION,
-		 LIBCERROR_CONVERSION_ERROR_GENERIC,
-		 "%s: unable to determine name size.",
-		 function );
-
-		return( -1 );
-	}
-#endif /* defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER ) */
-
-	if( name_size < wide_name_size )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_TOO_SMALL,
-		 "%s: name too small.",
-		 function );
-
-		return( -1 );
-	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	if( file_io_handle->name_size > 0 )
-	{
-		if( file_io_handle->name_size > 1 )
-		{
-			if( libcstring_system_string_copy(
-			     name,
-			     file_io_handle->name,
-			     file_io_handle->name_size ) == NULL )
-			{
-				libcerror_error_set(
-				 error,
-				 LIBCERROR_ERROR_DOMAIN_MEMORY,
-				 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
-				 "%s: unable to set name.",
-				 function );
-
-				return( -1 );
-			}
-		}
-		name[ file_io_handle->name_size - 1 ] = 0;
-	}
-#else
-	if( libclocale_codepage == 0 )
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf32_string_copy_from_utf8(
-		          (libuna_utf32_character_t *) name,
-		          name_size,
-		          (libuna_utf8_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf16_string_copy_from_utf8(
-		          (libuna_utf16_character_t *) name,
-		          name_size,
-		          (libuna_utf8_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	else
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf32_string_copy_from_byte_stream(
-		          (libuna_utf32_character_t *) name,
-		          name_size,
-		          (uint8_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          libclocale_codepage,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf16_string_copy_from_byte_stream(
-		          (libuna_utf16_character_t *) name,
-		          name_size,
-		          (uint8_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          libclocale_codepage,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	if( result != 1 )
+	if( libbfio_system_string_copy_to_wide_string(
+	     file_io_handle->name,
+	     file_io_handle->name_size,
+	     name,
+	     name_size,
+	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
@@ -1557,8 +1003,6 @@ int libbfio_file_io_handle_get_name_wide(
 
 		return( -1 );
 	}
-#endif /* defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER ) */
-
 	return( 1 );
 }
 
@@ -1585,17 +1029,6 @@ int libbfio_file_io_handle_set_name_wide(
 
 		return( -1 );
 	}
-	if( name == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_INVALID_VALUE,
-		 "%s: invalid name.",
-		 function );
-
-		return( -1 );
-	}
 	if( name_length == 0 )
 	{
 		libcerror_error_set(
@@ -1603,17 +1036,6 @@ int libbfio_file_io_handle_set_name_wide(
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_VALUE_ZERO_OR_LESS,
 		 "%s: invalid name length is zero.",
-		 function );
-
-		return( -1 );
-	}
-	if( name_length >= (size_t) SSIZE_MAX )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
-		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
-		 "%s: invalid name length value exceeds maximum.",
 		 function );
 
 		return( -1 );
@@ -1652,48 +1074,11 @@ int libbfio_file_io_handle_set_name_wide(
 		 file_io_handle->name      = NULL;
 		 file_io_handle->name_size = 0;
 	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	file_io_handle->name_size = name_length + 1;
-#else
-	if( libclocale_codepage == 0 )
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf8_string_size_from_utf32(
-		          (libuna_utf32_character_t *) name,
-		          name_length + 1,
-		          &( file_io_handle->name_size ),
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf8_string_size_from_utf16(
-		          (libuna_utf16_character_t *) name,
-		          name_length + 1,
-		          &( file_io_handle->name_size ),
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	else
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_byte_stream_size_from_utf32(
-		          (libuna_utf32_character_t *) name,
-		          name_length + 1,
-		          libclocale_codepage,
-		          &( file_io_handle->name_size ),
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_byte_stream_size_from_utf16(
-		          (libuna_utf16_character_t *) name,
-		          name_length + 1,
-		          libclocale_codepage,
-		          &( file_io_handle->name_size ),
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	if( result != 1 )
+	if( libbfio_system_string_size_from_wide_string(
+	     name,
+	     name_length + 1,
+	     &( file_io_handle->name_size ),
+	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
@@ -1704,10 +1089,8 @@ int libbfio_file_io_handle_set_name_wide(
 
 		goto on_error;
 	}
-#endif /* defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER ) */
-
 	if( ( file_io_handle->name_size > (size_t) SSIZE_MAX )
-	 || ( ( sizeof( libcstring_system_character_t ) * file_io_handle->name_size ) > (size_t) SSIZE_MAX ) )
+	 || ( ( sizeof( system_character_t ) * file_io_handle->name_size ) > (size_t) SSIZE_MAX ) )
 	{
 		libcerror_error_set(
 		 error,
@@ -1718,7 +1101,7 @@ int libbfio_file_io_handle_set_name_wide(
 
 		goto on_error;
 	}
-	file_io_handle->name = libcstring_system_string_allocate(
+	file_io_handle->name = system_string_allocate(
 	                        file_io_handle->name_size );
 
 	if( file_io_handle->name == NULL )
@@ -1732,69 +1115,12 @@ int libbfio_file_io_handle_set_name_wide(
 
 		goto on_error;
 	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
-	if( name_length > 1 )
-	{
-		if( libcstring_system_string_copy(
-		     file_io_handle->name,
-		     name,
-		     name_length ) == NULL )
-		{
-			libcerror_error_set(
-			 error,
-			 LIBCERROR_ERROR_DOMAIN_MEMORY,
-			 LIBCERROR_MEMORY_ERROR_COPY_FAILED,
-			 "%s: unable to set name.",
-			 function );
-
-			goto on_error;
-		}
-	}
-	file_io_handle->name[ name_length ] = 0;
-#else
-	if( libclocale_codepage == 0 )
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_utf8_string_copy_from_utf32(
-		          (libuna_utf8_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          (libuna_utf32_character_t *) name,
-		          name_length + 1,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_utf8_string_copy_from_utf16(
-		          (libuna_utf8_character_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          (libuna_utf16_character_t *) name,
-		          name_length + 1,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	else
-	{
-#if SIZEOF_WCHAR_T == 4
-		result = libuna_byte_stream_copy_from_utf32(
-		          (uint8_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          libclocale_codepage,
-		          (libuna_utf32_character_t *) name,
-		          name_length + 1,
-		          error );
-#elif SIZEOF_WCHAR_T == 2
-		result = libuna_byte_stream_copy_from_utf16(
-		          (uint8_t *) file_io_handle->name,
-		          file_io_handle->name_size,
-		          libclocale_codepage,
-		          (libuna_utf16_character_t *) name,
-		          name_length + 1,
-		          error );
-#else
-#error Unsupported size of wchar_t
-#endif /* SIZEOF_WCHAR_T */
-	}
-	if( result != 1 )
+	if( libbfio_system_string_copy_from_wide_string(
+	     file_io_handle->name,
+	     file_io_handle->name_size,
+	     name,
+	     name_length + 1,
+	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
@@ -1805,8 +1131,6 @@ int libbfio_file_io_handle_set_name_wide(
 
 		goto on_error;
 	}
-#endif /* defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER ) */
-
 	return( 1 );
 
 on_error:
@@ -1815,9 +1139,10 @@ on_error:
 		memory_free(
 		 file_io_handle->name );
 
-		file_io_handle->name      = NULL;
-		file_io_handle->name_size = 0;
+		file_io_handle->name = NULL;
 	}
+	file_io_handle->name_size = 0;
+
 	return( -1 );
 }
 
@@ -1856,7 +1181,7 @@ int libbfio_file_open(
 
 		return( -1 );
 	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 	result = libcfile_file_open_wide(
 	          file_io_handle->file,
 	          file_io_handle->name,
@@ -1875,9 +1200,11 @@ int libbfio_file_open(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_IO,
 		 LIBCERROR_IO_ERROR_OPEN_FAILED,
-		 "%s: unable to open file: %" PRIs_LIBCSTRING_SYSTEM ".",
+		 "%s: unable to open file: %" PRIs_SYSTEM ".",
 		 function,
 		 file_io_handle->name );
+
+		return( -1 );
 	}
 	file_io_handle->access_flags = access_flags;
 
@@ -1923,7 +1250,7 @@ int libbfio_file_close(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_IO,
 		 LIBCERROR_IO_ERROR_OPEN_FAILED,
-		 "%s: unable to close file: %" PRIs_LIBCSTRING_SYSTEM ".",
+		 "%s: unable to close file: %" PRIs_SYSTEM ".",
 		 function,
 		 file_io_handle->name );
 
@@ -1980,7 +1307,7 @@ ssize_t libbfio_file_read(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_IO,
 		 LIBCERROR_IO_ERROR_READ_FAILED,
-		 "%s: unable to read from file: %" PRIs_LIBCSTRING_SYSTEM ".",
+		 "%s: unable to read from file: %" PRIs_SYSTEM ".",
 		 function,
 		 file_io_handle->name );
 
@@ -2035,7 +1362,7 @@ ssize_t libbfio_file_write(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_IO,
 		 LIBCERROR_IO_ERROR_WRITE_FAILED,
-		 "%s: unable to write to file: %" PRIs_LIBCSTRING_SYSTEM ".",
+		 "%s: unable to write to file: %" PRIs_SYSTEM ".",
 		 function,
 		 file_io_handle->name );
 
@@ -2090,7 +1417,7 @@ off64_t libbfio_file_seek_offset(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_IO,
 		 LIBCERROR_IO_ERROR_SEEK_FAILED,
-		 "%s: unable to seek offset: %" PRIi64 " in file: %" PRIs_LIBCSTRING_SYSTEM ".",
+		 "%s: unable to seek offset: %" PRIi64 " in file: %" PRIs_SYSTEM ".",
 		 function,
 		 offset,
 		 file_io_handle->name );
@@ -2132,7 +1459,7 @@ int libbfio_file_exists(
 
 		return( -1 );
 	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 	result = libcfile_file_exists_wide(
 	          file_io_handle->name,
 	          error );
@@ -2147,7 +1474,7 @@ int libbfio_file_exists(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_IO,
 		 LIBCERROR_IO_ERROR_GENERIC,
-		 "%s: unable to determine if file: %" PRIs_LIBCSTRING_SYSTEM " exists.",
+		 "%s: unable to determine if file: %" PRIs_SYSTEM " exists.",
 		 function,
 		 file_io_handle->name );
 
@@ -2236,7 +1563,7 @@ int libbfio_file_get_size(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to retrieve size of file: %" PRIs_LIBCSTRING_SYSTEM ".",
+		 "%s: unable to retrieve size of file: %" PRIs_SYSTEM ".",
 		 function,
 		 file_io_handle->name );
 

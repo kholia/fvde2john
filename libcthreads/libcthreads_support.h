@@ -1,7 +1,7 @@
 /*
  * Support functions
  *
- * Copyright (C) 2012-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2012-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -26,7 +26,6 @@
 #include <types.h>
 
 #include "libcthreads_extern.h"
-#include "libcthreads_libcerror.h"
 
 #if defined( __cplusplus )
 extern "C" {
@@ -44,5 +43,5 @@ const char *libcthreads_get_version(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBCTHREADS_SUPPORT_H ) */
 

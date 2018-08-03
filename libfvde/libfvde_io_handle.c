@@ -1,7 +1,7 @@
 /*
  * Input/Output (IO) handle functions
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -23,6 +23,7 @@
 #include <common.h>
 #include <byte_stream.h>
 #include <memory.h>
+#include <system_string.h>
 #include <types.h>
 
 #include "libfvde_checksum.h"
@@ -32,7 +33,6 @@
 #include "libfvde_libbfio.h"
 #include "libfvde_libcerror.h"
 #include "libfvde_libcnotify.h"
-#include "libfvde_libcstring.h"
 #include "libfvde_libfcache.h"
 #include "libfvde_libfdata.h"
 #include "libfvde_libfguid.h"
@@ -281,7 +281,7 @@ int libfvde_io_handle_read_volume_header(
 	uint16_t block_type          = 0;
 
 #if defined( HAVE_DEBUG_OUTPUT )
-	libcstring_system_character_t guid_string[ 48 ];
+	system_character_t guid_string[ 48 ];
 
 	libfguid_identifier_t *guid = NULL;
 	uint64_t value_64bit        = 0;
@@ -652,7 +652,7 @@ int libfvde_io_handle_read_volume_header(
 
 			goto on_error;
 		}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 		result = libfguid_identifier_copy_to_utf16_string(
 			  guid,
 			  (uint16_t *) guid_string,
@@ -679,7 +679,7 @@ int libfvde_io_handle_read_volume_header(
 			goto on_error;
 		}
 		libcnotify_printf(
-		 "%s: physical volume identifier\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+		 "%s: physical volume identifier\t: %" PRIs_SYSTEM "\n",
 		 function,
 		 guid_string );
 
@@ -699,7 +699,7 @@ int libfvde_io_handle_read_volume_header(
 
 			goto on_error;
 		}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 		result = libfguid_identifier_copy_to_utf16_string(
 			  guid,
 			  (uint16_t *) guid_string,
@@ -726,7 +726,7 @@ int libfvde_io_handle_read_volume_header(
 			goto on_error;
 		}
 		libcnotify_printf(
-		 "%s: logical volume group identifier\t: %" PRIs_LIBCSTRING_SYSTEM "\n",
+		 "%s: logical volume group identifier\t: %" PRIs_SYSTEM "\n",
 		 function,
 		 guid_string );
 
@@ -912,7 +912,7 @@ int libfvde_io_handle_read_sector(
      int element_data_file_index LIBFVDE_ATTRIBUTE_UNUSED,
      off64_t element_data_offset,
      size64_t element_data_size LIBFVDE_ATTRIBUTE_UNUSED,
-     uint32_t element_data_flags LIBFVDE_ATTRIBUTE_UNUSED,
+     uint32_t element_data_flags,
      uint8_t read_flags LIBFVDE_ATTRIBUTE_UNUSED,
      libcerror_error_t **error )
 {
@@ -921,7 +921,6 @@ int libfvde_io_handle_read_sector(
 
 	LIBFVDE_UNREFERENCED_PARAMETER( element_data_file_index );
 	LIBFVDE_UNREFERENCED_PARAMETER( element_data_size );
-	LIBFVDE_UNREFERENCED_PARAMETER( element_data_flags );
 	LIBFVDE_UNREFERENCED_PARAMETER( read_flags );
 
 	if( io_handle == NULL )
@@ -966,6 +965,10 @@ int libfvde_io_handle_read_sector(
 		 function );
 
 		goto on_error;
+	}
+	if( element_data_flags == LIBFVDE_RANGE_FLAG_ENCRYPTED )
+	{
+/* TODO decrypt */
 	}
 	if( libfdata_vector_set_element_value_by_index(
 	     vector,

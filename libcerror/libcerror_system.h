@@ -1,7 +1,7 @@
 /*
  * System functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -28,7 +28,6 @@
 #include <stdio.h>
 
 #include "libcerror_extern.h"
-#include "libcerror_libcstring.h"
 #include "libcerror_types.h"
 
 #if defined( __cplusplus )
@@ -36,6 +35,7 @@ extern "C" {
 #endif
 
 #if defined( WINAPI ) && ( WINVER <= 0x0500 )
+
 DWORD libcerror_FormatMessageA(
        DWORD flags,
        LPCVOID source,
@@ -53,10 +53,11 @@ DWORD libcerror_FormatMessageW(
        LPWSTR string,
        DWORD string_size,
        va_list *argument_list );
-#endif
+
+#endif /* defined( WINAPI ) && ( WINVER <= 0x0500 ) */
 
 int libcerror_system_copy_string_from_error_number(
-     libcstring_system_character_t *string,
+     system_character_t *string,
      size_t string_size,
      uint32_t error_number );
 
@@ -73,5 +74,5 @@ void libcerror_system_set_error(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBCERROR_SYSTEM_H ) */
 

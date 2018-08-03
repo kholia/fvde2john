@@ -2,12 +2,13 @@ if HAVE_LOCAL_LIBFVALUE
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/common \
-	@LIBCSTRING_CPPFLAGS@ \
 	@LIBCERROR_CPPFLAGS@ \
+	@LIBCTHREADS_CPPFLAGS@ \
 	@LIBCDATA_CPPFLAGS@ \
 	@LIBCNOTIFY_CPPFLAGS@ \
 	@LIBUNA_CPPFLAGS@ \
-	@LIBFGUID_CPPFLAGS@
+	@LIBFGUID_CPPFLAGS@ \
+	@PTHREAD_CPPFLAGS@
 
 noinst_LTLIBRARIES = libfvalue.la
 
@@ -24,7 +25,6 @@ libfvalue_la_SOURCES = \
 	libfvalue_libcdata.h \
 	libfvalue_libcerror.h \
 	libfvalue_libcnotify.h \
-	libfvalue_libcstring.h \
 	libfvalue_libfdatetime.h \
 	libfvalue_libfguid.h \
 	libfvalue_libfwnt.h \

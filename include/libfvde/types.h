@@ -1,7 +1,7 @@
 /*
  * Type definitions for libfvde
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>,
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -182,20 +182,20 @@ typedef int64_t off64_t;
 #elif defined( WINAPI )
 #include <wchar.h>
 
-#elif 0 || defined( HAVE_WCHAR_H )
+#elif 1 || defined( HAVE_WCHAR_H )
 
 /* __USE_UNIX98 is required to add swprintf definition
  */
 #if !defined( __USE_UNIX98 )
 #define __USE_UNIX98
-#define LIBCSTRING_DEFINITION_UNIX98
+#define LIBFVDE_DEFINITION_UNIX98
 #endif
 
 #include <wchar.h>
 
-#if defined( LIBCSTRING_DEFINITION_UNIX98 )
+#if defined( LIBFVDE_DEFINITION_UNIX98 )
 #undef __USE_UNIX98
-#undef LIBCSTRING_DEFINITION_UNIX98
+#undef LIBFVDE_DEFINITION_UNIX98
 #endif
 
 #endif

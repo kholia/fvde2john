@@ -99,19 +99,19 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/common.m4 \
 	$(top_srcdir)/m4/libcfile.m4 $(top_srcdir)/m4/libclocale.m4 \
 	$(top_srcdir)/m4/libcnotify.m4 $(top_srcdir)/m4/libcpath.m4 \
 	$(top_srcdir)/m4/libcrypto.m4 $(top_srcdir)/m4/libcsplit.m4 \
-	$(top_srcdir)/m4/libcstring.m4 $(top_srcdir)/m4/libcsystem.m4 \
 	$(top_srcdir)/m4/libcthreads.m4 $(top_srcdir)/m4/libfcache.m4 \
 	$(top_srcdir)/m4/libfdata.m4 $(top_srcdir)/m4/libfguid.m4 \
-	$(top_srcdir)/m4/libfuse.m4 $(top_srcdir)/m4/libfvalue.m4 \
-	$(top_srcdir)/m4/libhmac.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/libuna.m4 $(top_srcdir)/m4/ltoptions.m4 \
-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/nls.m4 \
-	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/progtest.m4 \
-	$(top_srcdir)/m4/pthread.m4 $(top_srcdir)/m4/python.m4 \
-	$(top_srcdir)/m4/tests.m4 $(top_srcdir)/m4/types.m4 \
-	$(top_srcdir)/m4/wincrypt.m4 $(top_srcdir)/m4/zlib.m4 \
-	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/libfplist.m4 $(top_srcdir)/m4/libfuse.m4 \
+	$(top_srcdir)/m4/libfvalue.m4 $(top_srcdir)/m4/libhmac.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/libuna.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/po.m4 \
+	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/m4/pthread.m4 \
+	$(top_srcdir)/m4/python.m4 $(top_srcdir)/m4/tests.m4 \
+	$(top_srcdir)/m4/types.m4 $(top_srcdir)/m4/wincrypt.m4 \
+	$(top_srcdir)/m4/zlib.m4 $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
@@ -122,7 +122,7 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/common/config.h
 CONFIG_CLEAN_FILES = include/libfvde/definitions.h \
 	include/libfvde/features.h include/libfvde/types.h \
-	dpkg/changelog dpkg/copyright libfvde.pc libfvde.spec
+	dpkg/changelog libfvde.pc libfvde.spec
 CONFIG_CLEAN_VPATH_FILES =
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -211,13 +211,11 @@ CSCOPE = cscope
 DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/libfvde.pc.in \
 	$(srcdir)/libfvde.spec.in $(top_srcdir)/dpkg/changelog.in \
-	$(top_srcdir)/dpkg/copyright.in \
 	$(top_srcdir)/include/libfvde/definitions.h.in \
 	$(top_srcdir)/include/libfvde/features.h.in \
 	$(top_srcdir)/include/libfvde/types.h.in ABOUT-NLS AUTHORS \
 	COPYING ChangeLog INSTALL NEWS README compile config.guess \
-	config.rpath config.sub depcomp install-sh ltmain.sh missing \
-	ylwrap
+	config.rpath config.sub install-sh ltmain.sh missing ylwrap
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -302,12 +300,11 @@ HAVE_LIBCLOCALE = @HAVE_LIBCLOCALE@
 HAVE_LIBCNOTIFY = @HAVE_LIBCNOTIFY@
 HAVE_LIBCPATH = @HAVE_LIBCPATH@
 HAVE_LIBCSPLIT = @HAVE_LIBCSPLIT@
-HAVE_LIBCSTRING = @HAVE_LIBCSTRING@
-HAVE_LIBCSYSTEM = @HAVE_LIBCSYSTEM@
 HAVE_LIBCTHREADS = @HAVE_LIBCTHREADS@
 HAVE_LIBFCACHE = @HAVE_LIBFCACHE@
 HAVE_LIBFDATA = @HAVE_LIBFDATA@
 HAVE_LIBFGUID = @HAVE_LIBFGUID@
+HAVE_LIBFPLIST = @HAVE_LIBFPLIST@
 HAVE_LIBFUSE = @HAVE_LIBFUSE@
 HAVE_LIBFVALUE = @HAVE_LIBFVALUE@
 HAVE_LIBHMAC = @HAVE_LIBHMAC@
@@ -321,12 +318,11 @@ HAVE_LOCAL_LIBCLOCALE = @HAVE_LOCAL_LIBCLOCALE@
 HAVE_LOCAL_LIBCNOTIFY = @HAVE_LOCAL_LIBCNOTIFY@
 HAVE_LOCAL_LIBCPATH = @HAVE_LOCAL_LIBCPATH@
 HAVE_LOCAL_LIBCSPLIT = @HAVE_LOCAL_LIBCSPLIT@
-HAVE_LOCAL_LIBCSTRING = @HAVE_LOCAL_LIBCSTRING@
-HAVE_LOCAL_LIBCSYSTEM = @HAVE_LOCAL_LIBCSYSTEM@
 HAVE_LOCAL_LIBCTHREADS = @HAVE_LOCAL_LIBCTHREADS@
 HAVE_LOCAL_LIBFCACHE = @HAVE_LOCAL_LIBFCACHE@
 HAVE_LOCAL_LIBFDATA = @HAVE_LOCAL_LIBFDATA@
 HAVE_LOCAL_LIBFGUID = @HAVE_LOCAL_LIBFGUID@
+HAVE_LOCAL_LIBFPLIST = @HAVE_LOCAL_LIBFPLIST@
 HAVE_LOCAL_LIBFVALUE = @HAVE_LOCAL_LIBFVALUE@
 HAVE_LOCAL_LIBHMAC = @HAVE_LOCAL_LIBHMAC@
 HAVE_LOCAL_LIBUNA = @HAVE_LOCAL_LIBUNA@
@@ -375,10 +371,6 @@ LIBCRYPTO_CPPFLAGS = @LIBCRYPTO_CPPFLAGS@
 LIBCRYPTO_LIBADD = @LIBCRYPTO_LIBADD@
 LIBCSPLIT_CPPFLAGS = @LIBCSPLIT_CPPFLAGS@
 LIBCSPLIT_LIBADD = @LIBCSPLIT_LIBADD@
-LIBCSTRING_CPPFLAGS = @LIBCSTRING_CPPFLAGS@
-LIBCSTRING_LIBADD = @LIBCSTRING_LIBADD@
-LIBCSYSTEM_CPPFLAGS = @LIBCSYSTEM_CPPFLAGS@
-LIBCSYSTEM_LIBADD = @LIBCSYSTEM_LIBADD@
 LIBCTHREADS_CPPFLAGS = @LIBCTHREADS_CPPFLAGS@
 LIBCTHREADS_LIBADD = @LIBCTHREADS_LIBADD@
 LIBDL_LIBADD = @LIBDL_LIBADD@
@@ -388,6 +380,8 @@ LIBFDATA_CPPFLAGS = @LIBFDATA_CPPFLAGS@
 LIBFDATA_LIBADD = @LIBFDATA_LIBADD@
 LIBFGUID_CPPFLAGS = @LIBFGUID_CPPFLAGS@
 LIBFGUID_LIBADD = @LIBFGUID_LIBADD@
+LIBFPLIST_CPPFLAGS = @LIBFPLIST_CPPFLAGS@
+LIBFPLIST_LIBADD = @LIBFPLIST_LIBADD@
 LIBFUSE_CPPFLAGS = @LIBFUSE_CPPFLAGS@
 LIBFUSE_LIBADD = @LIBFUSE_LIBADD@
 LIBFVALUE_CPPFLAGS = @LIBFVALUE_CPPFLAGS@
@@ -408,6 +402,7 @@ LN_S = @LN_S@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
+LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
@@ -435,7 +430,6 @@ PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 POSUB = @POSUB@
 PTHREAD_CPPFLAGS = @PTHREAD_CPPFLAGS@
 PTHREAD_LIBADD = @PTHREAD_LIBADD@
-PWD = @PWD@
 PYTHON = @PYTHON@
 PYTHON2 = @PYTHON2@
 PYTHON2_CONFIG = @PYTHON2_CONFIG@
@@ -524,12 +518,6 @@ ax_libcrypto_spec_requires = @ax_libcrypto_spec_requires@
 ax_libcsplit_pc_libs_private = @ax_libcsplit_pc_libs_private@
 ax_libcsplit_spec_build_requires = @ax_libcsplit_spec_build_requires@
 ax_libcsplit_spec_requires = @ax_libcsplit_spec_requires@
-ax_libcstring_pc_libs_private = @ax_libcstring_pc_libs_private@
-ax_libcstring_spec_build_requires = @ax_libcstring_spec_build_requires@
-ax_libcstring_spec_requires = @ax_libcstring_spec_requires@
-ax_libcsystem_pc_libs_private = @ax_libcsystem_pc_libs_private@
-ax_libcsystem_spec_build_requires = @ax_libcsystem_spec_build_requires@
-ax_libcsystem_spec_requires = @ax_libcsystem_spec_requires@
 ax_libcthreads_pc_libs_private = @ax_libcthreads_pc_libs_private@
 ax_libcthreads_spec_build_requires = @ax_libcthreads_spec_build_requires@
 ax_libcthreads_spec_requires = @ax_libcthreads_spec_requires@
@@ -542,6 +530,9 @@ ax_libfdata_spec_requires = @ax_libfdata_spec_requires@
 ax_libfguid_pc_libs_private = @ax_libfguid_pc_libs_private@
 ax_libfguid_spec_build_requires = @ax_libfguid_spec_build_requires@
 ax_libfguid_spec_requires = @ax_libfguid_spec_requires@
+ax_libfplist_pc_libs_private = @ax_libfplist_pc_libs_private@
+ax_libfplist_spec_build_requires = @ax_libfplist_spec_build_requires@
+ax_libfplist_spec_requires = @ax_libfplist_spec_requires@
 ax_libfuse_pc_libs_private = @ax_libfuse_pc_libs_private@
 ax_libfuse_spec_build_requires = @ax_libfuse_spec_build_requires@
 ax_libfuse_spec_requires = @ax_libfuse_spec_requires@
@@ -559,6 +550,7 @@ ax_zlib_pc_libs_private = @ax_zlib_pc_libs_private@
 ax_zlib_spec_build_requires = @ax_zlib_spec_build_requires@
 ax_zlib_spec_requires = @ax_zlib_spec_requires@
 ax_zlib_static_spec_build_requires = @ax_zlib_static_spec_build_requires@
+ax_zlib_static_spec_requires = @ax_zlib_static_spec_requires@
 bindir = @bindir@
 build = @build@
 build_alias = @build_alias@
@@ -600,10 +592,6 @@ libcpath_CFLAGS = @libcpath_CFLAGS@
 libcpath_LIBS = @libcpath_LIBS@
 libcsplit_CFLAGS = @libcsplit_CFLAGS@
 libcsplit_LIBS = @libcsplit_LIBS@
-libcstring_CFLAGS = @libcstring_CFLAGS@
-libcstring_LIBS = @libcstring_LIBS@
-libcsystem_CFLAGS = @libcsystem_CFLAGS@
-libcsystem_LIBS = @libcsystem_LIBS@
 libcthreads_CFLAGS = @libcthreads_CFLAGS@
 libcthreads_LIBS = @libcthreads_LIBS@
 libdir = @libdir@
@@ -614,6 +602,8 @@ libfdata_CFLAGS = @libfdata_CFLAGS@
 libfdata_LIBS = @libfdata_LIBS@
 libfguid_CFLAGS = @libfguid_CFLAGS@
 libfguid_LIBS = @libfguid_LIBS@
+libfplist_CFLAGS = @libfplist_CFLAGS@
+libfplist_LIBS = @libfplist_LIBS@
 libfvalue_CFLAGS = @libfvalue_CFLAGS@
 libfvalue_LIBS = @libfvalue_LIBS@
 libfvde_spec_build_requires = @libfvde_spec_build_requires@
@@ -654,7 +644,6 @@ ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = \
 	include \
 	common \
-	libcstring \
 	libcerror \
 	libcthreads \
 	libcdata \
@@ -668,11 +657,11 @@ SUBDIRS = \
 	libfcache \
 	libfdata \
 	libfguid \
+	libfplist \
 	libfvalue \
 	libhmac \
 	libcaes \
 	libfvde \
-	libcsystem \
 	fvdetools \
 	pyfvde \
 	pyfvde-python2 \
@@ -688,13 +677,12 @@ DPKG_FILES = \
 	dpkg/compat \
 	dpkg/control \
 	dpkg/copyright \
-	dpkg/copyright.in \
 	dpkg/rules \
-	dpkg/libfvde.docs \
-	dpkg/libfvde-dev.docs \
-	dpkg/libfvde-python.docs \
-	dpkg/libfvde-python3.docs \
-	dpkg/libfvde-tools.docs \
+	dpkg/libfvde.install \
+	dpkg/libfvde-dev.install \
+	dpkg/libfvde-python.install \
+	dpkg/libfvde-python3.install \
+	dpkg/libfvde-tools.install \
 	dpkg/source/format
 
 GETTEXT_FILES = \
@@ -768,8 +756,6 @@ include/libfvde/features.h: $(top_builddir)/config.status $(top_srcdir)/include/
 include/libfvde/types.h: $(top_builddir)/config.status $(top_srcdir)/include/libfvde/types.h.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 dpkg/changelog: $(top_builddir)/config.status $(top_srcdir)/dpkg/changelog.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
-dpkg/copyright: $(top_builddir)/config.status $(top_srcdir)/dpkg/copyright.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 libfvde.pc: $(top_builddir)/config.status $(srcdir)/libfvde.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
@@ -977,7 +963,7 @@ distdir: $(DISTFILES)
 	  ! -type d ! -perm -444 -exec $(install_sh) -c -m a+r {} {} \; \
 	|| chmod -R a+r "$(distdir)"
 dist-gzip: distdir
-	tardir=$(distdir) && $(am__tar) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
+	tardir=$(distdir) && $(am__tar) | eval GZIP= gzip $(GZIP_ENV) -c >$(distdir).tar.gz
 	$(am__post_remove_distdir)
 
 dist-bzip2: distdir
@@ -1003,7 +989,7 @@ dist-shar: distdir
 	@echo WARNING: "Support for shar distribution archives is" \
 	               "deprecated." >&2
 	@echo WARNING: "It will be removed altogether in Automake 2.0" >&2
-	shar $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).shar.gz
+	shar $(distdir) | eval GZIP= gzip $(GZIP_ENV) -c >$(distdir).shar.gz
 	$(am__post_remove_distdir)
 
 dist-zip: distdir
@@ -1021,7 +1007,7 @@ dist dist-all:
 distcheck: dist
 	case '$(DIST_ARCHIVES)' in \
 	*.tar.gz*) \
-	  GZIP=$(GZIP_ENV) gzip -dc $(distdir).tar.gz | $(am__untar) ;;\
+	  eval GZIP= gzip $(GZIP_ENV) -dc $(distdir).tar.gz | $(am__untar) ;;\
 	*.tar.bz2*) \
 	  bzip2 -dc $(distdir).tar.bz2 | $(am__untar) ;;\
 	*.tar.lz*) \
@@ -1031,7 +1017,7 @@ distcheck: dist
 	*.tar.Z*) \
 	  uncompress -c $(distdir).tar.Z | $(am__untar) ;;\
 	*.shar.gz*) \
-	  GZIP=$(GZIP_ENV) gzip -dc $(distdir).shar.gz | unshar ;;\
+	  eval GZIP= gzip $(GZIP_ENV) -dc $(distdir).shar.gz | unshar ;;\
 	*.zip*) \
 	  unzip $(distdir).zip ;;\
 	esac
@@ -1235,7 +1221,6 @@ lib: library
 
 library:
 	(cd $(srcdir)/common && $(MAKE) $(AM_MAKEFLAGS))
-	(cd $(srcdir)/libcstring && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcerror && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcthreads && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcdata && $(MAKE) $(AM_MAKEFLAGS))
@@ -1249,6 +1234,8 @@ library:
 	(cd $(srcdir)/libfcache && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libfdata && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libfguid && $(MAKE) $(AM_MAKEFLAGS))
+	(cd $(srcdir)/libfvalue && $(MAKE) $(AM_MAKEFLAGS))
+	(cd $(srcdir)/libfplist && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libhmac && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcaes && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libfvde && $(MAKE) $(AM_MAKEFLAGS))
@@ -1267,7 +1254,6 @@ distclean: clean
 	done && test -z "$$fail"
 
 splint:
-	(cd $(srcdir)/libcstring && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcerror && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcthreads && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcdata && $(MAKE) splint $(AM_MAKEFLAGS))
@@ -1281,10 +1267,11 @@ splint:
 	(cd $(srcdir)/libfcache && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libfdata && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libfguid && $(MAKE) splint $(AM_MAKEFLAGS))
+	(cd $(srcdir)/libfvalue && $(MAKE) splint $(AM_MAKEFLAGS))
+	(cd $(srcdir)/libfplist && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libhmac && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcaes && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libfvde && $(MAKE) splint $(AM_MAKEFLAGS))
-	(cd $(srcdir)/libcsystem && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/fvdetools && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/pyfvde && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/po && $(MAKE) splint $(AM_MAKEFLAGS))

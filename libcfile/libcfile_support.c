@@ -1,7 +1,7 @@
 /*
  * Support functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -21,7 +21,10 @@
 
 #include <common.h>
 #include <memory.h>
+#include <narrow_string.h>
+#include <system_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #if defined( HAVE_SYS_STAT_H )
 #include <sys/stat.h>
@@ -38,7 +41,6 @@
 #include "libcfile_definitions.h"
 #include "libcfile_libcerror.h"
 #include "libcfile_libclocale.h"
-#include "libcfile_libcstring.h"
 #include "libcfile_libuna.h"
 #include "libcfile_support.h"
 
@@ -50,6 +52,58 @@ const char *libcfile_get_version(
              void )
 {
 	return( (const char *) LIBCFILE_VERSION_STRING );
+}
+
+/* Retrieves the narrow system string codepage
+ * A value of 0 represents no codepage, UTF-8 encoding is used instead
+ * Returns 1 if successful or -1 on error
+ */
+int libcfile_get_codepage(
+     int *codepage,
+     libcerror_error_t **error )
+{
+	static char *function = "libcfile_get_codepage";
+
+	if( libclocale_codepage_get(
+	     codepage,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to retrieve codepage.",
+		 function );
+
+		return( -1 );
+	}
+	return( 1 );
+}
+
+/* Sets the narrow system string codepage
+ * A value of 0 represents no codepage, UTF-8 encoding is used instead
+ * Returns 1 if successful or -1 on error
+ */
+int libcfile_set_codepage(
+     int codepage,
+     libcerror_error_t **error )
+{
+	static char *function = "libcfile_set_codepage";
+
+	if( libclocale_codepage_set(
+	     codepage,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_SET_FAILED,
+		 "%s: unable to set codepage.",
+		 function );
+
+		return( -1 );
+	}
+	return( 1 );
 }
 
 #endif /* !defined( HAVE_LOCAL_LIBCFILE ) */
@@ -71,7 +125,7 @@ DWORD libcfile_GetFileAttributesA(
 		return( INVALID_FILE_ATTRIBUTES );
 	}
 	library_handle = LoadLibrary(
-	                  _LIBCSTRING_SYSTEM_STRING( "kernel32.dll" ) );
+	                  _SYSTEM_STRING( "kernel32.dll" ) );
 
 	if( library_handle == NULL )
 	{
@@ -230,7 +284,7 @@ int libcfile_file_exists(
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_GENERIC,
 				 errno,
-				 "%s: unable to stat file: %" PRIs_LIBCSTRING_SYSTEM ".",
+				 "%s: unable to stat file: %" PRIs_SYSTEM ".",
 				 function,
 				 filename );
 
@@ -267,7 +321,7 @@ DWORD libcfile_GetFileAttributesW(
 		return( INVALID_FILE_ATTRIBUTES );
 	}
 	library_handle = LoadLibrary(
-	                  _LIBCSTRING_SYSTEM_STRING( "kernel32.dll" ) );
+	                  _SYSTEM_STRING( "kernel32.dll" ) );
 
 	if( library_handle == NULL )
 	{
@@ -391,7 +445,7 @@ int libcfile_file_exists_wide(
 
 		return( -1 );
 	}
-	filename_size = 1 + libcstring_wide_string_length(
+	filename_size = 1 + wide_string_length(
 	                     filename );
 
 	/* Convert the filename to a narrow string
@@ -446,7 +500,7 @@ int libcfile_file_exists_wide(
 
 		return( -1 );
 	}
-	narrow_filename = libcstring_narrow_string_allocate(
+	narrow_filename = narrow_string_allocate(
 	                   narrow_filename_size );
 
 	if( narrow_filename == NULL )
@@ -543,7 +597,7 @@ int libcfile_file_exists_wide(
 				 LIBCERROR_ERROR_DOMAIN_IO,
 				 LIBCERROR_IO_ERROR_GENERIC,
 				 errno,
-				 "%s: unable to stat file: %" PRIs_LIBCSTRING_SYSTEM ".",
+				 "%s: unable to stat file: %" PRIs_SYSTEM ".",
 				 function,
 				 filename );
 
@@ -580,7 +634,7 @@ BOOL libcfile_DeleteFileA(
 		return( FALSE );
 	}
 	library_handle = LoadLibrary(
-	                  _LIBCSTRING_SYSTEM_STRING( "kernel32.dll" ) );
+	                  _SYSTEM_STRING( "kernel32.dll" ) );
 
 	if( library_handle == NULL )
 	{
@@ -761,7 +815,7 @@ BOOL libcfile_DeleteFileW(
 		return( FALSE );
 	}
 	library_handle = LoadLibrary(
-	                  _LIBCSTRING_SYSTEM_STRING( "kernel32.dll" ) );
+	                  _SYSTEM_STRING( "kernel32.dll" ) );
 
 	if( library_handle == NULL )
 	{
@@ -905,7 +959,7 @@ int libcfile_file_remove_wide_with_error_code(
 
 		return( -1 );
 	}
-	filename_size = 1 + libcstring_wide_string_length(
+	filename_size = 1 + wide_string_length(
 	                     filename );
 
 	/* Convert the filename to a narrow string
@@ -960,7 +1014,7 @@ int libcfile_file_remove_wide_with_error_code(
 
 		goto on_error;
 	}
-	narrow_filename = libcstring_narrow_string_allocate(
+	narrow_filename = narrow_string_allocate(
 	                   narrow_filename_size );
 
 	if( narrow_filename == NULL )

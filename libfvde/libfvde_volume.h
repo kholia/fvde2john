@@ -1,7 +1,7 @@
 /*
  * Volume functions
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -20,8 +20,8 @@
  * along with this software.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( _LIBFVDE_INTERNAL_VOLUME_H )
-#define _LIBFVDE_INTERNAL_VOLUME_H
+#if !defined( _LIBFVDE_VOLUME_H )
+#define _LIBFVDE_VOLUME_H
 
 #include <common.h>
 #include <types.h>
@@ -83,6 +83,10 @@ struct libfvde_internal_volume
 	/* Value to indicate the encrypted root plist file is set
 	 */
 	uint8_t encrypted_root_plist_file_is_set;
+
+	/* Value to indicate the encrypted root plist file is decrypted
+	 */
+	uint8_t encrypted_root_plist_file_is_decrypted;
 
 	/* Value to indicate the volume master key is set
 	 */
@@ -353,5 +357,5 @@ int libfvde_volume_read_encrypted_root_plist_file_io_handle(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFVDE_VOLUME_H ) */
 

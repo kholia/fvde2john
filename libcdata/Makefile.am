@@ -2,7 +2,6 @@ if HAVE_LOCAL_LIBCDATA
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/common \
-	@LIBCSTRING_CPPFLAGS@ \
 	@LIBCERROR_CPPFLAGS@ \
 	@LIBCTHREADS_CPPFLAGS@ \
 	@PTHREAD_CPPFLAGS@
@@ -16,7 +15,6 @@ libcdata_la_SOURCES = \
 	libcdata_error.c libcdata_error.h \
 	libcdata_extern.h \
 	libcdata_libcerror.h \
-	libcdata_libcstring.h \
 	libcdata_libcthreads.h \
 	libcdata_list.c libcdata_list.h \
 	libcdata_list_element.c libcdata_list_element.h \

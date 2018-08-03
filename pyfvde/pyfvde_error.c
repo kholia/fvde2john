@@ -1,7 +1,7 @@
 /*
  * Error functions
  *
- * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2011-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -21,6 +21,7 @@
 
 #include <common.h>
 #include <memory.h>
+#include <narrow_string.h>
 #include <types.h>
 
 #if defined( HAVE_STDARG_H ) || defined( WINAPI )
@@ -33,7 +34,6 @@
 
 #include "pyfvde_error.h"
 #include "pyfvde_libcerror.h"
-#include "pyfvde_libcstring.h"
 #include "pyfvde_python.h"
 
 #if defined( HAVE_STDARG_H ) || defined( WINAPI )
@@ -113,7 +113,7 @@ void VARARGS(
 
 		return;
 	}
-	error_string_length = libcstring_narrow_string_length(
+	error_string_length = narrow_string_length(
 	                       error_string );
 
 	if( ( error_string_length >= 1 )
@@ -253,7 +253,7 @@ void VARARGS(
 
 		return;
 	}
-	error_string_length = libcstring_narrow_string_length(
+	error_string_length = narrow_string_length(
 	                       error_string );
 
 	if( ( error_string_length >= 1 )
@@ -267,7 +267,7 @@ void VARARGS(
 	 &exception_traceback );
 
 	string_object = PyObject_Repr(
-			    exception_value );
+	                 exception_value );
 
 #if PY_MAJOR_VERSION >= 3
 	utf8_string_object = PyUnicode_AsUTF8String(

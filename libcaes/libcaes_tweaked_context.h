@@ -1,7 +1,7 @@
 /*
  * AES tweaked de/encryption context functions
  *
- * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2011-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -48,17 +48,17 @@ struct libcaes_internal_tweaked_context
 
 LIBCAES_EXTERN \
 int libcaes_tweaked_context_initialize(
-     libcaes_tweaked_context_t **context,
+     libcaes_tweaked_context_t **tweaked_context,
      libcerror_error_t **error );
 
 LIBCAES_EXTERN \
 int libcaes_tweaked_context_free(
-     libcaes_tweaked_context_t **context,
+     libcaes_tweaked_context_t **tweaked_context,
      libcerror_error_t **error );
 
 LIBCAES_EXTERN \
 int libcaes_tweaked_context_set_keys(
-     libcaes_tweaked_context_t *context,
+     libcaes_tweaked_context_t *tweaked_context,
      int mode,
      const uint8_t *key,
      size_t key_bit_size,
@@ -66,9 +66,21 @@ int libcaes_tweaked_context_set_keys(
      size_t tweaked_key_bit_size,
      libcerror_error_t **error );
 
+LIBCAES_EXTERN \
+int libcaes_crypt_xts(
+     libcaes_tweaked_context_t *tweaked_context,
+     int mode,
+     const uint8_t *tweak_value,
+     size_t tweak_value_size,
+     const uint8_t *input_data,
+     size_t input_data_size,
+     uint8_t *output_data,
+     size_t output_data_size,
+     libcerror_error_t **error );
+
 #ifdef __cplusplus
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBCAES_TWEAKED_CONTEXT_H ) */
 

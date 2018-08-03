@@ -1,7 +1,7 @@
 /*
  * The internal extern definition
  *
- * Copyright (C) 2006-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -38,9 +38,9 @@
 #include <libcdata/extern.h>
 
 #else
-#define LIBCDATA_EXTERN	extern
+#define LIBCDATA_EXTERN	/* extern */
 
-#endif
+#endif /* !defined( HAVE_LOCAL_LIBCDATA ) */
 
-#endif
+#endif /* !defined( _LIBCDATA_INTERNAL_EXTERN_H ) */
 

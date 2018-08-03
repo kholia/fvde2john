@@ -1,7 +1,7 @@
 /*
  * The internal extern definition
  *
- * Copyright (C) 2009-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2009-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -38,10 +38,9 @@
 #include <libbfio/extern.h>
 
 #else
+#define LIBBFIO_EXTERN	/* extern */
 
-#define LIBBFIO_EXTERN	extern
+#endif /* !defined( HAVE_LOCAL_LIBBFIO ) */
 
-#endif
-
-#endif
+#endif /* !defined( _LIBBFIO_INTERNAL_EXTERN_H ) */
 

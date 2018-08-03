@@ -1,7 +1,7 @@
 /*
  * Mount handle
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -61,6 +61,12 @@ struct mount_handle
 	int abort;
 };
 
+int fvdetools_system_string_copy_from_64_bit_in_decimal(
+     const system_character_t *string,
+     size_t string_size,
+     uint64_t *value_64bit,
+     libcerror_error_t **error );
+
 int mount_handle_initialize(
      mount_handle_t **mount_handle,
      libcerror_error_t **error );
@@ -75,32 +81,32 @@ int mount_handle_signal_abort(
 
 int mount_handle_set_keys(
      mount_handle_t *mount_handle,
-     const libcstring_system_character_t *string,
+     const system_character_t *string,
      libcerror_error_t **error );
 
 int mount_handle_set_password(
      mount_handle_t *mount_handle,
-     const libcstring_system_character_t *string,
+     const system_character_t *string,
      libcerror_error_t **error );
 
 int mount_handle_set_recovery_password(
      mount_handle_t *mount_handle,
-     const libcstring_system_character_t *string,
+     const system_character_t *string,
      libcerror_error_t **error );
 
 int mount_handle_read_encrypted_root_plist(
      mount_handle_t *mount_handle,
-     const libcstring_system_character_t *filename,
+     const system_character_t *filename,
      libcerror_error_t **error );
 
 int mount_handle_set_volume_offset(
      mount_handle_t *mount_handle,
-     const libcstring_system_character_t *string,
+     const system_character_t *string,
      libcerror_error_t **error );
 
 int mount_handle_open_input(
      mount_handle_t *mount_handle,
-     const libcstring_system_character_t *filename,
+     const system_character_t *filename,
      libcerror_error_t **error );
 
 int mount_handle_close_input(
@@ -128,5 +134,5 @@ int mount_handle_get_size(
 }
 #endif
 
-#endif
+#endif /* !defined( _MOUNT_HANDLE_H ) */
 

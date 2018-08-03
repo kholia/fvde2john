@@ -1,7 +1,7 @@
 /*
  * Shows information obtained from a FileVault Drive Encryption (FVDE) encrypted volume
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -23,6 +23,7 @@
 #include <common.h>
 #include <file_stream.h>
 #include <memory.h>
+#include <system_string.h>
 #include <types.h>
 
 #if defined( HAVE_UNISTD_H )
@@ -33,13 +34,14 @@
 #include <stdlib.h>
 #endif
 
-#include "fvdeoutput.h"
+#include "fvdetools_getopt.h"
 #include "fvdetools_libcerror.h"
 #include "fvdetools_libclocale.h"
 #include "fvdetools_libcnotify.h"
-#include "fvdetools_libcstring.h"
-#include "fvdetools_libcsystem.h"
 #include "fvdetools_libfvde.h"
+#include "fvdetools_output.h"
+#include "fvdetools_signal.h"
+#include "fvdetools_unused.h"
 #include "info_handle.h"
 
 info_handle_t *fvdeinfo_info_handle = NULL;
@@ -76,12 +78,12 @@ void usage_fprint(
 /* Signal handler for fvdeinfo
  */
 void fvdeinfo_signal_handler(
-      libcsystem_signal_t signal LIBCSYSTEM_ATTRIBUTE_UNUSED )
+      fvdetools_signal_t signal FVDETOOLS_ATTRIBUTE_UNUSED )
 {
 	libcerror_error_t *error = NULL;
-	static char *function   = "fvdeinfo_signal_handler";
+	static char *function    = "fvdeinfo_signal_handler";
 
-	LIBCSYSTEM_UNREFERENCED_PARAMETER( signal )
+	FVDETOOLS_UNREFERENCED_PARAMETER( signal )
 
 	fvdeinfo_abort = 1;
 
@@ -103,8 +105,13 @@ void fvdeinfo_signal_handler(
 	}
 	/* Force stdin to close otherwise any function reading it will remain blocked
 	 */
-	if( libcsystem_file_io_close(
+#if defined( WINAPI ) && !defined( __CYGWIN__ )
+	if( _close(
 	     0 ) != 0 )
+#else
+	if( close(
+	     0 ) != 0 )
+#endif
 	{
 		libcnotify_printf(
 		 "%s: unable to close stdin.\n",
@@ -114,23 +121,23 @@ void fvdeinfo_signal_handler(
 
 /* The main program
  */
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 int wmain( int argc, wchar_t * const argv[] )
 #else
 int main( int argc, char * const argv[] )
 #endif
 {
-	libfvde_error_t *error                                              = NULL;
-	libcstring_system_character_t *option_encrypted_root_plist_filename = NULL;
-	libcstring_system_character_t *option_keys                          = NULL;
-	libcstring_system_character_t *option_password                      = NULL;
-	libcstring_system_character_t *option_recovery_password             = NULL;
-	libcstring_system_character_t *option_volume_offset                 = NULL;
-	libcstring_system_character_t *source                               = NULL;
-	char *program                                                       = "fvdeinfo";
-	libcstring_system_integer_t option                                  = 0;
-	int result                                                          = 0;
-	int verbose                                                         = 0;
+	libfvde_error_t *error                                   = NULL;
+	system_character_t *option_encrypted_root_plist_filename = NULL;
+	system_character_t *option_keys                          = NULL;
+	system_character_t *option_password                      = NULL;
+	system_character_t *option_recovery_password             = NULL;
+	system_character_t *option_volume_offset                 = NULL;
+	system_character_t *source                               = NULL;
+	char *program                                            = "fvdeinfo";
+	system_integer_t option                                  = 0;
+	int result                                               = 0;
+	int verbose                                              = 0;
 
 	libcnotify_stream_set(
 	 stderr,
@@ -148,13 +155,13 @@ int main( int argc, char * const argv[] )
 
 		goto on_error;
 	}
-        if( libcsystem_initialize(
+        if( fvdetools_output_initialize(
              _IONBF,
              &error ) != 1 )
 	{
 		fprintf(
 		 stderr,
-		 "Unable to initialize system values.\n" );
+		 "Unable to initialize output settings.\n" );
 
 		goto on_error;
 	}
@@ -162,18 +169,18 @@ int main( int argc, char * const argv[] )
 	 stdout,
 	 program );
 
-	while( ( option = libcsystem_getopt(
+	while( ( option = fvdetools_getopt(
 	                   argc,
 	                   argv,
-	                   _LIBCSTRING_SYSTEM_STRING( "e:hk:o:p:r:vV" ) ) ) != (libcstring_system_integer_t) -1 )
+	                   _SYSTEM_STRING( "e:hk:o:p:r:vV" ) ) ) != (system_integer_t) -1 )
 	{
 		switch( option )
 		{
-			case (libcstring_system_integer_t) '?':
+			case (system_integer_t) '?':
 			default:
 				fprintf(
 				 stderr,
-				 "Invalid argument: %" PRIs_LIBCSTRING_SYSTEM "\n",
+				 "Invalid argument: %" PRIs_SYSTEM "\n",
 				 argv[ optind - 1 ] );
 
 				usage_fprint(
@@ -181,43 +188,43 @@ int main( int argc, char * const argv[] )
 
 				return( EXIT_FAILURE );
 
-			case (libcstring_system_integer_t) 'e':
+			case (system_integer_t) 'e':
 				option_encrypted_root_plist_filename = optarg;
 
 				break;
 
-			case (libcstring_system_integer_t) 'h':
+			case (system_integer_t) 'h':
 				usage_fprint(
 				 stdout );
 
 				return( EXIT_SUCCESS );
 
-			case (libcstring_system_integer_t) 'k':
+			case (system_integer_t) 'k':
 				option_keys = optarg;
 
 				break;
 
-			case (libcstring_system_integer_t) 'o':
+			case (system_integer_t) 'o':
 				option_volume_offset = optarg;
 
 				break;
 
-			case (libcstring_system_integer_t) 'p':
+			case (system_integer_t) 'p':
 				option_password = optarg;
 
 				break;
 
-			case (libcstring_system_integer_t) 'r':
+			case (system_integer_t) 'r':
 				option_recovery_password = optarg;
 
 				break;
 
-			case (libcstring_system_integer_t) 'v':
+			case (system_integer_t) 'v':
 				verbose = 1;
 
 				break;
 
-			case (libcstring_system_integer_t) 'V':
+			case (system_integer_t) 'V':
 				fvdeoutput_copyright_fprint(
 				 stdout );
 
@@ -334,7 +341,7 @@ int main( int argc, char * const argv[] )
 	{
 		fprintf(
 		 stderr,
-		 "Unable to open: %" PRIs_LIBCSTRING_SYSTEM ".\n",
+		 "Unable to open: %" PRIs_SYSTEM ".\n",
 		 source );
 
 		goto on_error;

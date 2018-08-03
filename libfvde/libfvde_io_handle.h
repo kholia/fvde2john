@@ -1,7 +1,7 @@
 /*
  * Input/Output (IO) handle functions
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -35,6 +35,8 @@
 #if defined( __cplusplus )
 extern "C" {
 #endif
+
+extern const char *libfvde_core_storage_signature;
 
 typedef struct libfvde_io_handle libfvde_io_handle_t;
 

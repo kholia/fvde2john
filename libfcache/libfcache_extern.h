@@ -1,7 +1,7 @@
 /*
  * The internal extern definition
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -38,10 +38,9 @@
 #include <libfcache/extern.h>
 
 #else
+#define LIBFCACHE_EXTERN	/* extern */
 
-#define LIBFCACHE_EXTERN	extern
+#endif /* !defined( HAVE_LOCAL_LIBFCACHE ) */
 
-#endif
-
-#endif
+#endif /* !defined( _LIBFCACHE_INTERNAL_EXTERN_H ) */
 

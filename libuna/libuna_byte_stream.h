@@ -1,7 +1,7 @@
 /*
  * Byte stream functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -100,5 +100,5 @@ int libuna_byte_stream_copy_from_utf32(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBUNA_BYTE_STREAM_H ) */
 

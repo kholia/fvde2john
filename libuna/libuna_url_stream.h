@@ -1,7 +1,7 @@
 /*
  * Percent or URL encoded stream functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -67,5 +67,5 @@ int libuna_url_stream_copy_to_byte_stream(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBUNA_URL_STREAM_H ) */
 

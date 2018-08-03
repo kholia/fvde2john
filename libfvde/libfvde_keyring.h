@@ -1,7 +1,7 @@
 /*
  * Keyring functions
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -57,5 +57,5 @@ int libfvde_keyring_free(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFVDE_KEYRING_H ) */
 

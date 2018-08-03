@@ -3,7 +3,6 @@ ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = \
 	include \
 	common \
-	libcstring \
 	libcerror \
 	libcthreads \
 	libcdata \
@@ -17,11 +16,11 @@ SUBDIRS = \
 	libfcache \
 	libfdata \
 	libfguid \
+	libfplist \
 	libfvalue \
 	libhmac \
 	libcaes \
 	libfvde \
-	libcsystem \
 	fvdetools \
 	pyfvde \
 	pyfvde-python2 \
@@ -37,13 +36,12 @@ DPKG_FILES = \
 	dpkg/compat \
 	dpkg/control \
 	dpkg/copyright \
-	dpkg/copyright.in \
 	dpkg/rules \
-	dpkg/libfvde.docs \
-	dpkg/libfvde-dev.docs \
-	dpkg/libfvde-python.docs \
-	dpkg/libfvde-python3.docs \
-	dpkg/libfvde-tools.docs \
+	dpkg/libfvde.install \
+	dpkg/libfvde-dev.install \
+	dpkg/libfvde-python.install \
+	dpkg/libfvde-python3.install \
+	dpkg/libfvde-tools.install \
 	dpkg/source/format
 
 GETTEXT_FILES = \
@@ -82,7 +80,6 @@ lib: library
 
 library:
 	(cd $(srcdir)/common && $(MAKE) $(AM_MAKEFLAGS))
-	(cd $(srcdir)/libcstring && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcerror && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcthreads && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcdata && $(MAKE) $(AM_MAKEFLAGS))
@@ -96,6 +93,8 @@ library:
 	(cd $(srcdir)/libfcache && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libfdata && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libfguid && $(MAKE) $(AM_MAKEFLAGS))
+	(cd $(srcdir)/libfvalue && $(MAKE) $(AM_MAKEFLAGS))
+	(cd $(srcdir)/libfplist && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libhmac && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcaes && $(MAKE) $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libfvde && $(MAKE) $(AM_MAKEFLAGS))
@@ -114,7 +113,6 @@ distclean: clean
 	done && test -z "$$fail"
 
 splint:
-	(cd $(srcdir)/libcstring && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcerror && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcthreads && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcdata && $(MAKE) splint $(AM_MAKEFLAGS))
@@ -128,10 +126,11 @@ splint:
 	(cd $(srcdir)/libfcache && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libfdata && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libfguid && $(MAKE) splint $(AM_MAKEFLAGS))
+	(cd $(srcdir)/libfvalue && $(MAKE) splint $(AM_MAKEFLAGS))
+	(cd $(srcdir)/libfplist && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libhmac && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libcaes && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/libfvde && $(MAKE) splint $(AM_MAKEFLAGS))
-	(cd $(srcdir)/libcsystem && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/fvdetools && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/pyfvde && $(MAKE) splint $(AM_MAKEFLAGS))
 	(cd $(srcdir)/po && $(MAKE) splint $(AM_MAKEFLAGS))

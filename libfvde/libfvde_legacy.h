@@ -1,7 +1,7 @@
 /*
  * Legacy functions
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -50,5 +50,5 @@ int libfvde_volume_get_encryption_method(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFVDE_LEGACY_H ) */
 

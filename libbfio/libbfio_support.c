@@ -1,7 +1,7 @@
 /*
  * Support functions
  *
- * Copyright (C) 2009-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2009-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -22,12 +22,9 @@
 #include <common.h>
 #include <types.h>
 
-#include <stdio.h>
-
 #include "libbfio_definitions.h"
 #include "libbfio_libcerror.h"
 #include "libbfio_libclocale.h"
-#include "libbfio_libcstring.h"
 #include "libbfio_support.h"
 
 #if !defined( HAVE_LOCAL_LIBBFIO )

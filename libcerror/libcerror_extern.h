@@ -1,7 +1,7 @@
 /*
  * The internal extern definition
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -38,10 +38,9 @@
 #include <libcerror/extern.h>
 
 #else
+#define LIBCERROR_EXTERN	/* extern */
 
-#define LIBCERROR_EXTERN	extern
+#endif /* !defined( HAVE_LOCAL_LIBCERROR ) */
 
-#endif
-
-#endif
+#endif /* !defined( _LIBCERROR_INTERNAL_EXTERN_H ) */
 

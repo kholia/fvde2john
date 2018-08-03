@@ -1,7 +1,7 @@
 /*
  * LVF encryption context and EncryptedRoot.plist file functions
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -27,11 +27,10 @@
 #include "libfvde_encryption_context_plist.h"
 #include "libfvde_libcerror.h"
 #include "libfvde_libcnotify.h"
+#include "libfvde_libfplist.h"
 #include "libfvde_libhmac.h"
 #include "libfvde_libuna.h"
 #include "libfvde_types.h"
-#include "libfvde_xml_plist.h"
-#include "libfvde_xml_plist_key.h"
 
 /* Creates an encryption context plist
  * Make sure the value plist is referencing, is set to NULL
@@ -92,7 +91,10 @@ int libfvde_encryption_context_plist_initialize(
 		 "%s: unable to clear plist.",
 		 function );
 	
-		goto on_error;
+		memory_free(
+		 internal_plist );
+
+		return( -1 );
 	}
 	*plist = (libfvde_encryption_context_plist_t *) internal_plist;
 
@@ -144,74 +146,72 @@ int libfvde_encryption_context_plist_free(
 			memory_free(
 			 internal_plist->data_decrypted );
 		}
-		if( internal_plist->wrapped_volume_keys_key != NULL )
+		if( internal_plist->wrapped_volume_keys_property != NULL )
 		{
-			if( libfvde_xml_plist_key_free(
-			     &( internal_plist->wrapped_volume_keys_key ),
+			if( libfplist_property_free(
+			     &( internal_plist->wrapped_volume_keys_property ),
 			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-				 "%s: unable to free WrappedVolumeKeys key.",
+				 "%s: unable to free WrappedVolumeKeys property.",
 				 function );
 
 				result = -1;
 			}
 		}
-		if( internal_plist->crypto_users_key != NULL )
+		if( internal_plist->crypto_users_property != NULL )
 		{
-			if( libfvde_xml_plist_key_free(
-			     &( internal_plist->crypto_users_key ),
+			if( libfplist_property_free(
+			     &( internal_plist->crypto_users_property ),
 			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-				 "%s: unable to free CryptoUsers key.",
+				 "%s: unable to free CryptoUsers property.",
 				 function );
 
 				result = -1;
 			}
 		}
-		if( internal_plist->conversion_info_key != NULL )
+		if( internal_plist->conversion_info_property != NULL )
 		{
-			if( libfvde_xml_plist_key_free(
-			     &( internal_plist->conversion_info_key ),
+			if( libfplist_property_free(
+			     &( internal_plist->conversion_info_property ),
 			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-				 "%s: unable to free ConversionInfo key.",
+				 "%s: unable to free ConversionInfo property.",
 				 function );
 
 				result = -1;
 			}
 		}
-		if( internal_plist->xml_plist != NULL )
+		if( internal_plist->property_list != NULL )
 		{
-			if( libfvde_xml_plist_free(
-			     &( internal_plist->xml_plist ),
+			if( libfplist_property_list_free(
+			     &( internal_plist->property_list ),
 			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-				 "%s: unable to free XML plist.",
+				 "%s: unable to free property list.",
 				 function );
 
 				result = -1;
 			}
 		}
 		memory_free(
-		 *plist );
-
-		*plist = NULL;
+		 internal_plist );
 	}
 	return( result );
 }
@@ -317,7 +317,7 @@ int libfvde_encryption_context_plist_copy_data(
 	if( memory_copy(
 	     data,
 	     internal_plist->data_decrypted,
-	     internal_plist->data_size ) == NULL )
+	     (size_t) internal_plist->data_size ) == NULL )
 	{
 		libcerror_error_set(
 		 error,
@@ -682,6 +682,17 @@ int libfvde_encryption_context_plist_decrypt(
 
 		return( -1 );
 	}
+	if( internal_plist->data_size > (size64_t) ( SSIZE_MAX - 1 ) )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_VALUE_OUT_OF_BOUNDS,
+		 "%s: invalid plist - data size value out of bounds.",
+		 function );
+
+		goto on_error;
+	}
 	if( internal_plist->data_decrypted != NULL )
 	{
 		libcerror_error_set(
@@ -749,7 +760,7 @@ int libfvde_encryption_context_plist_decrypt(
 		goto on_error;
 	}
 	internal_plist->data_decrypted = (uint8_t *) memory_allocate(
-	                                              sizeof( uint8_t ) * ( internal_plist->data_size + 1 ) );
+	                                              sizeof( uint8_t ) * (size_t) ( internal_plist->data_size + 1 ) );
 
 	if( internal_plist->data_decrypted == NULL )
 	{
@@ -762,7 +773,7 @@ int libfvde_encryption_context_plist_decrypt(
 
 		goto on_error;
 	}
-	data_size = internal_plist->data_size;
+	data_size = (size_t) internal_plist->data_size;
 
 	if( data_size > 0 )
 	{
@@ -849,10 +860,10 @@ int libfvde_encryption_context_plist_decrypt(
 	return( result );
 
 on_error:
-	if( internal_plist->xml_plist != NULL )
+	if( internal_plist->property_list != NULL )
 	{
-		libfvde_xml_plist_free(
-		 &( internal_plist->xml_plist ),
+		libfplist_property_list_free(
+		 &( internal_plist->property_list ),
 		 NULL );
 	}
 	if( internal_plist->data_decrypted != NULL )
@@ -879,8 +890,8 @@ int libfvde_encryption_context_plist_read_xml(
      libcerror_error_t **error )
 {
 	libfvde_internal_encryption_context_plist_t *internal_plist = NULL;
-	libfvde_xml_plist_key_t *encryption_context_key             = NULL;
-	libfvde_xml_plist_key_t *root_key                           = NULL;
+	libfplist_property_t *encryption_context_property           = NULL;
+	libfplist_property_t *root_property                         = NULL;
 	static char *function                                       = "libfvde_encryption_context_plist_read_xml";
 	int result                                                  = 0;
 
@@ -908,7 +919,7 @@ int libfvde_encryption_context_plist_read_xml(
 
 		return( -1 );
 	}
-	if( internal_plist->xml_plist != NULL )
+	if( internal_plist->property_list != NULL )
 	{
 		libcerror_error_set(
 		 error,
@@ -941,21 +952,21 @@ int libfvde_encryption_context_plist_read_xml(
 
 		goto on_error;
 	}
-	if( libfvde_xml_plist_initialize(
-	     &( internal_plist->xml_plist ),
+	if( libfplist_property_list_initialize(
+	     &( internal_plist->property_list ),
 	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-		 "%s: unable to create XML plist.",
+		 "%s: unable to create property list.",
 		 function );
 
 		goto on_error;
 	}
-	if( libfvde_xml_plist_copy_from_byte_stream(
-	     internal_plist->xml_plist,
+	if( libfplist_property_list_copy_from_byte_stream(
+	     internal_plist->property_list,
 	     internal_plist->data_decrypted,
 	     (size_t) internal_plist->data_size,
 	     error ) != 1 )
@@ -964,30 +975,30 @@ int libfvde_encryption_context_plist_read_xml(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_COPY_FAILED,
-		 "%s: unable to copy XML plist from byte stream.",
+		 "%s: unable to copy property list from byte stream.",
 		 function );
 
 		goto on_error;
 	}
-	if( libfvde_xml_plist_get_root_key(
-	     internal_plist->xml_plist,
-	     &root_key,
+	if( libfplist_property_list_get_root_property(
+	     internal_plist->property_list,
+	     &root_property,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to retrieve root key.",
+		 "%s: unable to retrieve root property.",
 		 function );
 
 		goto on_error;
 	}
-	result = libfvde_xml_plist_key_get_sub_key_by_utf8_name(
-	          root_key,
+	result = libfplist_property_get_sub_property_by_utf8_name(
+	          root_property,
 	          (uint8_t *) "com.apple.corestorage.lvf.encryption.context",
 	          44,
-	          &encryption_context_key,
+	          &encryption_context_property,
 	          error );
 
 	if( result == -1 )
@@ -996,29 +1007,56 @@ int libfvde_encryption_context_plist_read_xml(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to retrieve encryption context key.",
+		 "%s: unable to retrieve encryption context property.",
 		 function );
 
 		goto on_error;
 	}
 	else if( result == 0 )
 	{
-		encryption_context_key = root_key;
+		encryption_context_property = root_property;
 	}
 	else
 	{
-/* TODO replace by function after refactoring */
-		if( internal_plist->xml_plist->plist_tag != NULL )
+		result = libfplist_property_list_has_plist_root_element(
+		          internal_plist->property_list,
+		          error );
+
+		if( result == -1 )
 		{
-			if( libfvde_xml_plist_free(
-			     &( internal_plist->xml_plist ),
+			libcerror_error_set(
+			 error,
+			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+			 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+			 "%s: unable to determine if property list has plist root element.",
+			 function );
+
+			goto on_error;
+		}
+		else if( result == 1 )
+		{
+			if( libfplist_property_free(
+			     &encryption_context_property,
 			     error ) != 1 )
 			{
 				libcerror_error_set(
 				 error,
 				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-				 "%s: unable to free XML plist.",
+				 "%s: unable to free encryption context property.",
+				 function );
+
+				goto on_error;
+			}
+			if( libfplist_property_list_free(
+			     &( internal_plist->property_list ),
+			     error ) != 1 )
+			{
+				libcerror_error_set(
+				 error,
+				 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+				 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
+				 "%s: unable to free properyt list.",
 				 function );
 
 				goto on_error;
@@ -1026,53 +1064,40 @@ int libfvde_encryption_context_plist_read_xml(
 			return( 0 );
 		}
 	}
-	if( libfvde_xml_plist_key_is_dict(
-	     encryption_context_key,
-	     error ) != 1 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to determine if encryption context key contains a dict.",
-		 function );
-
-		goto on_error;
-	}
-	if( libfvde_xml_plist_key_get_sub_key_by_utf8_name(
-	     encryption_context_key,
+	if( libfplist_property_get_sub_property_by_utf8_name(
+	     encryption_context_property,
 	     (uint8_t *) "ConversionInfo",
 	     14,
-	     &( internal_plist->conversion_info_key ),
+	     &( internal_plist->conversion_info_property ),
 	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to retrieve ConversionInfo key.",
+		 "%s: unable to retrieve ConversionInfo property.",
 		 function );
 
 		goto on_error;
 	}
-	if( libfvde_xml_plist_key_get_sub_key_by_utf8_name(
-	     encryption_context_key,
+	if( libfplist_property_get_sub_property_by_utf8_name(
+	     encryption_context_property,
 	     (uint8_t *) "CryptoUsers",
 	     11,
-	     &( internal_plist->crypto_users_key ),
+	     &( internal_plist->crypto_users_property ),
 	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to retrieve CryptoUsers key.",
+		 "%s: unable to retrieve CryptoUsers property.",
 		 function );
 
 		goto on_error;
 	}
-	if( libfvde_xml_plist_key_get_array_number_of_entries(
-	     internal_plist->crypto_users_key,
+	if( libfplist_property_get_array_number_of_entries(
+	     internal_plist->crypto_users_property,
 	     &( internal_plist->number_of_crypto_users_entries ),
 	     error ) != 1 )
 	{
@@ -1085,47 +1110,47 @@ int libfvde_encryption_context_plist_read_xml(
 
 		goto on_error;
 	}
-	if( libfvde_xml_plist_key_get_sub_key_by_utf8_name(
-	     encryption_context_key,
+	if( libfplist_property_get_sub_property_by_utf8_name(
+	     encryption_context_property,
 	     (uint8_t *) "WrappedVolumeKeys",
 	     17,
-	     &( internal_plist->wrapped_volume_keys_key ),
+	     &( internal_plist->wrapped_volume_keys_property ),
 	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to retrieve WrappedVolumeKeys key.",
+		 "%s: unable to retrieve WrappedVolumeKeys sub property.",
 		 function );
 
 		goto on_error;
 	}
-	if( encryption_context_key != root_key )
+	if( encryption_context_property != root_property )
 	{
-		if( libfvde_xml_plist_key_free(
-		     &encryption_context_key,
+		if( libfplist_property_free(
+		     &encryption_context_property,
 		     error ) != 1 )
 		{
 			libcerror_error_set(
 			 error,
 			 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 			 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-			 "%s: unable to free encryption context key.",
+			 "%s: unable to free encryption context property.",
 			 function );
 
 			goto on_error;
 		}
 	}
-	if( libfvde_xml_plist_key_free(
-	     &root_key,
+	if( libfplist_property_free(
+	     &root_property,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-		 "%s: unable to free root key.",
+		 "%s: unable to free root property.",
 		 function );
 
 		goto on_error;
@@ -1133,41 +1158,41 @@ int libfvde_encryption_context_plist_read_xml(
 	return( 1 );
 
 on_error:
-	if( internal_plist->wrapped_volume_keys_key != NULL )
+	if( internal_plist->wrapped_volume_keys_property != NULL )
 	{
-		libfvde_xml_plist_key_free(
-		 &( internal_plist->wrapped_volume_keys_key ),
+		libfplist_property_free(
+		 &( internal_plist->wrapped_volume_keys_property ),
 		 NULL );
 	}
-	if( internal_plist->crypto_users_key != NULL )
+	if( internal_plist->crypto_users_property != NULL )
 	{
-		libfvde_xml_plist_key_free(
-		 &( internal_plist->crypto_users_key ),
+		libfplist_property_free(
+		 &( internal_plist->crypto_users_property ),
 		 NULL );
 	}
-	if( internal_plist->conversion_info_key != NULL )
+	if( internal_plist->conversion_info_property != NULL )
 	{
-		libfvde_xml_plist_key_free(
-		 &( internal_plist->conversion_info_key ),
+		libfplist_property_free(
+		 &( internal_plist->conversion_info_property ),
 		 NULL );
 	}
-	if( ( encryption_context_key != NULL )
-	 && ( encryption_context_key != root_key ) )
+	if( ( encryption_context_property != NULL )
+	 && ( encryption_context_property != root_property ) )
 	{
-		libfvde_xml_plist_key_free(
-		 &encryption_context_key,
+		libfplist_property_free(
+		 &encryption_context_property,
 		 NULL );
 	}
-	if( root_key != NULL )
+	if( root_property != NULL )
 	{
-		libfvde_xml_plist_key_free(
-		 &root_key,
+		libfplist_property_free(
+		 &root_property,
 		 NULL );
 	}
-	if( internal_plist->xml_plist != NULL )
+	if( internal_plist->property_list != NULL )
 	{
-		libfvde_xml_plist_free(
-		 &( internal_plist->xml_plist ),
+		libfplist_property_list_free(
+		 &( internal_plist->property_list ),
 		 NULL );
 	}
 	return( -1 );
@@ -1183,7 +1208,7 @@ int libfvde_encryption_context_plist_get_conversion_status(
      libcerror_error_t **error )
 {
 	libfvde_internal_encryption_context_plist_t *internal_plist = NULL;
-	libfvde_xml_plist_key_t *xml_plist_key                      = NULL;
+	libfplist_property_t *sub_property                          = NULL;
 	static char *function                                       = "libfvde_encryption_context_plist_get_conversion_status";
 
 	if( plist == NULL )
@@ -1199,13 +1224,13 @@ int libfvde_encryption_context_plist_get_conversion_status(
 	}
 	internal_plist = (libfvde_internal_encryption_context_plist_t *) plist;
 
-	if( internal_plist->conversion_info_key == NULL )
+	if( internal_plist->conversion_info_property == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: invalid plist - missing XML plist conversion info key.",
+		 "%s: invalid plist - missing XML plist conversion info property.",
 		 function );
 
 		return( -1 );
@@ -1243,24 +1268,24 @@ int libfvde_encryption_context_plist_get_conversion_status(
 
 		return( -1 );
 	}
-	if( libfvde_xml_plist_key_get_sub_key_by_utf8_name(
-	     internal_plist->conversion_info_key,
+	if( libfplist_property_get_sub_property_by_utf8_name(
+	     internal_plist->conversion_info_property,
 	     (uint8_t *) "ConversionStatus",
 	     16,
-	     &xml_plist_key,
+	     &sub_property,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to retrieve ConversionStatus key.",
+		 "%s: unable to retrieve ConversionStatus sub property.",
 		 function );
 
 		goto on_error;
 	}
-	if( libfvde_xml_plist_key_get_value_string(
-	     xml_plist_key,
+	if( libfplist_property_get_value_string(
+	     sub_property,
 	     conversion_status,
 	     conversion_status_size,
 	     error ) != 1 )
@@ -1286,15 +1311,15 @@ int libfvde_encryption_context_plist_get_conversion_status(
 		 0 );
 	}
 #endif
-	if( libfvde_xml_plist_key_free(
-	     &xml_plist_key,
+	if( libfplist_property_free(
+	     &sub_property,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-		 "%s: unable to free ConversionStatus key.",
+		 "%s: unable to free ConversionStatus property.",
 		 function );
 
 		goto on_error;
@@ -1302,10 +1327,10 @@ int libfvde_encryption_context_plist_get_conversion_status(
 	return( 1 );
 
 on_error:
-	if( xml_plist_key != NULL )
+	if( sub_property != NULL )
 	{
-		libfvde_xml_plist_key_free(
-		 &xml_plist_key,
+		libfplist_property_free(
+		 &sub_property,
 		 NULL );
 	}
 	if( *conversion_status != NULL )
@@ -1331,8 +1356,8 @@ int libfvde_encryption_context_plist_get_passphrase_wrapped_kek(
      libcerror_error_t **error )
 {
 	libfvde_internal_encryption_context_plist_t *internal_plist = NULL;
-	libfvde_xml_plist_key_t *xml_plist_array_entry              = NULL;
-	libfvde_xml_plist_key_t *xml_plist_key                      = NULL;
+	libfplist_property_t *array_entry_property                  = NULL;
+	libfplist_property_t *sub_property                          = NULL;
 	static char *function                                       = "libfvde_encryption_context_plist_get_passphrase_wrapped_kek";
 
 	if( plist == NULL )
@@ -1348,13 +1373,13 @@ int libfvde_encryption_context_plist_get_passphrase_wrapped_kek(
 	}
 	internal_plist = (libfvde_internal_encryption_context_plist_t *) plist;
 
-	if( internal_plist->crypto_users_key == NULL )
+	if( internal_plist->crypto_users_property == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: invalid plist - missing XML plist crypto users key.",
+		 "%s: invalid plist - missing XML plist crypto users property.",
 		 function );
 
 		return( -1 );
@@ -1407,10 +1432,10 @@ int libfvde_encryption_context_plist_get_passphrase_wrapped_kek(
 	{
 		return( 0 );
 	}
-	if( libfvde_xml_plist_key_get_array_entry_by_index(
-	     internal_plist->crypto_users_key,
+	if( libfplist_property_get_array_entry_by_index(
+	     internal_plist->crypto_users_property,
 	     passphrase_wrapped_kek_index,
-	     &xml_plist_array_entry,
+	     &array_entry_property,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
@@ -1423,25 +1448,24 @@ int libfvde_encryption_context_plist_get_passphrase_wrapped_kek(
 
 		goto on_error;
 	}
-	if( libfvde_xml_plist_key_get_sub_key_by_utf8_name(
-	     xml_plist_array_entry,
+	if( libfplist_property_get_sub_property_by_utf8_name(
+	     array_entry_property,
 	     (uint8_t *) "PassphraseWrappedKEKStruct",
 	     26,
-	     &xml_plist_key,
+	     &sub_property,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to retrieve PassphraseWrappedKEKStruct key.",
+		 "%s: unable to retrieve PassphraseWrappedKEKStruct sub property.",
 		 function );
 
 		goto on_error;
 	}
-	if( libfvde_xml_plist_key_get_value_data(
-	     xml_plist_key,
-	     passphrase_wrapped_kek,
+	if( libfplist_property_get_value_data_size(
+	     sub_property,
 	     passphrase_wrapped_kek_size,
 	     error ) != 1 )
 	{
@@ -1449,7 +1473,47 @@ int libfvde_encryption_context_plist_get_passphrase_wrapped_kek(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to retrieve passphrase wrapped kek.",
+		 "%s: unable to retrieve passphrase wrapped kek data size.",
+		 function );
+
+		goto on_error;
+	}
+	if( *passphrase_wrapped_kek_size > (size_t) SSIZE_MAX )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
+		 "%s: invalid passphrase wrapped kek data size value exceeds maximum.",
+		 function );
+
+		return( -1 );
+	}
+	*passphrase_wrapped_kek = (uint8_t *) memory_allocate(
+	                                       sizeof( uint8_t ) * *passphrase_wrapped_kek_size );
+
+	if( *passphrase_wrapped_kek == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+		 "%s: unable to create passphrase wrapped kek.",
+		 function );
+
+		goto on_error;
+	}
+	if( libfplist_property_get_value_data(
+	     sub_property,
+	     *passphrase_wrapped_kek,
+	     *passphrase_wrapped_kek_size,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to retrieve passphrase wrapped kek data.",
 		 function );
 
 		goto on_error;
@@ -1466,21 +1530,21 @@ int libfvde_encryption_context_plist_get_passphrase_wrapped_kek(
 		 0 );
 	}
 #endif
-	if( libfvde_xml_plist_key_free(
-	     &xml_plist_key,
+	if( libfplist_property_free(
+	     &sub_property,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-		 "%s: unable to free PassphraseWrappedKEKStruct key.",
+		 "%s: unable to free PassphraseWrappedKEKStruct property.",
 		 function );
 
 		goto on_error;
 	}
-	if( libfvde_xml_plist_key_free(
-	     &xml_plist_array_entry,
+	if( libfplist_property_free(
+	     &array_entry_property,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
@@ -1496,16 +1560,16 @@ int libfvde_encryption_context_plist_get_passphrase_wrapped_kek(
 	return( 1 );
 
 on_error:
-	if( xml_plist_key != NULL )
+	if( sub_property != NULL )
 	{
-		libfvde_xml_plist_key_free(
-		 &xml_plist_key,
+		libfplist_property_free(
+		 &sub_property,
 		 NULL );
 	}
-	if( xml_plist_array_entry != NULL )
+	if( array_entry_property != NULL )
 	{
-		libfvde_xml_plist_key_free(
-		 &xml_plist_array_entry,
+		libfplist_property_free(
+		 &array_entry_property,
 		 NULL );
 	}
 	if( *passphrase_wrapped_kek != NULL )
@@ -1530,8 +1594,8 @@ int libfvde_encryption_context_plist_get_kek_wrapped_volume_key(
      libcerror_error_t **error )
 {
 	libfvde_internal_encryption_context_plist_t *internal_plist = NULL;
-	libfvde_xml_plist_key_t *xml_plist_array_entry              = NULL;
-	libfvde_xml_plist_key_t *xml_plist_key                      = NULL;
+	libfplist_property_t *array_entry_property                  = NULL;
+	libfplist_property_t *sub_property                          = NULL;
 	static char *function                                       = "libfvde_encryption_context_plist_get_kek_wrapped_volume_key";
 
 	if( plist == NULL )
@@ -1547,13 +1611,13 @@ int libfvde_encryption_context_plist_get_kek_wrapped_volume_key(
 	}
 	internal_plist = (libfvde_internal_encryption_context_plist_t *) plist;
 
-	if( internal_plist->wrapped_volume_keys_key == NULL )
+	if( internal_plist->wrapped_volume_keys_property == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: invalid plist - missing XML plist wrapped volume keys key.",
+		 "%s: invalid plist - missing XML plist wrapped volume keys property.",
 		 function );
 
 		return( -1 );
@@ -1591,23 +1655,10 @@ int libfvde_encryption_context_plist_get_kek_wrapped_volume_key(
 
 		return( -1 );
 	}
-	if( libfvde_xml_plist_key_is_array(
-	     internal_plist->wrapped_volume_keys_key,
-	     error ) != 1 )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to determine if wrapped volume keys key contains an array.",
-		 function );
-
-		goto on_error;
-	}
-	if( libfvde_xml_plist_key_get_array_entry_by_index(
-	     internal_plist->wrapped_volume_keys_key,
+	if( libfplist_property_get_array_entry_by_index(
+	     internal_plist->wrapped_volume_keys_property,
 	     1,
-	     &xml_plist_array_entry,
+	     &array_entry_property,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
@@ -1619,25 +1670,24 @@ int libfvde_encryption_context_plist_get_kek_wrapped_volume_key(
 
 		goto on_error;
 	}
-	if( libfvde_xml_plist_key_get_sub_key_by_utf8_name(
-	     xml_plist_array_entry,
+	if( libfplist_property_get_sub_property_by_utf8_name(
+	     array_entry_property,
 	     (uint8_t *) "KEKWrappedVolumeKeyStruct",
 	     25,
-	     &xml_plist_key,
+	     &sub_property,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to retrieve KEKWrappedVolumeKeyStruct key.",
+		 "%s: unable to retrieve KEKWrappedVolumeKeyStruct sub property.",
 		 function );
 
 		goto on_error;
 	}
-	if( libfvde_xml_plist_key_get_value_data(
-	     xml_plist_key,
-	     kek_wrapped_volume_key,
+	if( libfplist_property_get_value_data_size(
+	     sub_property,
 	     kek_wrapped_volume_key_size,
 	     error ) != 1 )
 	{
@@ -1645,7 +1695,47 @@ int libfvde_encryption_context_plist_get_kek_wrapped_volume_key(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
-		 "%s: unable to retrieve kek wrapped volume key.",
+		 "%s: unable to retrieve kek wrapped volume key data size.",
+		 function );
+
+		goto on_error;
+	}
+	if( *kek_wrapped_volume_key_size > (size_t) SSIZE_MAX )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
+		 LIBCERROR_ARGUMENT_ERROR_VALUE_EXCEEDS_MAXIMUM,
+		 "%s: invalid kek wrapped volume key data size value exceeds maximum.",
+		 function );
+
+		return( -1 );
+	}
+	*kek_wrapped_volume_key = (uint8_t *) memory_allocate(
+	                                       sizeof( uint8_t ) * *kek_wrapped_volume_key_size );
+
+	if( *kek_wrapped_volume_key == NULL )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_MEMORY,
+		 LIBCERROR_MEMORY_ERROR_INSUFFICIENT,
+		 "%s: unable to create kek wrapped volume key.",
+		 function );
+
+		goto on_error;
+	}
+	if( libfplist_property_get_value_data(
+	     sub_property,
+	     *kek_wrapped_volume_key,
+	     *kek_wrapped_volume_key_size,
+	     error ) != 1 )
+	{
+		libcerror_error_set(
+		 error,
+		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
+		 LIBCERROR_RUNTIME_ERROR_GET_FAILED,
+		 "%s: unable to retrieve kek wrapped volume property.",
 		 function );
 
 		goto on_error;
@@ -1662,21 +1752,21 @@ int libfvde_encryption_context_plist_get_kek_wrapped_volume_key(
 		 0 );
 	}
 #endif
-	if( libfvde_xml_plist_key_free(
-	     &xml_plist_key,
+	if( libfplist_property_free(
+	     &sub_property,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_FINALIZE_FAILED,
-		 "%s: unable to free KEKWrappedVolumeKeyStruct key.",
+		 "%s: unable to free KEKWrappedVolumeKeyStruct property.",
 		 function );
 
 		goto on_error;
 	}
-	if( libfvde_xml_plist_key_free(
-	     &xml_plist_array_entry,
+	if( libfplist_property_free(
+	     &array_entry_property,
 	     error ) != 1 )
 	{
 		libcerror_error_set(
@@ -1691,16 +1781,16 @@ int libfvde_encryption_context_plist_get_kek_wrapped_volume_key(
 	return( 1 );
 
 on_error:
-	if( xml_plist_key != NULL )
+	if( sub_property != NULL )
 	{
-		libfvde_xml_plist_key_free(
-		 &xml_plist_key,
+		libfplist_property_free(
+		 &sub_property,
 		 NULL );
 	}
-	if( xml_plist_array_entry != NULL )
+	if( array_entry_property != NULL )
 	{
-		libfvde_xml_plist_key_free(
-		 &xml_plist_array_entry,
+		libfplist_property_free(
+		 &array_entry_property,
 		 NULL );
 	}
 	if( *kek_wrapped_volume_key != NULL )

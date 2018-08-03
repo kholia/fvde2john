@@ -1,7 +1,7 @@
 /*
  * Value entry functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -61,5 +61,5 @@ int libfvalue_value_entry_clone(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFVALUE_VALUE_ENTRY_H ) */
 

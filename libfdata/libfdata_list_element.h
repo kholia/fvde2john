@@ -1,7 +1,7 @@
 /*
  * The list element functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -155,5 +155,5 @@ int libfdata_list_element_set_element_value(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFDATA_INTERNAL_LIST_ELEMENT_H ) */
 

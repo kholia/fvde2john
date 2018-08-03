@@ -1,7 +1,7 @@
 /*
  * Codepage functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -32,8 +32,11 @@
 extern "C" {
 #endif
 
-LIBCLOCALE_EXTERN \
+#if !defined( __CYGWIN__ )
+extern int libclocale_codepage;
+#else
 int libclocale_codepage;
+#endif
 
 LIBCLOCALE_EXTERN \
 int libclocale_codepage_get(

@@ -2,8 +2,8 @@ if HAVE_LOCAL_LIBCTHREADS
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/include \
 	-I$(top_srcdir)/common \
-	@LIBCSTRING_CPPFLAGS@ \
-	@LIBCERROR_CPPFLAGS@
+	@LIBCERROR_CPPFLAGS@ \
+	@PTHREAD_CPPFLAGS@
 
 noinst_LTLIBRARIES = libcthreads.la
 
@@ -13,7 +13,6 @@ libcthreads_la_SOURCES = \
 	libcthreads_error.c libcthreads_error.h \
 	libcthreads_extern.h \
 	libcthreads_libcerror.h \
-	libcthreads_libcstring.h \
 	libcthreads_lock.c libcthreads_lock.h \
 	libcthreads_mutex.c libcthreads_mutex.h \
 	libcthreads_queue.c libcthreads_queue.h \

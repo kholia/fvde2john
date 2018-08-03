@@ -1,7 +1,7 @@
 /*
  * Support functions
  *
- * Copyright (C) 2012-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2012-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -23,8 +23,6 @@
 #include <types.h>
 
 #include "libcthreads_definitions.h"
-#include "libcthreads_libcerror.h"
-#include "libcthreads_libcstring.h"
 #include "libcthreads_support.h"
 
 #if !defined( HAVE_LOCAL_LIBCTHREADS )

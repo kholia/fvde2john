@@ -1,7 +1,7 @@
 /*
  * Support functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -23,8 +23,6 @@
 #include <types.h>
 
 #include "libcsplit_definitions.h"
-#include "libcsplit_libcerror.h"
-#include "libcsplit_libcstring.h"
 #include "libcsplit_support.h"
 
 #if !defined( HAVE_LOCAL_LIBCSPLIT )

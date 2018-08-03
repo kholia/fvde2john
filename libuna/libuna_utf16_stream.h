@@ -1,7 +1,7 @@
 /*
  * UTF-16 stream functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -26,7 +26,6 @@
 #include <types.h>
 
 #include "libuna_extern.h"
-#include "libuna_inline.h"
 #include "libuna_libcerror.h"
 #include "libuna_types.h"
 
@@ -35,7 +34,6 @@ extern "C" {
 #endif
 
 LIBUNA_EXTERN \
-LIBUNA_INLINE \
 int libuna_utf16_stream_copy_byte_order_mark(
      uint8_t *utf16_stream,
      size_t utf16_stream_size,
@@ -107,5 +105,5 @@ int libuna_utf16_stream_copy_from_utf32(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBUNA_UTF16_STREAM_H ) */
 

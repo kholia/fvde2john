@@ -1,7 +1,7 @@
 /*
  * Macros for testing
  *
- * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2011-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -22,34 +22,164 @@
 #if !defined( _FVDE_TEST_MACROS_H )
 #define _FVDE_TEST_MACROS_H
 
+#include <common.h>
 #include <file_stream.h>
 
-/* TODO: deprecated replace by FVDE_TEST_ASSERT_EQUAL_INT */
-#define FVDE_TEST_ASSERT_EQUAL( name, value, expected_value ) \
-	if( value != expected_value ) \
-	{ \
-		fprintf( stdout, "%s:%d %s != %d\n", __FILE__, __LINE__, name, expected_value ); \
-		goto on_error; \
-	}
+#if defined( HAVE_STDLIB_H ) || defined( WINAPI )
+#include <stdlib.h>
+#endif
 
 #define FVDE_TEST_ASSERT_EQUAL_INT( name, value, expected_value ) \
 	if( value != expected_value ) \
 	{ \
-		fprintf( stdout, "%s:%d %s != %d\n", __FILE__, __LINE__, name, expected_value ); \
+		fprintf( stdout, "%s:%d %s (%d) != %d\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_NOT_EQUAL_INT( name, value, expected_value ) \
+	if( value == expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%d) == %d\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_GREATER_THAN_INT( name, value, expected_value ) \
+	if( value <= expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%d) <= %d\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_LESS_THAN_INT( name, value, expected_value ) \
+	if( value >= expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%d) >= %d\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_EQUAL_SIZE( name, value, expected_value ) \
+	if( value != expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIzd ") != %" PRIzd "\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_EQUAL_SSIZE( name, value, expected_value ) \
+	if( value != expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIzd ") != %" PRIzd "\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_EQUAL_INT8( name, value, expected_value ) \
+	if( value != expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIi8 ") != %" PRIi8 "\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_NOT_EQUAL_INT8( name, value, expected_value ) \
+	if( value == expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIi8 ") == %" PRIi8 "\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_EQUAL_UINT8( name, value, expected_value ) \
+	if( value != expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIi8 ") != %" PRIu8 "\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_LESS_THAN_UINT8( name, value, expected_value ) \
+	if( value >= expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIi8 ") >= %" PRIu8 "\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_EQUAL_INT16( name, value, expected_value ) \
+	if( value != expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIi16 ") != %" PRIi16 "\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_NOT_EQUAL_INT16( name, value, expected_value ) \
+	if( value == expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIi16 ") == %" PRIi16 "\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_EQUAL_UINT16( name, value, expected_value ) \
+	if( value != expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIi16 ") != %" PRIu16 "\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_LESS_THAN_UINT16( name, value, expected_value ) \
+	if( value >= expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIi16 ") >= %" PRIu16 "\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_EQUAL_INT32( name, value, expected_value ) \
+	if( value != expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIi32 ") != %" PRIi32 "\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_NOT_EQUAL_INT32( name, value, expected_value ) \
+	if( value == expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIi32 ") == %" PRIi32 "\n", __FILE__, __LINE__, name, value, expected_value ); \
 		goto on_error; \
 	}
 
 #define FVDE_TEST_ASSERT_EQUAL_UINT32( name, value, expected_value ) \
 	if( value != expected_value ) \
 	{ \
-		fprintf( stdout, "%s:%d %s != %" PRIu32 "\n", __FILE__, __LINE__, name, expected_value ); \
+		fprintf( stdout, "%s:%d %s (%" PRIi32 ") != %" PRIu32 "\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_LESS_THAN_UINT32( name, value, expected_value ) \
+	if( value >= expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIi32 ") >= %" PRIu32 "\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_EQUAL_INT64( name, value, expected_value ) \
+	if( value != expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIi64 ") != %" PRIi64 "\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_NOT_EQUAL_INT64( name, value, expected_value ) \
+	if( value == expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIi64 ") == %" PRIi64 "\n", __FILE__, __LINE__, name, value, expected_value ); \
 		goto on_error; \
 	}
 
 #define FVDE_TEST_ASSERT_EQUAL_UINT64( name, value, expected_value ) \
 	if( value != expected_value ) \
 	{ \
-		fprintf( stdout, "%s:%d %s != %" PRIu64 "\n", __FILE__, __LINE__, name, expected_value ); \
+		fprintf( stdout, "%s:%d %s (%" PRIu64 ") != %" PRIu64 "\n", __FILE__, __LINE__, name, value, expected_value ); \
+		goto on_error; \
+	}
+
+#define FVDE_TEST_ASSERT_LESS_THAN_UINT64( name, value, expected_value ) \
+	if( value >= expected_value ) \
+	{ \
+		fprintf( stdout, "%s:%d %s (%" PRIu64 ") >= %" PRIu64 "\n", __FILE__, __LINE__, name, value, expected_value ); \
 		goto on_error; \
 	}
 
@@ -68,11 +198,25 @@
 	}
 
 #define FVDE_TEST_RUN( name, function ) \
-	if( function != 1 ) \
+	if( function() != 1 ) \
 	{ \
 		fprintf( stdout, "Unable to run test: %s\n", name ); \
 		goto on_error; \
 	}
+
+#if !defined( __BORLANDC__ ) || ( __BORLANDC__ >= 0x0560 )
+
+#define FVDE_TEST_RUN_WITH_ARGS( name, function, ... ) \
+	if( function( __VA_ARGS__ ) != 1 ) \
+	{ \
+		fprintf( stdout, "Unable to run test: %s\n", name ); \
+		goto on_error; \
+	}
+
+#endif /* !defined( __BORLANDC__ ) || ( __BORLANDC__ >= 0x0560 ) */
+
+#define FVDE_TEST_FPRINT_ERROR( error ) \
+	libcerror_error_backtrace_fprint( error, stdout );
 
 #endif /* !defined( _FVDE_TEST_MACROS_H ) */
 

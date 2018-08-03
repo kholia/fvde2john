@@ -1,7 +1,7 @@
 /*
  * Binary data value functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -110,5 +110,5 @@ int libfvalue_binary_data_copy_to_utf32_string_with_index(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFVALUE_BINARY_DATA_H ) */
 

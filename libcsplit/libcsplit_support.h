@@ -1,7 +1,7 @@
 /*
  * Support functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -26,7 +26,6 @@
 #include <types.h>
 
 #include "libcsplit_extern.h"
-#include "libcsplit_libcerror.h"
 
 #if defined( __cplusplus )
 extern "C" {
@@ -44,5 +43,5 @@ const char *libcsplit_get_version(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBCSPLIT_SUPPORT_H ) */
 

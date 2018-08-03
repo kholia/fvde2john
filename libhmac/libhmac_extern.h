@@ -1,7 +1,7 @@
 /*
  * The internal extern definition
  *
- * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2011-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -38,10 +38,9 @@
 #include <libhmac/extern.h>
 
 #else
+#define LIBHMAC_EXTERN	/* extern */
 
-#define LIBHMAC_EXTERN	extern
+#endif /* !defined( HAVE_LOCAL_LIBHMAC ) */
 
-#endif
-
-#endif
+#endif /* !defined( _LIBHMAC_INTERNAL_EXTERN_H ) */
 

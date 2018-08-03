@@ -1,7 +1,7 @@
 /*
  * Python bindings for libfvde (pyfvde)
  *
- * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2011-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -57,5 +57,5 @@ PyMODINIT_FUNC initpyfvde(
 }
 #endif
 
-#endif
+#endif /* !defined( _PYFVDE_H ) */
 

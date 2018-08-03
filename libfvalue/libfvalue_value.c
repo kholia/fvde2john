@@ -1,7 +1,7 @@
 /*
  * Value functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -22,14 +22,16 @@
 #include <common.h>
 #include <file_stream.h>
 #include <memory.h>
+#include <narrow_string.h>
+#include <system_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #include "libfvalue_data_handle.h"
 #include "libfvalue_definitions.h"
 #include "libfvalue_libcdata.h"
 #include "libfvalue_libcerror.h"
 #include "libfvalue_libcnotify.h"
-#include "libfvalue_libcstring.h"
 #include "libfvalue_types.h"
 #include "libfvalue_value.h"
 
@@ -4958,13 +4960,13 @@ int libfvalue_value_print(
      uint8_t flags,
      libcerror_error_t **error )
 {
-	libfvalue_internal_value_t *internal_value  = NULL;
-	libcstring_system_character_t *value_string = NULL;
-	intptr_t *value_instance                    = NULL;
-	static char *function                       = "libfvalue_value_print";
-	size_t value_string_index                   = 0;
-	size_t value_string_size                    = 0;
-	int result                                  = 0;
+	libfvalue_internal_value_t *internal_value = NULL;
+	system_character_t *value_string           = NULL;
+	intptr_t *value_instance                   = NULL;
+	static char *function                      = "libfvalue_value_print";
+	size_t value_string_index                  = 0;
+	size_t value_string_size                   = 0;
+	int result                                 = 0;
 
 	if( value == NULL )
 	{
@@ -4990,7 +4992,7 @@ int libfvalue_value_print(
 
 		return( -1 );
 	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 	if( internal_value->get_utf16_string_size == NULL )
 #else
 	if( internal_value->get_utf8_string_size == NULL )
@@ -5005,7 +5007,7 @@ int libfvalue_value_print(
 
 		return( -1 );
 	}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 	if( internal_value->copy_to_utf16_string_with_index == NULL )
 #else
 	if( internal_value->copy_to_utf8_string_with_index == NULL )
@@ -5073,7 +5075,7 @@ int libfvalue_value_print(
 		}
 		if( value_instance != NULL )
 		{
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 			result = internal_value->get_utf16_string_size(
 				  value_instance,
 				  &value_string_size,
@@ -5099,7 +5101,7 @@ int libfvalue_value_print(
 			}
 			if( value_string_size > 0 )
 			{
-				value_string = libcstring_system_string_allocate(
+				value_string = system_string_allocate(
 				                value_string_size );
 
 				if( value_string == NULL )
@@ -5113,7 +5115,7 @@ int libfvalue_value_print(
 
 					goto on_error;
 				}
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 				result = internal_value->copy_to_utf16_string_with_index(
 					  value_instance,
 					  (uint16_t *) value_string,
@@ -5142,7 +5144,7 @@ int libfvalue_value_print(
 					goto on_error;
 				}
 				libcnotify_printf(
-				 "%" PRIs_LIBCSTRING_SYSTEM "",
+				 "%" PRIs_SYSTEM "",
 				 value_string );
 
 				memory_free(

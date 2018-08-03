@@ -99,19 +99,19 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/common.m4 \
 	$(top_srcdir)/m4/libcfile.m4 $(top_srcdir)/m4/libclocale.m4 \
 	$(top_srcdir)/m4/libcnotify.m4 $(top_srcdir)/m4/libcpath.m4 \
 	$(top_srcdir)/m4/libcrypto.m4 $(top_srcdir)/m4/libcsplit.m4 \
-	$(top_srcdir)/m4/libcstring.m4 $(top_srcdir)/m4/libcsystem.m4 \
 	$(top_srcdir)/m4/libcthreads.m4 $(top_srcdir)/m4/libfcache.m4 \
 	$(top_srcdir)/m4/libfdata.m4 $(top_srcdir)/m4/libfguid.m4 \
-	$(top_srcdir)/m4/libfuse.m4 $(top_srcdir)/m4/libfvalue.m4 \
-	$(top_srcdir)/m4/libhmac.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/libuna.m4 $(top_srcdir)/m4/ltoptions.m4 \
-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/nls.m4 \
-	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/progtest.m4 \
-	$(top_srcdir)/m4/pthread.m4 $(top_srcdir)/m4/python.m4 \
-	$(top_srcdir)/m4/tests.m4 $(top_srcdir)/m4/types.m4 \
-	$(top_srcdir)/m4/wincrypt.m4 $(top_srcdir)/m4/zlib.m4 \
-	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/libfplist.m4 $(top_srcdir)/m4/libfuse.m4 \
+	$(top_srcdir)/m4/libfvalue.m4 $(top_srcdir)/m4/libhmac.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/libuna.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/po.m4 \
+	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/m4/pthread.m4 \
+	$(top_srcdir)/m4/python.m4 $(top_srcdir)/m4/tests.m4 \
+	$(top_srcdir)/m4/types.m4 $(top_srcdir)/m4/wincrypt.m4 \
+	$(top_srcdir)/m4/zlib.m4 $(top_srcdir)/acinclude.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -124,12 +124,14 @@ libcfile_la_LIBADD =
 am__libcfile_la_SOURCES_DIST = libcfile_definitions.h libcfile_error.c \
 	libcfile_error.h libcfile_extern.h libcfile_file.c \
 	libcfile_file.h libcfile_libcerror.h libcfile_libclocale.h \
-	libcfile_libcnotify.h libcfile_libcstring.h libcfile_libuna.h \
-	libcfile_notify.c libcfile_notify.h libcfile_support.c \
-	libcfile_support.h libcfile_types.h libcfile_unused.h
+	libcfile_libcnotify.h libcfile_libuna.h libcfile_notify.c \
+	libcfile_notify.h libcfile_support.c libcfile_support.h \
+	libcfile_system_string.c libcfile_system_string.h \
+	libcfile_types.h libcfile_unused.h
 @HAVE_LOCAL_LIBCFILE_TRUE@am_libcfile_la_OBJECTS = libcfile_error.lo \
 @HAVE_LOCAL_LIBCFILE_TRUE@	libcfile_file.lo libcfile_notify.lo \
-@HAVE_LOCAL_LIBCFILE_TRUE@	libcfile_support.lo
+@HAVE_LOCAL_LIBCFILE_TRUE@	libcfile_support.lo \
+@HAVE_LOCAL_LIBCFILE_TRUE@	libcfile_system_string.lo
 libcfile_la_OBJECTS = $(am_libcfile_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -240,12 +242,11 @@ HAVE_LIBCLOCALE = @HAVE_LIBCLOCALE@
 HAVE_LIBCNOTIFY = @HAVE_LIBCNOTIFY@
 HAVE_LIBCPATH = @HAVE_LIBCPATH@
 HAVE_LIBCSPLIT = @HAVE_LIBCSPLIT@
-HAVE_LIBCSTRING = @HAVE_LIBCSTRING@
-HAVE_LIBCSYSTEM = @HAVE_LIBCSYSTEM@
 HAVE_LIBCTHREADS = @HAVE_LIBCTHREADS@
 HAVE_LIBFCACHE = @HAVE_LIBFCACHE@
 HAVE_LIBFDATA = @HAVE_LIBFDATA@
 HAVE_LIBFGUID = @HAVE_LIBFGUID@
+HAVE_LIBFPLIST = @HAVE_LIBFPLIST@
 HAVE_LIBFUSE = @HAVE_LIBFUSE@
 HAVE_LIBFVALUE = @HAVE_LIBFVALUE@
 HAVE_LIBHMAC = @HAVE_LIBHMAC@
@@ -259,12 +260,11 @@ HAVE_LOCAL_LIBCLOCALE = @HAVE_LOCAL_LIBCLOCALE@
 HAVE_LOCAL_LIBCNOTIFY = @HAVE_LOCAL_LIBCNOTIFY@
 HAVE_LOCAL_LIBCPATH = @HAVE_LOCAL_LIBCPATH@
 HAVE_LOCAL_LIBCSPLIT = @HAVE_LOCAL_LIBCSPLIT@
-HAVE_LOCAL_LIBCSTRING = @HAVE_LOCAL_LIBCSTRING@
-HAVE_LOCAL_LIBCSYSTEM = @HAVE_LOCAL_LIBCSYSTEM@
 HAVE_LOCAL_LIBCTHREADS = @HAVE_LOCAL_LIBCTHREADS@
 HAVE_LOCAL_LIBFCACHE = @HAVE_LOCAL_LIBFCACHE@
 HAVE_LOCAL_LIBFDATA = @HAVE_LOCAL_LIBFDATA@
 HAVE_LOCAL_LIBFGUID = @HAVE_LOCAL_LIBFGUID@
+HAVE_LOCAL_LIBFPLIST = @HAVE_LOCAL_LIBFPLIST@
 HAVE_LOCAL_LIBFVALUE = @HAVE_LOCAL_LIBFVALUE@
 HAVE_LOCAL_LIBHMAC = @HAVE_LOCAL_LIBHMAC@
 HAVE_LOCAL_LIBUNA = @HAVE_LOCAL_LIBUNA@
@@ -313,10 +313,6 @@ LIBCRYPTO_CPPFLAGS = @LIBCRYPTO_CPPFLAGS@
 LIBCRYPTO_LIBADD = @LIBCRYPTO_LIBADD@
 LIBCSPLIT_CPPFLAGS = @LIBCSPLIT_CPPFLAGS@
 LIBCSPLIT_LIBADD = @LIBCSPLIT_LIBADD@
-LIBCSTRING_CPPFLAGS = @LIBCSTRING_CPPFLAGS@
-LIBCSTRING_LIBADD = @LIBCSTRING_LIBADD@
-LIBCSYSTEM_CPPFLAGS = @LIBCSYSTEM_CPPFLAGS@
-LIBCSYSTEM_LIBADD = @LIBCSYSTEM_LIBADD@
 LIBCTHREADS_CPPFLAGS = @LIBCTHREADS_CPPFLAGS@
 LIBCTHREADS_LIBADD = @LIBCTHREADS_LIBADD@
 LIBDL_LIBADD = @LIBDL_LIBADD@
@@ -326,6 +322,8 @@ LIBFDATA_CPPFLAGS = @LIBFDATA_CPPFLAGS@
 LIBFDATA_LIBADD = @LIBFDATA_LIBADD@
 LIBFGUID_CPPFLAGS = @LIBFGUID_CPPFLAGS@
 LIBFGUID_LIBADD = @LIBFGUID_LIBADD@
+LIBFPLIST_CPPFLAGS = @LIBFPLIST_CPPFLAGS@
+LIBFPLIST_LIBADD = @LIBFPLIST_LIBADD@
 LIBFUSE_CPPFLAGS = @LIBFUSE_CPPFLAGS@
 LIBFUSE_LIBADD = @LIBFUSE_LIBADD@
 LIBFVALUE_CPPFLAGS = @LIBFVALUE_CPPFLAGS@
@@ -346,6 +344,7 @@ LN_S = @LN_S@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
+LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
@@ -373,7 +372,6 @@ PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 POSUB = @POSUB@
 PTHREAD_CPPFLAGS = @PTHREAD_CPPFLAGS@
 PTHREAD_LIBADD = @PTHREAD_LIBADD@
-PWD = @PWD@
 PYTHON = @PYTHON@
 PYTHON2 = @PYTHON2@
 PYTHON2_CONFIG = @PYTHON2_CONFIG@
@@ -462,12 +460,6 @@ ax_libcrypto_spec_requires = @ax_libcrypto_spec_requires@
 ax_libcsplit_pc_libs_private = @ax_libcsplit_pc_libs_private@
 ax_libcsplit_spec_build_requires = @ax_libcsplit_spec_build_requires@
 ax_libcsplit_spec_requires = @ax_libcsplit_spec_requires@
-ax_libcstring_pc_libs_private = @ax_libcstring_pc_libs_private@
-ax_libcstring_spec_build_requires = @ax_libcstring_spec_build_requires@
-ax_libcstring_spec_requires = @ax_libcstring_spec_requires@
-ax_libcsystem_pc_libs_private = @ax_libcsystem_pc_libs_private@
-ax_libcsystem_spec_build_requires = @ax_libcsystem_spec_build_requires@
-ax_libcsystem_spec_requires = @ax_libcsystem_spec_requires@
 ax_libcthreads_pc_libs_private = @ax_libcthreads_pc_libs_private@
 ax_libcthreads_spec_build_requires = @ax_libcthreads_spec_build_requires@
 ax_libcthreads_spec_requires = @ax_libcthreads_spec_requires@
@@ -480,6 +472,9 @@ ax_libfdata_spec_requires = @ax_libfdata_spec_requires@
 ax_libfguid_pc_libs_private = @ax_libfguid_pc_libs_private@
 ax_libfguid_spec_build_requires = @ax_libfguid_spec_build_requires@
 ax_libfguid_spec_requires = @ax_libfguid_spec_requires@
+ax_libfplist_pc_libs_private = @ax_libfplist_pc_libs_private@
+ax_libfplist_spec_build_requires = @ax_libfplist_spec_build_requires@
+ax_libfplist_spec_requires = @ax_libfplist_spec_requires@
 ax_libfuse_pc_libs_private = @ax_libfuse_pc_libs_private@
 ax_libfuse_spec_build_requires = @ax_libfuse_spec_build_requires@
 ax_libfuse_spec_requires = @ax_libfuse_spec_requires@
@@ -497,6 +492,7 @@ ax_zlib_pc_libs_private = @ax_zlib_pc_libs_private@
 ax_zlib_spec_build_requires = @ax_zlib_spec_build_requires@
 ax_zlib_spec_requires = @ax_zlib_spec_requires@
 ax_zlib_static_spec_build_requires = @ax_zlib_static_spec_build_requires@
+ax_zlib_static_spec_requires = @ax_zlib_static_spec_requires@
 bindir = @bindir@
 build = @build@
 build_alias = @build_alias@
@@ -538,10 +534,6 @@ libcpath_CFLAGS = @libcpath_CFLAGS@
 libcpath_LIBS = @libcpath_LIBS@
 libcsplit_CFLAGS = @libcsplit_CFLAGS@
 libcsplit_LIBS = @libcsplit_LIBS@
-libcstring_CFLAGS = @libcstring_CFLAGS@
-libcstring_LIBS = @libcstring_LIBS@
-libcsystem_CFLAGS = @libcsystem_CFLAGS@
-libcsystem_LIBS = @libcsystem_LIBS@
 libcthreads_CFLAGS = @libcthreads_CFLAGS@
 libcthreads_LIBS = @libcthreads_LIBS@
 libdir = @libdir@
@@ -552,6 +544,8 @@ libfdata_CFLAGS = @libfdata_CFLAGS@
 libfdata_LIBS = @libfdata_LIBS@
 libfguid_CFLAGS = @libfguid_CFLAGS@
 libfguid_LIBS = @libfguid_LIBS@
+libfplist_CFLAGS = @libfplist_CFLAGS@
+libfplist_LIBS = @libfplist_LIBS@
 libfvalue_CFLAGS = @libfvalue_CFLAGS@
 libfvalue_LIBS = @libfvalue_LIBS@
 libfvde_spec_build_requires = @libfvde_spec_build_requires@
@@ -591,7 +585,6 @@ zlib_LIBS = @zlib_LIBS@
 @HAVE_LOCAL_LIBCFILE_TRUE@AM_CPPFLAGS = \
 @HAVE_LOCAL_LIBCFILE_TRUE@	-I$(top_srcdir)/include \
 @HAVE_LOCAL_LIBCFILE_TRUE@	-I$(top_srcdir)/common \
-@HAVE_LOCAL_LIBCFILE_TRUE@	@LIBCSTRING_CPPFLAGS@ \
 @HAVE_LOCAL_LIBCFILE_TRUE@	@LIBCERROR_CPPFLAGS@ \
 @HAVE_LOCAL_LIBCFILE_TRUE@	@LIBCLOCALE_CPPFLAGS@ \
 @HAVE_LOCAL_LIBCFILE_TRUE@	@LIBCNOTIFY_CPPFLAGS@ \
@@ -606,10 +599,10 @@ zlib_LIBS = @zlib_LIBS@
 @HAVE_LOCAL_LIBCFILE_TRUE@	libcfile_libcerror.h \
 @HAVE_LOCAL_LIBCFILE_TRUE@	libcfile_libclocale.h \
 @HAVE_LOCAL_LIBCFILE_TRUE@	libcfile_libcnotify.h \
-@HAVE_LOCAL_LIBCFILE_TRUE@	libcfile_libcstring.h \
 @HAVE_LOCAL_LIBCFILE_TRUE@	libcfile_libuna.h \
 @HAVE_LOCAL_LIBCFILE_TRUE@	libcfile_notify.c libcfile_notify.h \
 @HAVE_LOCAL_LIBCFILE_TRUE@	libcfile_support.c libcfile_support.h \
+@HAVE_LOCAL_LIBCFILE_TRUE@	libcfile_system_string.c libcfile_system_string.h \
 @HAVE_LOCAL_LIBCFILE_TRUE@	libcfile_types.h \
 @HAVE_LOCAL_LIBCFILE_TRUE@	libcfile_unused.h
 
@@ -674,6 +667,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcfile_file.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcfile_notify.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcfile_support.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcfile_system_string.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

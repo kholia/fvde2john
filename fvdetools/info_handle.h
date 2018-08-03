@@ -1,7 +1,7 @@
 /*
  * Info handle
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -29,7 +29,6 @@
 
 #include "fvdetools_libbfio.h"
 #include "fvdetools_libcerror.h"
-#include "fvdetools_libcstring.h"
 #include "fvdetools_libfvde.h"
 
 #if defined( __cplusplus )
@@ -61,6 +60,12 @@ struct info_handle
 	int abort;
 };
 
+int fvdetools_system_string_copy_from_64_bit_in_decimal(
+     const system_character_t *string,
+     size_t string_size,
+     uint64_t *value_64bit,
+     libcerror_error_t **error );
+
 int info_handle_initialize(
      info_handle_t **info_handle,
      libcerror_error_t **error );
@@ -75,32 +80,32 @@ int info_handle_signal_abort(
 
 int info_handle_set_keys(
      info_handle_t *info_handle,
-     const libcstring_system_character_t *string,
+     const system_character_t *string,
      libcerror_error_t **error );
 
 int info_handle_set_password(
      info_handle_t *info_handle,
-     const libcstring_system_character_t *string,
+     const system_character_t *string,
      libcerror_error_t **error );
 
 int info_handle_set_recovery_password(
      info_handle_t *info_handle,
-     const libcstring_system_character_t *string,
+     const system_character_t *string,
      libcerror_error_t **error );
 
 int info_handle_read_encrypted_root_plist(
      info_handle_t *info_handle,
-     const libcstring_system_character_t *filename,
+     const system_character_t *filename,
      libcerror_error_t **error );
 
 int info_handle_set_volume_offset(
      info_handle_t *info_handle,
-     const libcstring_system_character_t *string,
+     const system_character_t *string,
      libcerror_error_t **error );
 
 int info_handle_open_input(
      info_handle_t *info_handle,
-     const libcstring_system_character_t *filename,
+     const system_character_t *filename,
      libcerror_error_t **error );
 
 int info_handle_close_input(
@@ -115,5 +120,5 @@ int info_handle_volume_fprint(
 }
 #endif
 
-#endif
+#endif /* !defined( _INFO_HANDLE_H ) */
 

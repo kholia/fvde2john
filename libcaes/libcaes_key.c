@@ -1,7 +1,7 @@
 /*
  * AES key functions
  *
- * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2011-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -26,7 +26,6 @@
 #include "libcaes_definitions.h"
 #include "libcaes_key.h"
 #include "libcaes_libcerror.h"
-#include "libcaes_libcstring.h"
 
 #if defined( WINAPI ) && ( WINVER >= 0x0600 )
 

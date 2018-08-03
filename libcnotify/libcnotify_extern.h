@@ -1,7 +1,7 @@
 /*
  * The internal extern definition
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -38,9 +38,9 @@
 #include <libcnotify/extern.h>
 
 #else
-#define LIBCNOTIFY_EXTERN	extern
+#define LIBCNOTIFY_EXTERN	/* extern */
 
-#endif
+#endif /* !defined( HAVE_LOCAL_LIBCNOTIFY ) */
 
-#endif
+#endif /* !defined( _LIBCNOTIFY_INTERNAL_EXTERN_H ) */
 

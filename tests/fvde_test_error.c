@@ -1,7 +1,7 @@
 /*
  * Library error functions test program
  *
- * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2011-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -20,6 +20,8 @@
  */
 
 #include <common.h>
+#include <file_stream.h>
+#include <types.h>
 
 #if defined( HAVE_STDLIB_H ) || defined( WINAPI )
 #include <stdlib.h>
@@ -108,7 +110,7 @@ int fvde_test_error_backtrace_sprint(
 
 /* The main program
  */
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 int wmain(
      int argc FVDE_TEST_ATTRIBUTE_UNUSED,
      wchar_t * const argv[] FVDE_TEST_ATTRIBUTE_UNUSED )
@@ -123,23 +125,23 @@ int main(
 
 	FVDE_TEST_RUN(
 	 "libfvde_error_free",
-	 fvde_test_error_free() )
+	 fvde_test_error_free );
 
 	FVDE_TEST_RUN(
 	 "libfvde_error_fprint",
-	 fvde_test_error_fprint() )
+	 fvde_test_error_fprint );
 
 	FVDE_TEST_RUN(
 	 "libfvde_error_sprint",
-	 fvde_test_error_sprint() )
+	 fvde_test_error_sprint );
 
 	FVDE_TEST_RUN(
 	 "libfvde_error_backtrace_fprint",
-	 fvde_test_error_backtrace_fprint() )
+	 fvde_test_error_backtrace_fprint );
 
 	FVDE_TEST_RUN(
 	 "libfvde_error_backtrace_sprint",
-	 fvde_test_error_backtrace_sprint() )
+	 fvde_test_error_backtrace_sprint );
 
 	return( EXIT_SUCCESS );
 

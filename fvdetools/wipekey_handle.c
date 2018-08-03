@@ -1,7 +1,7 @@
 /*
  * Wipekey handle
  *
- * Copyright (C) 2011-2016, Omar Choudary <choudary.omar@gmail.com>
+ * Copyright (C) 2011-2018, Omar Choudary <choudary.omar@gmail.com>
  *                          Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
@@ -24,23 +24,26 @@
 #include <byte_stream.h>
 #include <file_stream.h>
 #include <memory.h>
+#include <narrow_string.h>
+#include <system_string.h>
 #include <types.h>
+#include <wide_string.h>
 
 #include "fvdetools_libbfio.h"
 #include "fvdetools_libcerror.h"
-#include "fvdetools_libcstring.h"
-#include "fvdetools_libcsystem.h"
 #include "fvdetools_libfvde.h"
 #include "fvdetools_libuna.h"
 #include "wipekey_handle.h"
 
 #if !defined( LIBFVDE_HAVE_BFIO )
+
 LIBFVDE_EXTERN \
 int libfvde_encryption_context_plist_read_file_io_handle(
      libfvde_encryption_context_plist_t *plist,
      libbfio_handle_t *file_io_handle,
      libfvde_error_t **error );
-#endif
+
+#endif /* !defined( LIBFVDE_HAVE_BFIO ) */
 
 #define INFO_HANDLE_NOTIFY_STREAM		stdout
 
@@ -222,7 +225,7 @@ int wipekey_handle_signal_abort(
  */
 int wipekey_handle_set_volume_key_data(
      wipekey_handle_t *wipekey_handle,
-     const libcstring_system_character_t *string,
+     const system_character_t *string,
      libcerror_error_t **error )
 {
 	static char *function   = "wipekey_handle_set_volume_key_data";
@@ -240,7 +243,7 @@ int wipekey_handle_set_volume_key_data(
 
 		return( -1 );
 	}
-	string_length = libcstring_system_string_length(
+	string_length = system_string_length(
 	                 string );
 
 	if( memory_set(
@@ -259,7 +262,7 @@ int wipekey_handle_set_volume_key_data(
 	}
 	base16_variant = LIBUNA_BASE16_VARIANT_RFC4648;
 
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 	if( _BYTE_STREAM_HOST_IS_ENDIAN_BIG )
 	{
 		base16_variant |= LIBUNA_BASE16_VARIANT_ENCODING_UTF16_BIG_ENDIAN;
@@ -314,7 +317,7 @@ on_error:
  */
 int wipekey_handle_open_input(
      wipekey_handle_t *wipekey_handle,
-     const libcstring_system_character_t *filename,
+     const system_character_t *filename,
      libcerror_error_t **error )
 {
 	static char *function  = "wipekey_handle_open_input";
@@ -332,10 +335,10 @@ int wipekey_handle_open_input(
 
 		return( -1 );
 	}
-	filename_length = libcstring_system_string_length(
+	filename_length = system_string_length(
 	                   filename );
 
-#if defined( LIBCSTRING_HAVE_WIDE_SYSTEM_CHARACTER )
+#if defined( HAVE_WIDE_SYSTEM_CHARACTER )
 	if( libbfio_file_set_name_wide(
 	     wipekey_handle->input_file_io_handle,
 	     filename,

@@ -1,7 +1,7 @@
 /*
  * The balanced tree node functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -264,5 +264,5 @@ int libfdata_btree_node_append_leaf_value(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBFDATA_INTERNAL_BTREE_NODE_H ) */
 

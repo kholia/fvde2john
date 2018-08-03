@@ -1,7 +1,7 @@
 /*
  * The internal definitions
  *
- * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2011-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -34,11 +34,11 @@
  * for local use of libhmac
  */
 #else
-#define LIBHMAC_VERSION			20160911
+#define LIBHMAC_VERSION			20170117
 
 /* The libhmac version string
  */
-#define LIBHMAC_VERSION_STRING		"20160911"
+#define LIBHMAC_VERSION_STRING		"20170117"
 
 /* The digest hash sizes
  */

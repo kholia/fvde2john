@@ -1,7 +1,7 @@
 /*
  * File functions
  *
- * Copyright (C) 2009-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2009-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -28,7 +28,6 @@
 #include "libbfio_extern.h"
 #include "libbfio_libcerror.h"
 #include "libbfio_libcfile.h"
-#include "libbfio_libcstring.h"
 #include "libbfio_types.h"
 
 #if defined( __cplusplus )
@@ -41,7 +40,7 @@ struct libbfio_file_io_handle
 {
 	/* The name
 	 */
-	libcstring_system_character_t *name;
+	system_character_t *name;
 
 	/* The size of the name
 	 */
@@ -195,5 +194,5 @@ int libbfio_file_get_size(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBBFIO_FILE_H ) */
 

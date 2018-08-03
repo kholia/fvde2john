@@ -1,7 +1,7 @@
 /*
  * Deflate (zlib) (un)compression functions
  *
- * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2011-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -887,7 +887,7 @@ int libfvde_deflate_decode_huffman(
 
 			if( libfvde_deflate_bit_stream_get_value(
 			     bit_stream,
-			     number_of_extra_bits,
+			     (uint8_t) number_of_extra_bits,
 			     &extra_bits,
 			     error ) != 1 )
 			{
@@ -921,7 +921,7 @@ int libfvde_deflate_decode_huffman(
 
 			if( libfvde_deflate_bit_stream_get_value(
 			     bit_stream,
-			     number_of_extra_bits,
+			     (uint8_t) number_of_extra_bits,
 			     &extra_bits,
 			     error ) != 1 )
 			{

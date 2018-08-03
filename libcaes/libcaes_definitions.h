@@ -1,7 +1,7 @@
 /*
  * The internal definitions
  *
- * Copyright (C) 2011-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2011-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -34,11 +34,11 @@
  * for local use of libcaes
  */
 #else
-#define LIBCAES_VERSION				20160827
+#define LIBCAES_VERSION				20170110
 
 /* The libcaes version string
  */
-#define LIBCAES_VERSION_STRING			"20160827"
+#define LIBCAES_VERSION_STRING			"20170110"
 
 /* The crypt modes
  */

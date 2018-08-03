@@ -1,7 +1,7 @@
 /*
  * Wide character string functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -43,6 +43,7 @@ int libcsplit_wide_string_split(
 	wchar_t *segment_start = NULL;
 	wchar_t *segment_end   = NULL;
 	wchar_t *string_end    = NULL;
+	wchar_t *string_start  = NULL;
 	static char *function  = "libcsplit_wide_string_split";
 	ssize_t segment_length = 0;
 	int number_of_segments = 0;
@@ -162,18 +163,7 @@ int libcsplit_wide_string_split(
 
 		goto on_error;
 	}
-	if( *split_string == NULL )
-	{
-		libcerror_error_set(
-		 error,
-		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
-		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: missing split string.",
-		 function );
-
-		goto on_error;
-	}
-	/* Do not bother splitting empty strings
+	/* Do not bother with strings that do not need splitting
 	 */
 	if( number_of_segments == 0 )
 	{
@@ -184,7 +174,7 @@ int libcsplit_wide_string_split(
 	 */
 	if( libcsplit_wide_split_string_get_string(
 	     *split_string,
-	     &segment_start,
+	     &string_start,
 	     &string_size,
 	     error ) != 1 )
 	{
@@ -197,13 +187,13 @@ int libcsplit_wide_string_split(
 
 		goto on_error;
 	}
-	if( segment_start == NULL )
+	if( string_start == NULL )
 	{
 		libcerror_error_set(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_VALUE_MISSING,
-		 "%s: missing segment start.",
+		 "%s: missing string start.",
 		 function );
 
 		goto on_error;
@@ -219,7 +209,8 @@ int libcsplit_wide_string_split(
 
 		goto on_error;
 	}
-	string_end = &( segment_start[ string_size - 1 ] );
+	segment_start = string_start;
+	string_end    = &( string_start[ string_size - 1 ] );
 
 	for( segment_index = 0;
 	     segment_index < number_of_segments;
@@ -276,11 +267,11 @@ int libcsplit_wide_string_split(
 		{
 			break;
 		}
-		if( segment_end == ( (libcsplit_internal_wide_split_string_t *) *split_string )->string )
+		if( segment_end == string_start )
 		{
 			segment_start++;
 		}
-		if( segment_end != ( (libcsplit_internal_wide_split_string_t *) *split_string )->string )
+		else
 		{
 			segment_start = segment_end + 1;
 		}

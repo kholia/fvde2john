@@ -1,7 +1,7 @@
 /*
  * The internal definitions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -34,11 +34,11 @@
  */
 #else
 
-#define LIBCLOCALE_VERSION					20160827
+#define LIBCLOCALE_VERSION					20170105
 
 /* The libclocale version string
  */
-#define LIBCLOCALE_VERSION_STRING				"20160827"
+#define LIBCLOCALE_VERSION_STRING				"20170105"
 
 /* The codepage feature flag definitions
  */

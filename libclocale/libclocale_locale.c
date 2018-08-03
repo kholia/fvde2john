@@ -1,7 +1,7 @@
 /*
  * Locale functions
  *
- * Copyright (C) 2010-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2010-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -20,6 +20,7 @@
  */
 
 #include <common.h>
+#include <narrow_string.h>
 #include <types.h>
 
 #if defined( __BORLANDC__ ) && __BORLANDC__ <= 0x0520
@@ -38,7 +39,6 @@
 
 #include "libclocale_definitions.h"
 #include "libclocale_codepage.h"
-#include "libclocale_libcstring.h"
 #include "libclocale_locale.h"
 
 #if defined( WINAPI ) && ( WINVER < 0x0500 )
@@ -57,7 +57,7 @@ int libclocale_GetLocaleInfoA(
 	int result             = 0;
 
 	library_handle = LoadLibrary(
-	                  _LIBCSTRING_SYSTEM_STRING( "kernel32.dll" ) );
+	                  _SYSTEM_STRING( "kernel32.dll" ) );
 
 	if( library_handle == NULL )
 	{
@@ -121,7 +121,7 @@ int libclocale_locale_get_codepage(
 	if( ( charset != NULL )
 	 && ( charset[ 0 ] != 0 ) )
 	{
-		charset_length = libcstring_narrow_string_length(
+		charset_length = narrow_string_length(
 		                  charset );
 	}
 	else
@@ -170,10 +170,10 @@ int libclocale_locale_get_codepage(
 		{
 			return( LIBCLOCALE_CODEPAGE_ASCII );
 		}
-		locale_length = libcstring_narrow_string_length(
+		locale_length = narrow_string_length(
 				 locale );
 
-		charset = libcstring_narrow_string_search_character(
+		charset = narrow_string_search_character(
 			   locale,
 			   '.',
 			   locale_length + 1 );
@@ -194,7 +194,7 @@ int libclocale_locale_get_codepage(
 	{
 		if( charset_length == 5 )
 		{
-			if( libcstring_narrow_string_compare(
+			if( narrow_string_compare(
 			     "UTF-8",
 			     charset,
 			     5 ) == 0 )
@@ -207,35 +207,35 @@ int libclocale_locale_get_codepage(
 	{
 		if( charset_length >= 3 )
 		{
-			if( libcstring_narrow_string_compare(
+			if( narrow_string_compare(
 			     "874",
 			     charset,
 			     3 ) == 0 )
 			{
 				*codepage = LIBCLOCALE_CODEPAGE_WINDOWS_874;
 			}
-			else if( libcstring_narrow_string_compare(
+			else if( narrow_string_compare(
 			          "932",
 			          charset,
 			          3 ) == 0 )
 			{
 				*codepage = LIBCLOCALE_CODEPAGE_WINDOWS_932;
 			}
-			else if( libcstring_narrow_string_compare(
+			else if( narrow_string_compare(
 			          "936",
 			          charset,
 			          3 ) == 0 )
 			{
 				*codepage = LIBCLOCALE_CODEPAGE_WINDOWS_936;
 			}
-			else if( libcstring_narrow_string_compare(
+			else if( narrow_string_compare(
 			          "949",
 			          charset,
 			          3 ) == 0 )
 			{
 				*codepage = LIBCLOCALE_CODEPAGE_WINDOWS_949;
 			}
-			else if( libcstring_narrow_string_compare(
+			else if( narrow_string_compare(
 			          "950",
 			          charset,
 			          3 ) == 0 )
@@ -248,70 +248,70 @@ int libclocale_locale_get_codepage(
 	{
 		if( charset_length >= 4 )
 		{
-			if( libcstring_narrow_string_compare(
+			if( narrow_string_compare(
 			     "1250",
 			     charset,
 			     4 ) == 0 )
 			{
 				*codepage = LIBCLOCALE_CODEPAGE_WINDOWS_1250;
 			}
-			else if( libcstring_narrow_string_compare(
+			else if( narrow_string_compare(
 				  "1251",
 				  charset,
 				  4 ) == 0 )
 			{
 				*codepage = LIBCLOCALE_CODEPAGE_WINDOWS_1251;
 			}
-			else if( libcstring_narrow_string_compare(
+			else if( narrow_string_compare(
 				  "1252",
 				  charset,
 				  4 ) == 0 )
 			{
 				*codepage = LIBCLOCALE_CODEPAGE_WINDOWS_1252;
 			}
-			else if( libcstring_narrow_string_compare(
+			else if( narrow_string_compare(
 				  "1253",
 				  charset,
 				  4 ) == 0 )
 			{
 				*codepage = LIBCLOCALE_CODEPAGE_WINDOWS_1253;
 			}
-			else if( libcstring_narrow_string_compare(
+			else if( narrow_string_compare(
 				  "1254",
 				  charset,
 				  4 ) == 0 )
 			{
 				*codepage = LIBCLOCALE_CODEPAGE_WINDOWS_1254;
 			}
-			else if( libcstring_narrow_string_compare(
+			else if( narrow_string_compare(
 				  "1255",
 				  charset,
 				  4 ) == 0 )
 			{
 				*codepage = LIBCLOCALE_CODEPAGE_WINDOWS_1255;
 			}
-			else if( libcstring_narrow_string_compare(
+			else if( narrow_string_compare(
 				  "1256",
 				  charset,
 				  4 ) == 0 )
 			{
 				*codepage = LIBCLOCALE_CODEPAGE_WINDOWS_1256;
 			}
-			else if( libcstring_narrow_string_compare(
+			else if( narrow_string_compare(
 				  "1257",
 				  charset,
 				  4 ) == 0 )
 			{
 				*codepage = LIBCLOCALE_CODEPAGE_WINDOWS_1257;
 			}
-			else if( libcstring_narrow_string_compare(
+			else if( narrow_string_compare(
 				  "1258",
 				  charset,
 				  4 ) == 0 )
 			{
 				*codepage = LIBCLOCALE_CODEPAGE_WINDOWS_1258;
 			}
-			else if( libcstring_narrow_string_compare(
+			else if( narrow_string_compare(
 				  "utf8",
 				  charset,
 				  4 ) == 0 )

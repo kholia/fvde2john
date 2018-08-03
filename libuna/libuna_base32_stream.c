@@ -1,7 +1,7 @@
 /*
  * Base32 stream functions
  *
- * Copyright (C) 2008-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2008-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -37,7 +37,6 @@ static uint8_t *libuna_base32hex_quintet_to_character_table = \
 /* Copies a base32 character to a base32 quintet
  * Returns 1 if successful or -1 on error
  */
-LIBUNA_INLINE \
 int libuna_base32_character_copy_to_quintet(
      uint8_t base32_character,
      uint8_t *base32_quintet,
@@ -155,7 +154,6 @@ int libuna_base32_character_copy_to_quintet(
  *
  * Returns 1 if successful or -1 on error
  */
-LIBUNA_INLINE \
 int libuna_base32_quintuplet_copy_from_base32_stream(
      uint64_t *base32_quintuplet,
      const uint8_t *base32_stream,
@@ -1020,7 +1018,6 @@ int libuna_base32_quintuplet_copy_from_base32_stream(
 /* Copies a base32 quintuplet to a base32 stream
  * Returns 1 if successful or -1 on error
  */
-LIBUNA_INLINE \
 int libuna_base32_quintuplet_copy_to_base32_stream(
      uint64_t base32_quintuplet,
      uint8_t *base32_stream,
@@ -1290,7 +1287,6 @@ int libuna_base32_quintuplet_copy_to_base32_stream(
 /* Copies a base32 quintuplet from a byte stream
  * Returns 1 if successful or -1 on error
  */
-LIBUNA_INLINE \
 int libuna_base32_quintuplet_copy_from_byte_stream(
      uint64_t *base32_quintuplet,
      const uint8_t *byte_stream,
@@ -1392,7 +1388,6 @@ int libuna_base32_quintuplet_copy_from_byte_stream(
 /* Copies a base32 quintuplet to a byte stream
  * Returns 1 if successful or -1 on error
  */
-LIBUNA_INLINE \
 int libuna_base32_quintuplet_copy_to_byte_stream(
      uint64_t base32_quintuplet,
      uint8_t *byte_stream,

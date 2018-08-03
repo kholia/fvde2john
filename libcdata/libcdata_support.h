@@ -1,7 +1,7 @@
 /*
  * Support functions
  *
- * Copyright (C) 2006-2016, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2018, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -25,8 +25,6 @@
 #include <common.h>
 #include <types.h>
 
-#include <stdio.h>
-
 #include "libcdata_extern.h"
 
 #if defined( __cplusplus )
@@ -45,5 +43,5 @@ const char *libcdata_get_version(
 }
 #endif
 
-#endif
+#endif /* !defined( _LIBCDATA_SUPPORT_H ) */
 
