@@ -6,7 +6,7 @@ $ tar -xJf fvde-1.raw.tar.xz
 $ sudo kpartx -v -a fvde-1.raw
 add map loop2p1 (253:5): 0 1048496 linear /dev/loop2 40
 
-$ sudo fvdetools/fvdeinfo -p dummy /dev/mapper/loop2p1
+$ sudo fvdetools/fvdeinfo -p <dummy-or-fake-password-here> /dev/mapper/loop2p1
 fvdeinfo 20160918
 
 $fvde$16$e7eebaabacaffe04dd33d22fd09e30e5$41000$e9acbb4bc6dafb74aadb72c576fecf69c2ad45ccd4776d76
@@ -20,7 +20,7 @@ for information on obtaining the EncryptedRoot.plist.wipekey file for system vol
 After obtaining EncryptedRoot.plist.wipekey run the following commands against
 the Apple_Corestorage partition,
 
-sudo fvdetools/fvdeinfo -e Encrypted.plist.wipekey -p anything /dev/disk2s2
+sudo fvdetools/fvdeinfo -e Encrypted.plist.wipekey -p <dummy-or-fake-password-here> /dev/disk2s2
 
 Replace /dev/disk2s2 with an appropriate value.
 
