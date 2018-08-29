@@ -34,7 +34,9 @@ https://github.com/libyal/libfvde/wiki/Troubleshooting
 Build
 -----
 
-https://github.com/libyal/libfvde/wiki/Building
+The standard "./configure; make -sj4" invocation should work.
+
+In case of problems, see https://github.com/libyal/libfvde/wiki/Building.
 
 Key Functions
 -------------
