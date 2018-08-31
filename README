@@ -24,6 +24,8 @@ sudo fvdetools/fvdeinfo -e Encrypted.plist.wipekey -p <dummy-or-fake-password-he
 
 Replace /dev/disk2s2 with an appropriate value.
 
+Note: For encrypted APFS volumes, use https://github.com/kholia/apfs2john instead of this project.
+
 Help
 ----
 
